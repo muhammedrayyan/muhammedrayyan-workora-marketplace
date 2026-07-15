@@ -132,9 +132,10 @@
       const {data,error}=await supabase.auth.verifyOtp({email:authEmail,token:authCode,type:'email'});
       authBusy=false;
       if(error||!data.user){authError=error?.message||'That code could not be verified. Request a new code and try again.';renderAuth();return}
-      currentUser=data.user;selectedRole=selectedRole||data.user.user_metadata?.role||'';updateAccountHeader();
-      authStep=authMode==='signup'&&!data.user.user_metadata?.profile_completed?'profile':'complete';renderAuth();
-      if(authStep==='complete')toast('You are securely signed in');
+      const existingAccount=Boolean(data.user.user_metadata?.profile_completed),existingRole=data.user.user_metadata?.role||'';
+      currentUser=data.user;selectedRole=existingAccount?existingRole:selectedRole||existingRole;updateAccountHeader();
+      authStep=authMode==='signup'&&!existingAccount?'profile':'complete';renderAuth();
+      if(authStep==='complete')toast(authMode==='signup'&&existingAccount?'This email is already registered — signed in to your existing account':'You are securely signed in');
     }
 
     async function completeProfile(event){
