@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="en" aria-busy="true">
+<head>
+  <meta charset="utf-8">
+  <base id="goworkora-base" href="/">
+  <script>
+    (() => {
+      const initialPath = window.location.pathname;
+      const wrapperMarker = "/goworkora/index.html";
+      const wrapperIndex = initialPath.indexOf(wrapperMarker);
+      const repository = window.location.hostname.endsWith(".github.io")
+        ? initialPath.split("/").filter(Boolean)[0]
+        : "";
+      const assetBase = wrapperIndex >= 0
+        ? `${initialPath.slice(0, wrapperIndex)}/goworkora/`
+        : repository
+          ? `/${repository}/`
+          : "/";
+      document.querySelector("#goworkora-base").href = assetBase;
+
+      const route = new URLSearchParams(window.location.search).get("__goworkora_route");
+      if (!route || !route.startsWith("/") || route.startsWith("//")) return;
+      const destination = new URL(route, window.location.origin);
+      if (destination.origin !== window.location.origin) return;
+      window.history.replaceState(
+        {},
+        "",
+        `${destination.pathname}${destination.search}${destination.hash}`,
+      );
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="GoWorkora connects businesses with skilled freelancers and managed remote professionals through a secure, transparent and results-focused platform.">
+  <meta name="application-name" content="GoWorkora">
+  <meta property="og:title" content="GoWorkora — Hire Better. Work Smarter.">
+  <meta property="og:description" content="GoWorkora connects businesses with skilled freelancers and managed remote professionals through a secure, transparent and results-focused platform.">
+  <meta property="og:site_name" content="GoWorkora">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="./og.png">
+  <meta property="og:image:alt" content="GoWorkora — Hire Better. Work Smarter.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GoWorkora — Hire Better. Work Smarter.">
+  <meta name="twitter:description" content="GoWorkora connects businesses with skilled freelancers and managed remote professionals through a secure, transparent and results-focused platform.">
+  <meta name="twitter:image" content="./og.png">
+  <meta name="theme-color" content="#111318">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' https://videos.pexels.com; font-src 'self' data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.stripe.com; frame-src https://checkout.stripe.com https://connect.stripe.com https://js.stripe.com; form-action 'self'; worker-src 'self' blob:; manifest-src 'self'">
+  <title>GoWorkora — Hire Better. Work Smarter.</title>
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles/features/profile.css?v=0a7987e9733e">
+  <link rel="stylesheet" href="./styles/features/jobs.css?v=0a7987e9733e">
+  <link rel="stylesheet" href="./styles/features/contracts.css?v=0a7987e9733e">
+  <link rel="stylesheet" href="./styles/features/talent.css?v=client-workspace-20260811">
+  <link rel="stylesheet" href="./styles/features/payments.css?v=0a7987e9733e">
+  <link rel="stylesheet" href="./styles/features/messaging.css?v=message-composer-20260731">
+  <link rel="stylesheet" href="./styles/features/trust-admin.css?v=0a7987e9733e">
+  <link rel="stylesheet" href="./styles/pages/public-pages.css?v=0a7987e9733e">
+  <link rel="stylesheet" href="./styles/pages/account-pages.css?v=gosparks-20260804">
+  <link rel="stylesheet" href="./styles/demo-data.css?v=0a7987e9733e">
+  <script src="./config.js?v=0a7987e9733e"></script>
+  <style>
+    :root{--ink:#17201c;--soft:#3e4944;--cream:#f5f6ef;--paper:#fff;--lime:#c9ff4a;--green:#0b7447;--line:#dfe2da;--muted:#69736e;--shadow:0 22px 60px rgba(23,32,28,.12)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(19,131,83,.35);outline-offset:3px}
+    .header{height:76px;padding:0 clamp(20px,5vw,72px);position:sticky;top:0;z-index:30;background:rgba(245,246,239,.94);backdrop-filter:blur(16px);border-bottom:1px solid rgba(23,32,28,.1);display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:9px;font-size:22px;font-weight:850;letter-spacing:-.8px}.mark{width:31px;height:31px;border-radius:9px;background:var(--lime);display:grid;place-items:center;font-size:16px;font-weight:900;transform:rotate(-4deg)}.nav{display:flex;align-items:center;gap:30px}.nav a,.nav button{background:none;border:0;font-size:14px;font-weight:700;padding:10px 0}.nav a:hover,.nav button:hover{color:var(--green)}.header-actions{display:flex;align-items:center;gap:9px}.menu{display:none;background:none;border:0;font-size:24px}.btn{border:1px solid transparent;border-radius:99px;min-height:48px;padding:0 24px;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;transition:.18s}.btn:hover{transform:translateY(-2px)}.btn-dark{background:var(--ink);color:#fff}.btn-lime{background:var(--lime);color:var(--ink)}.btn-outline{border-color:var(--ink);background:transparent}.btn-small{min-height:42px;padding:0 19px}
+    .hero{max-width:1450px;margin:auto;padding:96px clamp(20px,5vw,84px) 85px;display:grid;grid-template-columns:1.03fr .97fr;gap:clamp(42px,7vw,105px);align-items:center;min-height:730px}.eyebrow,.kicker{color:var(--green);font-size:11px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase}.eyebrow{display:flex;align-items:center;gap:9px}.eyebrow i{display:block;width:16px;height:16px;border-radius:50%;background:var(--lime);border:5px solid var(--ink)}h1{font-size:clamp(58px,6.2vw,92px);line-height:.92;letter-spacing:-5px;margin:24px 0 28px}h1 em{font-family:Georgia,serif;color:var(--green);font-weight:500}.lede{font-size:18px;line-height:1.6;color:var(--soft);max-width:580px;margin:0 0 30px}.search-box{background:#fff;border:1px solid rgba(23,32,28,.13);border-radius:19px;padding:8px;box-shadow:0 18px 45px rgba(23,32,28,.08)}.switcher{display:flex;gap:5px;padding:3px}.switcher button,.market-tabs button{border:0;background:transparent;border-radius:99px;padding:8px 13px;font-size:12px;font-weight:800;color:var(--muted)}.switcher button.active{background:var(--ink);color:#fff}.search-row{display:flex;align-items:center;gap:8px}.search-row b{color:var(--green);font-family:Georgia,serif;font-size:28px;transform:rotate(-15deg);margin-left:9px}.search-row input{border:0;outline:0;min-width:0;flex:1;padding:15px 4px;font-size:15px}.popular{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px;font-size:11px}.popular span{color:var(--muted)}.popular button:not(.btn){background:none;border:0;border-bottom:1px solid var(--ink);padding:0;font-weight:800}
+    .hero-art{height:560px;background:#10231c;border:1px solid rgba(23,32,28,.14);border-radius:32px;box-shadow:0 30px 70px rgba(23,32,28,.2);isolation:isolate;overflow:hidden;position:relative}.hero-art img{display:block;height:100%;object-fit:cover;object-position:center;transform:scale(1.015);width:100%}.hero-art:after{border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);content:"";inset:0;pointer-events:none;position:absolute}
+    .trust{background:#fff;border-block:1px solid var(--line);min-height:108px;padding:24px max(20px,calc((100vw - 1310px)/2));display:flex;align-items:center;gap:70px}.trust>span{font-size:10px;font-weight:800;color:var(--muted);white-space:nowrap}.logos{display:flex;align-items:center;justify-content:space-between;gap:25px;flex:1;color:#6d7571}.logos strong{font-size:clamp(14px,1.4vw,20px)}
+    .section{max-width:1440px;margin:auto;padding:110px clamp(20px,5vw,84px)}.heading{display:flex;align-items:end;justify-content:space-between;gap:30px}.heading h2,.market-head h2,.process h2,.business h2,.cta h2{font-size:clamp(38px,4.5vw,63px);line-height:1.02;letter-spacing:-3px;margin:15px 0 0}.text-link{border:0;background:none;border-bottom:1px solid var(--ink);padding:0 0 7px;font-weight:800;font-size:12px}.services{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:48px}.service{position:relative;text-align:left;border:1px solid var(--line);background:#fff;border-radius:18px;min-height:190px;padding:22px;transition:.18s}.service:hover{transform:translateY(-4px);border-color:var(--ink);box-shadow:0 16px 40px rgba(23,32,28,.08)}.service-icon{width:46px;height:46px;border-radius:12px;background:var(--lime);display:grid;place-items:center;font-family:Georgia,serif;font-size:19px;margin-bottom:27px}.service:nth-child(2) .service-icon{background:#ffd9ca}.service:nth-child(3) .service-icon{background:#d5e6ff}.service:nth-child(4) .service-icon{background:#d4f1dd}.service:nth-child(5) .service-icon{background:#eadcff}.service:nth-child(6) .service-icon{background:#ffe9a8}.service strong,.service small{display:block}.service strong{font-size:17px;margin-bottom:6px}.service small{color:var(--muted)}.service b{position:absolute;right:21px;bottom:21px;font-size:20px}
+    .market{background-color:#17201c;padding:100px max(20px,calc((100vw - 1310px)/2));color:#fff}.market-shell{max-width:1310px;margin:auto}.market-head{display:flex;align-items:end;justify-content:space-between;gap:30px}.market-head .kicker{background:#c9ff4a;border-radius:99px;color:#17201c;display:inline-block;padding:5px 8px}.market-tabs{padding:5px;border:1px solid rgba(255,255,255,.15);border-radius:99px;background:rgba(255,255,255,.07);display:flex}.market-tabs button{color:rgba(255,255,255,.65);padding:10px 20px}.market-tabs button.active{background:var(--lime);color:var(--ink)}.filters{background:#fff;border-radius:15px;padding:8px;display:grid;grid-template-columns:1fr 230px auto;gap:9px;margin:42px 0 19px;color:var(--ink)}.filters input,.filters select{border:0;background:#f1f3ee;border-radius:10px;color:#17201c;padding:14px;outline:0}.filters input{background:#fff}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.card{background:#f8f9f4;color:var(--ink);border-radius:17px;padding:19px;display:flex;flex-direction:column;min-height:390px}.card-head{display:flex;justify-content:space-between;align-items:center}.talent-avatar{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-family:Georgia,serif;font-size:21px;background:#ffb59e}.card:nth-child(2) .talent-avatar{background:#b5d5ff}.card:nth-child(3) .talent-avatar{background:#f9db83}.card:nth-child(4) .talent-avatar{background:#bde8cc}.heart{border:1px solid var(--line);background:#fff;border-radius:50%;width:39px;height:39px;font-size:19px}.heart.saved{color:#c33737;background:#ffe5e5}.card h3{font-size:18px;margin:17px 0 6px}.role{color:var(--soft);font-size:12px;line-height:1.5;min-height:38px}.stats{display:flex;justify-content:space-between;gap:8px;border-block:1px solid var(--line);padding:11px 0;font-size:10px}.stats b{color:#9d7200}.skills{display:flex;flex-wrap:wrap;gap:5px;margin-top:13px}.card-foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:17px;color:var(--muted);font-size:9px}.card-foot button{border:0;background:none;font-weight:800}.jobs{display:grid;gap:10px}.job{background:#f8f9f4;color:var(--ink);border-radius:17px;padding:24px;display:flex;justify-content:space-between;gap:25px}.job h3{font-size:20px;margin:8px 0}.job-meta{display:flex;flex-wrap:wrap;gap:15px;font-size:10px;color:var(--muted)}.job p{font-size:12px;color:var(--soft);line-height:1.6;max-width:930px}.job-actions{display:flex;flex-direction:column;align-items:end;justify-content:space-between}.empty{grid-column:1/-1;padding:50px;text-align:center;background:#fff;color:var(--ink);border-radius:17px}.market-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:27px;color:rgba(255,255,255,.72);font-size:12px}
+    .process{display:grid;grid-template-columns:.9fr 1.1fr;gap:100px}.process>div>p{color:var(--muted);line-height:1.65}.steps>a{color:inherit;text-decoration:none;display:grid;grid-template-columns:50px 1fr;gap:22px;border-top:1px solid #bdc3bb;padding:34px 0 42px}.steps>a:focus-visible{outline:3px solid var(--green);outline-offset:4px}.num{width:46px;height:46px;border-radius:50%;background:var(--lime);display:grid;place-items:center;font-family:Georgia,serif}.steps h3{font-size:24px;margin:6px 0 9px}.steps p{color:var(--muted);line-height:1.6;margin:0;font-size:14px}.business{max-width:1310px;margin:0 auto 35px;background:#116d47;color:#fff;border-radius:32px;padding:80px clamp(27px,6vw,82px);display:grid;grid-template-columns:1fr 1fr;gap:90px;overflow:hidden}.business .kicker{color:var(--lime)}.business p{color:#e3eee8;line-height:1.65}.business ul{list-style:none;padding:0;display:grid;gap:13px;font-size:13px;margin:24px 0 30px}.business li span{display:inline-grid;place-items:center;width:18px;height:18px;background:var(--lime);color:var(--ink);border-radius:50%;font-size:8px;margin-right:8px}.team-panel{background:#f5f6ef;color:var(--ink);border-radius:24px;padding:55px 28px 27px;position:relative;transform:rotate(2deg)}.team-panel p{color:#3e4944}.team-panel>strong{position:absolute;top:24px;left:28px;font-size:10px;letter-spacing:1px;text-transform:uppercase}.member{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid var(--line);border-radius:13px;padding:11px;margin:9px 0}.mini{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:#ffb59e;font-family:Georgia,serif}.member:nth-child(3) .mini{background:#b5d5ff}.member:nth-child(4) .mini{background:#f9db83}.member div{flex:1}.member div b,.member div small{display:block}.member div b{font-size:12px}.member div small,.member>small{font-size:9px;color:var(--muted)}
+    .quote{text-align:center}.quote blockquote{font-family:Georgia,serif;font-size:clamp(27px,3.4vw,48px);line-height:1.25;letter-spacing:-1.7px;max-width:1080px;margin:15px auto 34px}.quote-mark{font:80px Georgia;color:var(--green);height:65px}.person{font-size:12px}.person small{display:block;color:var(--muted);margin-top:4px}.cta{background:var(--ink);color:#fff;padding:85px max(20px,calc((100vw - 1310px)/2));display:flex;justify-content:space-between;align-items:end;gap:35px}.cta .kicker{color:var(--lime)}.cta-actions{display:flex;gap:9px}.btn-light{border-color:rgba(255,255,255,.45);color:#fff;background:transparent}footer{background:#0f1613;color:#fff;padding:65px max(20px,calc((100vw - 1310px)/2)) 28px}.footer-main{display:grid;grid-template-columns:.8fr 2fr;gap:75px;padding-bottom:60px}.footer-brand p{font:20px/1.4 Georgia;color:rgba(255,255,255,.55);margin-top:22px}.footer-links{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px}.footer-links div{display:flex;flex-direction:column;gap:12px}.footer-links h3{font-size:10px;color:var(--lime);text-transform:uppercase;letter-spacing:1px}.footer-links a{color:rgba(255,255,255,.66);font-size:11px}.copyright{border-top:1px solid rgba(255,255,255,.13);padding-top:23px;color:rgba(255,255,255,.45);font-size:10px;display:flex;justify-content:space-between}
+    .modal-wrap{display:none;position:fixed;inset:0;background:rgba(10,15,13,.72);z-index:100;align-items:center;justify-content:center;padding:18px}.modal-wrap.open{display:flex}.modal{position:relative;width:min(510px,100%);max-height:calc(100vh - 36px);overflow:auto;background:#f8f9f4;border-radius:23px;padding:33px;box-shadow:var(--shadow)}.close{position:absolute;right:20px;top:20px;border:1px solid var(--line);border-radius:50%;background:#fff;width:37px;height:37px;font-size:21px}.modal>.brand{margin-bottom:34px}.modal-kicker{display:block;color:var(--green);font-size:10px;font-weight:900;letter-spacing:1.3px;text-transform:uppercase}.modal h2{font-size:30px;line-height:1.1;letter-spacing:-1px;margin:9px 0 20px}.auth-intro{color:var(--muted);font-size:12px;line-height:1.55;margin:-10px 0 19px}.auth-intro strong{color:var(--ink);overflow-wrap:anywhere}.modal label{display:block;font-size:11px;font-weight:800}.modal label+label{margin-top:12px}.modal input{width:100%;border:1px solid #ccd2cb;background:#fff;border-radius:10px;padding:14px;margin-top:7px;outline:0}.modal input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(19,131,83,.1)}.modal .btn{width:100%;margin-top:12px}.btn:disabled,button:disabled{cursor:not-allowed;opacity:.62;transform:none}.role-options{display:grid;gap:10px}.role-option{position:relative;width:100%;display:grid;grid-template-columns:44px 1fr auto;gap:3px 12px;align-items:center;text-align:left;border:1px solid var(--line);border-radius:12px;background:#fff;padding:14px}.role-option:hover,.role-option.selected{border-color:var(--green)}.role-option.selected{background:#f1f9e4;box-shadow:0 0 0 2px rgba(19,131,83,.1)}.role-icon{grid-row:1/3;width:40px;height:40px;border-radius:11px;background:var(--ink);color:#fff;display:grid;place-items:center;font:17px Georgia}.role-option.selected .role-icon{background:var(--green)}.role-option strong,.role-option small{grid-column:2}.role-option strong{font-size:13px}.role-option small{font-size:9px;color:var(--muted)}.role-check{grid-column:3;grid-row:1/3;color:var(--green);font-weight:900;font-size:18px}.auth-back{border:0;background:none;padding:0;margin:0 0 8px;color:var(--green);font-size:10px;font-weight:800}.role-summary{display:flex;justify-content:space-between;align-items:center;background:#eef4eb;border-radius:9px;margin:-7px 0 15px;padding:9px 11px;font-size:10px;font-weight:800}.role-summary button,.modal-switch button,.auth-recovery button{border:0;background:none;color:var(--green);font-size:9px;font-weight:800;padding:0}.field-help,.terms{color:var(--muted);font-size:9px;line-height:1.5;margin:7px 2px 0}.terms{text-align:center;margin-top:11px}.auth-error{background:#fff0ef;border:1px solid #efc3be;border-radius:9px;color:#9b2f26;font-size:10px;line-height:1.45;padding:9px 11px;margin:10px 0 0}.auth-recovery{color:var(--muted);font-size:9px;line-height:1.5;margin:8px 2px 0}.modal-switch{text-align:center;color:var(--muted);font-size:10px;margin:15px 0 0}.code-input{text-align:center;font-size:24px;font-weight:850;letter-spacing:8px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}.form-grid label+label{margin-top:0}.progress{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:18px}.progress i{height:4px;background:var(--line);border-radius:99px}.progress i.done{background:var(--green)}.success-seal{width:58px;height:58px;border-radius:50%;background:var(--lime);border:5px solid var(--ink);display:grid;place-items:center;font-size:20px;font-weight:900;margin:0 auto 17px;transform:rotate(-5deg)}.account-complete{text-align:center}.account-complete h2{margin-bottom:19px}.account-summary{background:#fff;border:1px solid var(--line);border-radius:13px;margin:19px 0 7px;padding:5px 14px;text-align:left}.account-summary div{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:42px;border-bottom:1px solid var(--line)}.account-summary div:last-child{border:0}.account-summary span{font-size:9px;color:var(--muted)}.account-summary strong{font-size:10px;max-width:70%;overflow-wrap:anywhere;text-align:right}.verified{color:var(--green)}.signout{border:0;background:none;color:var(--muted);font-size:10px;font-weight:800;margin-top:12px}.account-dot{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;background:var(--lime);color:var(--ink);font-size:8px;margin-right:6px}.toast{position:fixed;left:50%;bottom:25px;transform:translateX(-50%);z-index:120;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:99px;padding:12px 17px;font-size:12px;font-weight:800;display:none}.toast.show{display:block}
+    @media(max-width:1050px){.nav{display:none}.menu{display:block}.hero{grid-template-columns:1fr}.hero-art{max-width:600px;width:100%;margin:auto}.cards{grid-template-columns:repeat(2,1fr)}.process{grid-template-columns:1fr;gap:45px}.business{grid-template-columns:1fr}.footer-main{grid-template-columns:1fr}.services{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:650px){.header{height:68px}.header-actions .login{display:none}.hero{padding:65px 18px}.hero h1{font-size:52px;letter-spacing:-3.5px}.hero-art{border-radius:22px;height:360px}.trust{align-items:flex-start;flex-direction:column;gap:20px}.logos{width:100%}.logos strong:nth-child(n+4){display:none}.section{padding:78px 18px}.heading,.market-head,.cta{align-items:flex-start;flex-direction:column}.services{grid-template-columns:1fr}.market{padding:76px 18px}.filters{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.job{flex-direction:column}.job-actions{flex-direction:row}.market-bottom{align-items:flex-start;flex-direction:column;gap:12px}.process{display:block}.steps{margin-top:45px}.business{border-radius:0;padding:72px 18px}.team-panel{transform:none}.cta{padding:72px 18px}.cta-actions{width:100%;flex-direction:column}.cta-actions .btn{width:100%}.footer-links{grid-template-columns:1fr 1fr;gap:28px}.copyright{flex-direction:column;gap:12px}.modal{padding:27px 20px}.form-grid{grid-template-columns:1fr}.form-grid label+label{margin-top:0}}
+  </style>
+  <style>
+    body.goworkora-home{
+      --night-plum:#29152f;
+      --signal-coral:#ff6f61;
+      --electric-violet:#6c3ee8;
+      --sprint-citron:#d5ff38;
+      --warm-ivory:#fff8ed;
+      --ink:var(--night-plum);
+      --soft:#59485d;
+      --cream:var(--warm-ivory);
+      --paper:#fffdf8;
+      --lime:var(--sprint-citron);
+      --green:var(--electric-violet);
+      --line:#e5d9dc;
+      --muted:#746577;
+      --shadow:0 22px 60px rgba(41,21,47,.16);
+      background:var(--warm-ivory);
+    }
+    body.goworkora-home button:focus-visible,
+    body.goworkora-home a:focus-visible,
+    body.goworkora-home input:focus-visible,
+    body.goworkora-home select:focus-visible,
+    body.goworkora-home textarea:focus-visible{outline-color:rgba(108,62,232,.48)}
+    body.goworkora-home .header{background:rgba(255,248,237,.94);border-bottom-color:rgba(41,21,47,.12)}
+    body.goworkora-home .mark{background:var(--sprint-citron);color:var(--night-plum);box-shadow:0 0 0 1px rgba(41,21,47,.08)}
+    body.goworkora-home .btn-dark{background:var(--signal-coral);border-color:var(--signal-coral);color:var(--night-plum)}
+    body.goworkora-home .btn-dark:hover{background:#ff8175;border-color:#ff8175}
+    body.goworkora-home .btn-lime{background:var(--sprint-citron);color:var(--night-plum)}
+    body.goworkora-home .hero{
+      background:
+        radial-gradient(circle at 86% 16%,rgba(108,62,232,.13),transparent 29%),
+        radial-gradient(circle at 8% 88%,rgba(255,111,97,.15),transparent 26%),
+        var(--warm-ivory);
+    }
+    body.goworkora-home .hero h1 em,
+    body.goworkora-home .eyebrow,
+    body.goworkora-home .kicker,
+    body.goworkora-home .search-row b{color:var(--electric-violet)}
+    body.goworkora-home .eyebrow i{background:var(--signal-coral);border-color:var(--night-plum)}
+    body.goworkora-home .search-box,
+    body.goworkora-home .service,
+    body.goworkora-home .trust{background:var(--paper)}
+    body.goworkora-home .hero-art{
+      background:var(--night-plum);
+      border:7px solid var(--night-plum);
+      box-shadow:16px 16px 0 var(--sprint-citron),0 32px 72px rgba(41,21,47,.24);
+    }
+    body.goworkora-home .service:nth-child(1) .service-icon,
+    body.goworkora-home .service:nth-child(4) .service-icon{background:var(--electric-violet);color:#fff}
+    body.goworkora-home .service:nth-child(2) .service-icon,
+    body.goworkora-home .service:nth-child(5) .service-icon{background:var(--signal-coral);color:var(--night-plum)}
+    body.goworkora-home .service:nth-child(3) .service-icon,
+    body.goworkora-home .service:nth-child(6) .service-icon{background:var(--sprint-citron);color:var(--night-plum)}
+    body.goworkora-home .market,
+    body.goworkora-home .cta{background:var(--night-plum)}
+    body.goworkora-home .market-head .kicker{background:var(--sprint-citron);color:var(--night-plum)}
+    body.goworkora-home .business{background:var(--electric-violet)}
+    body.goworkora-home .business p{color:#f2edff}
+    body.goworkora-home .team-panel{background:var(--warm-ivory)}
+    body.goworkora-home .quote-mark{color:var(--signal-coral)}
+    body.goworkora-home footer{background:#1e0e24}
+    @media(max-width:650px){
+      body.goworkora-home .hero-art{border-width:5px;box-shadow:10px 10px 0 var(--sprint-citron),0 24px 54px rgba(41,21,47,.22)}
+    }
+  </style>
+  <style>
+    .auth-notice,.auth-success{border:1px solid #badfcb;border-radius:9px;background:#edf9f2;color:#17623f;font-size:10px;line-height:1.45;padding:9px 11px;margin:10px 0 0}
+    .auth-success{border-color:#9fcf5d;background:#f2fae8;color:#365f0e}
+    .otp-fieldset{border:0;margin:0;padding:0;min-width:0}.otp-fieldset legend{font-size:11px;font-weight:800;margin-bottom:7px}.otp-inputs{display:grid;grid-template-columns:repeat(var(--otp-length,8),minmax(0,1fr));gap:8px}.modal .otp-input{width:100%;min-width:0;aspect-ratio:1;border-radius:10px;margin:0;padding:0;text-align:center;font-size:22px;font-weight:850;line-height:1}
+    .resend-row,.verification-links{display:flex;align-items:center;justify-content:center;gap:6px;color:var(--muted);font-size:10px;margin-top:13px}.resend-row button,.verification-links button{border:0;background:none;color:var(--green);font-size:10px;font-weight:800;padding:2px}.verification-links{justify-content:space-between;margin-top:10px}
+    .auth-loading{text-align:center;padding:12px 0}.auth-spinner{display:block;width:34px;height:34px;border:4px solid var(--line);border-top-color:var(--green);border-radius:50%;animation:auth-spin .8s linear infinite;margin:4px auto 24px}@keyframes auth-spin{to{transform:rotate(360deg)}}
+    .route-link-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.route-link-card{background:#fff;border:1px solid var(--line);border-radius:18px;display:grid;gap:10px;padding:25px}.route-link-card span,.route-copy p{color:var(--muted);font-size:12px;line-height:1.65}.route-link-card strong{font-size:24px}.route-page{max-width:1240px;margin:auto;padding:80px clamp(20px,5vw,70px) 110px;min-height:65vh}.route-page .route-eyebrow{color:var(--green);font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.route-page h1{font-size:clamp(45px,6vw,78px);letter-spacing:-4px;margin:15px 0 22px}.route-copy{background:#fff;border:1px solid var(--line);border-radius:20px;margin-top:34px;padding:30px}.route-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:27px}.mobile-nav-close{display:none}
+    .heading .text-link{color:#0b7447}
+    .mobile-auth-actions{display:none}
+    @media(max-width:1050px){.header>.nav{background:#fff;box-shadow:-20px 0 55px rgba(0,0,0,.2);display:none;flex-direction:column;gap:4px;height:100vh;inset:0 0 0 auto;padding:86px 25px 25px;position:fixed;width:min(88vw,380px);z-index:80}.header.mobile-open>.nav{display:flex}.header>.nav a,.header>.nav button{border-bottom:1px solid var(--line);min-height:48px;text-align:left;width:100%}.header.mobile-open:after{background:rgba(12,20,16,.55);content:"";inset:0;position:fixed;z-index:70}.header .menu{display:block;position:relative;z-index:90}.header-actions>[data-modal],.header-actions>[data-dashboard],.header-actions>[data-signout]{display:none}.mobile-auth-actions{display:flex;flex-direction:column;gap:4px}.route-link-grid{grid-template-columns:1fr}}
+    @media(max-width:650px){.otp-inputs{gap:5px}.modal .otp-input{font-size:18px;border-radius:8px}.verification-links{align-items:flex-start;flex-direction:column}}
+  </style>
+  <link rel="stylesheet" href="./styles/platform-theme.css?v=logo-inverse-20260811">
+  <link rel="stylesheet" href="./styles/freelancer-workspace-shell.css?v=logo-inverse-20260811">
+  <link rel="stylesheet" href="./styles/freelancer-page-polish.css?v=workspace-pages-20260805">
+  <link rel="stylesheet" href="./styles/client-workspace-shell.css?v=client-workspace-20260811">
+  <link rel="stylesheet" href="./styles/client-page-polish.css?v=client-workspace-20260811">
+</head>
+<body class="goworkora-home">
+  <header class="header" id="global-header">
+    <a class="brand gw-brand-home" href="./" data-route="/" data-logo-surface="dark" aria-label="GoWorkora home"><img class="gw-brand-wordmark" src="./assets/brand/goworkora-wordmark-transparent.png" width="2172" height="724" alt="GoWorkora" decoding="async"></a>
+    <nav class="nav" id="mobile-navigation" aria-label="Primary navigation"><a href="./find-talent" data-route="/find-talent">Find Talent</a><a href="./find-work" data-route="/find-work">Find Work</a><a href="./how-it-works" data-route="/how-it-works">How It Works</a><a href="./pricing" data-route="/pricing">Pricing</a><a href="./managed-services" data-route="/managed-services">Managed Services</a><div class="mobile-auth-actions"><button type="button" data-modal="login">Log In</button><button type="button" data-modal="signup">Sign Up</button></div></nav>
+    <div class="header-actions"><button id="login-button" class="login btn btn-outline btn-small" data-modal="login">Log In</button><button id="join-button" class="btn btn-dark btn-small" data-modal="signup">Sign Up</button><button id="header-signout" class="btn btn-outline btn-small" type="button" data-signout="true" hidden>Sign out</button><button class="menu" aria-label="Open menu" aria-controls="mobile-navigation" aria-expanded="false">☰</button></div>
+  </header>
+  <aside class="freelancer-workspace-sidebar" id="freelancer-workspace-sidebar" hidden></aside>
+  <aside class="client-workspace-sidebar" id="client-workspace-sidebar" hidden></aside>
+  <main id="home-route">
+    <section class="hero" id="top">
+      <div><div class="eyebrow"><i></i>Hire Better. Work Smarter.</div><h1>Bring the right people to your <em>most important work.</em></h1><p class="lede">GoWorkora connects businesses with skilled freelancers and managed remote professionals through a secure, transparent and results-focused platform.</p>
+        <div class="popular"><a class="btn btn-lime" href="./find-talent" data-route="/find-talent">Hire Talent</a><a class="btn btn-outline" href="./find-work" data-route="/find-work">Find Work</a><button class="btn btn-dark" type="button" id="post-job">Post a Job</button></div>
+        <form class="search-box" id="hero-search"><div class="switcher"><button type="button" class="active" data-switch="talent">Find talent</button><button type="button" data-switch="jobs">Browse jobs</button></div><div class="search-row"><b>⌕</b><input id="hero-query" placeholder="Try “AI product designer”" aria-label="Search"><button class="btn btn-lime" type="submit">Search</button></div></form>
+        <div class="popular"><span>Explore:</span><a href="./categories" data-route="/categories">Active categories</a><a href="./industries" data-route="/industries">Industry solutions</a><a href="./managed-services" data-route="/managed-services">Managed services</a></div>
+      </div>
+      <div class="hero-art"><img src="./goworkora-hero-marketplace.jpg?v=20260728b" width="900" height="907" alt="Stylized GoWorkora freelancer profile cards showing ratings, professional skills, and a verified selection." decoding="async" fetchpriority="high"></div>
+    </section>
+    <section class="trust"><span>ONE CONTROLLED WORKFLOW</span><div class="logos"><strong>Profiles</strong><strong>Jobs</strong><strong>Proposals</strong><strong>Contracts</strong><strong>Payments</strong></div></section>
+    <section class="section"><div class="heading"><div><span class="kicker">Explore expertise</span><h2>Find the skills your work needs.</h2></div><a class="text-link" href="./categories" data-route="/categories">Browse all categories ↗</a></div><div class="services">
+      <a class="service" href="./categories" data-route="/categories"><span class="service-icon">{}</span><strong>Technical expertise</strong><small>Browse active categories backed by marketplace data</small><b>↗</b></a><a class="service" href="./categories" data-route="/categories"><span class="service-icon">Aa</span><strong>Creative expertise</strong><small>Browse active categories backed by marketplace data</small><b>↗</b></a><a class="service" href="./categories" data-route="/categories"><span class="service-icon">✦</span><strong>Operations expertise</strong><small>Browse active categories backed by marketplace data</small><b>↗</b></a><a class="service" href="./industries" data-route="/industries"><span class="service-icon">↗</span><strong>Industry solutions</strong><small>Explore controlled industry guidance and relevant work</small><b>↗</b></a><a class="service" href="./find-work" data-route="/find-work"><span class="service-icon">✎</span><strong>Published opportunities</strong><small>Browse only real jobs permitted for public discovery</small><b>↗</b></a><a class="service" href="./find-talent" data-route="/find-talent"><span class="service-icon">◎</span><strong>Public talent</strong><small>Browse complete profiles without private account data</small><b>↗</b></a>
+    </div></section>
+    <section class="market" id="market"><div class="market-shell"><div class="market-head"><div><span class="kicker">Real marketplace data</span><h2 id="market-title">Choose the marketplace view you need.</h2></div><div class="market-tabs"><button class="active" data-tab="talent">Talent</button><button data-tab="jobs">Jobs</button></div></div><div class="filters"><input id="filter-query" placeholder="Search talent and skills" aria-label="Search marketplace"><select id="category" aria-label="Filter marketplace by category"><option>All categories</option><option>Development &amp; IT</option><option>Design &amp; Creative</option><option>AI Services</option><option>Sales &amp; Marketing</option><option>Writing &amp; Translation</option></select><button class="btn btn-dark" id="show-results">Search marketplace</button></div><div id="results"></div><div class="market-bottom"><p id="market-note">Only public profiles returned by the database are shown.</p><a class="btn btn-lime" href="./signup" data-route="/signup">Get Started</a></div></div></section>
+    <section class="section process" id="how"><div><span class="kicker">Simple by design</span><h2>From need to outcome through one controlled workflow.</h2><p>Verify your account, complete your profile, then use proposals, contracts, milestones, messaging, and secure payment tools.</p><a class="btn btn-dark" href="./how-it-works" data-route="/how-it-works">See how it works</a></div><div class="steps"><a href="./how-it-works/clients" data-route="/how-it-works/clients"><span class="num">01</span><div><h3>For clients</h3><p>Find professionals, publish jobs, review proposals, and manage delivery.</p></div></a><a href="./how-it-works/freelancers" data-route="/how-it-works/freelancers"><span class="num">02</span><div><h3>For freelancers</h3><p>Create a public profile, discover work, submit proposals, and deliver securely.</p></div></a><a href="./trust-and-safety" data-route="/trust-and-safety"><span class="num">03</span><div><h3>Built for trust</h3><p>Role-aware access, protected records, and auditable workflows.</p></div></a></div></section>
+    <section class="business" id="business"><div><span class="kicker">GoWorkora Managed Services</span><h2>Build a remote team with structured support.</h2><p>For organisations that need more than a marketplace search, start with a clear workforce requirement.</p><ul><li><span>✓</span>Requirements and role scoping</li><li><span>✓</span>Talent matching and workforce coordination</li><li><span>✓</span>A real contact workflow</li></ul><a class="btn btn-lime" href="./managed-services" data-route="/managed-services">Explore Managed Services</a></div><div class="team-panel"><strong>Start with your hiring goal</strong><p>Tell us the roles, timelines, and outcomes you need. GoWorkora does not display a fake booking or chat control.</p><a class="btn btn-outline" href="./contact?subject=managed-services" data-route="/contact?subject=managed-services">Contact GoWorkora</a></div></section>
+    <section class="cta"><div><span class="kicker">GoWorkora</span><h2>Hire Better.<br>Work Smarter.</h2></div><div class="cta-actions"><a class="btn btn-lime" href="./signup" data-route="/signup">Get Started</a><a class="btn btn-light" href="./pricing" data-route="/pricing">View Pricing</a></div></section>
+  </main>
+  <div id="homepage-preview-route" hidden></div>
+  <main id="public-route" class="route-page" hidden></main>
+  <footer id="global-footer"><div class="footer-main"><div class="footer-brand"><a class="gw-brand-home" href="./" data-route="/" data-logo-surface="dark" aria-label="GoWorkora home"><img class="gw-brand-wordmark" src="./assets/brand/goworkora-wordmark-transparent.png" width="2172" height="724" alt="GoWorkora" loading="lazy" decoding="async"></a><p>Hire Better.<br>Work Smarter.</p></div><div class="footer-links"><div><h3>For Clients</h3><a href="./find-talent" data-route="/find-talent">Find Talent</a><a href="./signup/client?returnTo=/app/jobs/new" data-route="/signup/client?returnTo=/app/jobs/new">Post a Job</a><a href="./managed-services" data-route="/managed-services">Managed Services</a><a href="./pricing" data-route="/pricing">Pricing</a><a href="./how-it-works/clients" data-route="/how-it-works/clients">How It Works for Clients</a></div><div><h3>For Freelancers</h3><a href="./find-work" data-route="/find-work">Find Work</a><a href="./signup/freelancer" data-route="/signup/freelancer">Create Freelancer Profile</a><a href="./how-it-works/freelancers" data-route="/how-it-works/freelancers">How It Works for Freelancers</a><a href="./help/freelancer-getting-started" data-route="/help/freelancer-getting-started">Freelancer Help</a><a href="./help/earnings-and-payments" data-route="/help/earnings-and-payments">Earnings and Payments</a></div><div><h3>GoWorkora</h3><a href="./about" data-route="/about">About</a><a href="./careers" data-route="/careers">Careers</a><a href="./blog" data-route="/blog">Blog</a><a href="./contact" data-route="/contact">Contact</a><a href="./trust-and-safety" data-route="/trust-and-safety">Trust and Safety</a></div><div><h3>Support</h3><a href="./help" data-route="/help">Help Centre</a><a href="./accessibility" data-route="/accessibility">Accessibility</a><a href="./contact?subject=safety-report" data-route="/contact?subject=safety-report">Report an Issue</a><a href="./contact?subject=support" data-route="/contact?subject=support">Contact Support</a></div><div><h3>Legal</h3><a href="./terms" data-route="/terms">Terms</a><a href="./privacy" data-route="/privacy">Privacy</a><a href="./cookies" data-route="/cookies">Cookie Policy</a></div></div></div><div class="copyright"><span>© 2026 GoWorkora.</span><span>Hire Better. Work Smarter.</span></div></footer>
+  <div class="modal-wrap" id="modal"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><a class="brand gw-brand-home" href="./" data-route="/" data-logo-surface="light" aria-label="GoWorkora home"><img class="gw-brand-wordmark" src="./assets/brand/goworkora-wordmark-on-white.png" width="2172" height="724" alt="GoWorkora" decoding="async"></a><button class="close" aria-label="Close">×</button><div class="auth-brand-copy" aria-hidden="true"><strong>Move work forward.</strong>Connect with opportunities, professionals, and structured collaboration in one trusted workspace.</div><div id="auth-content"></div></section></div><div class="toast" id="toast" role="status"></div>
+  <script type="module">
+    import { APP_DESCRIPTION, APP_NAME, APP_TAGLINE } from './shared/brand.js?v=goworkora-rebrand-20260728';
+    import { BRAND_WORDMARK_DARK_URL, navigationItemsFor } from './shared/site-chrome.js?v=surface-logo-20260730';
+    import { freelancerWorkspaceNavigation, isFreelancerWorkspaceRoute } from './shared/freelancer-chrome.js?v=gosparks-20260804';
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.6/+esm';
+    import {
+      OTP_LENGTH,
+      OTP_REQUEST_MESSAGE,
+      buildSignupMetadata,
+      callbackCodeFromUrl,
+      classifyAuthError,
+      cooldownRemaining,
+      getRoleDestination,
+      isAccountRole,
+      isProfileComplete,
+      maskEmail,
+      normalizeOtp,
+      removeAuthCallbackParameters,
+      requestEmailOtp,
+      resolveProtectedAccountRoute,
+      restoreAuthenticatedUser,
+      signupRoleFromReturnTo,
+      splitOtp,
+      validateSignupDetails,
+      verifyEmailOtp,
+    } from './features/auth/flow.js?v=0dd54fa1b8a3';
+    import {
+      markOtpFailure,
+      markOtpRequested,
+      markOtpSuccess,
+      normalizeOtpSecurityState,
+      otpRequestGate,
+      otpStorageKey,
+      otpVerificationGate,
+      readOtpSecurityState,
+      writeOtpSecurityState,
+    } from './features/auth/otp-security.js?v=otp-security-20260729';
+    import { roleOnboardingDestination } from './features/profile/onboarding.js?v=0a7987e9733e';
+    import { mountProfileExperience, mountPublicFreelancerProfile, unmountProfileExperience } from './features/profile/experience.js?v=public-privacy-20260811';
+    import { mountJobsExperience, unmountJobsExperience } from './features/jobs/experience.js?v=job-publishing-20260811';
+    import { mountContractsExperience, unmountContractsExperience } from './features/contracts/experience.js?v=surface-logo-20260730';
+    import { mountTalentExperience, unmountTalentExperience } from './features/talent/experience.js?v=public-privacy-v3-20260811';
+    import { mountPaymentsExperience, unmountPaymentsExperience } from './features/payments/experience.js?v=surface-logo-20260730';
+    import { mountMessagingExperience, unmountMessagingExperience } from './features/messaging/experience.js?v=message-composer-20260731';
+    import { mountTrustAdminExperience, unmountTrustAdminExperience } from './features/trust-admin/experience.js?v=surface-logo-20260730';
+    import { adminMfaSnapshot, adminSecurityDestination, normalizedMfaFactors } from './features/admin-security/workflow.js?v=admin-mfa-20260729';
+    import { dashboardPath, legacyHashFromPath, matchRoute, normalizePath, pathFromLegacyHash, postAuthenticationPath, safeReturnTo } from './routing/site-routes.js?v=client-workspace-20260811';
+    import { bindPublicPageActions, publicPageContent, updatePublicMetadata } from './pages/public-pages.js?v=0a7987e9733e';
+    import { renderAccountPage } from './pages/account-pages.js?v=client-workspace-privacy-20260811';
+    import { clientWorkspaceNavigation, isClientWorkspaceRoute } from './shared/client-chrome.js?v=client-workspace-20260811';
+    import { renderHomepagePreview, unmountHomepagePreview } from './pages/homepage-preview.js?v=readability-v9-20260729-public-privacy-20260811';
+
+    document.documentElement.dataset.applicationName=APP_NAME;
+    document.querySelector('meta[name="description"]')?.setAttribute('content',APP_DESCRIPTION);
+    document.querySelector('meta[property="og:title"]')?.setAttribute('content',`${APP_NAME} — ${APP_TAGLINE}`);
+    const runtimeConfig=globalThis.WORKORA_CONFIG||{};
+    const SUPABASE_URL=runtimeConfig.supabaseUrl,SUPABASE_KEY=runtimeConfig.supabasePublishableKey;
+    if(!SUPABASE_URL||!SUPABASE_KEY)throw new Error('GoWorkora browser configuration is missing. Rebuild the GitHub Pages artifact with browser-safe Supabase values.');
+    const supabase=createClient(SUPABASE_URL,SUPABASE_KEY);
+    document.documentElement.style.setProperty('--otp-length',String(OTP_LENGTH));
+    const talents=[];
+    const jobs=[];
+    let mode='talent';const results=document.querySelector('#results'),query=document.querySelector('#filter-query'),category=document.querySelector('#category');
+    function talentCard(t,i){return `<article class="card"><div class="card-head"><span class="talent-avatar">${t.initials}</span><button class="heart" aria-label="Save ${t.name}">♡</button></div><h3>${t.name} ✓</h3><p class="role">${t.role}</p><div class="stats"><span><b>★ ${t.rating}</b> · ${t.jobs}</span><strong>${t.rate}</strong></div><div class="skills">${t.skills.map(s=>`<span>${s}</span>`).join('')}</div><div class="card-foot"><span>◎ ${t.location}</span><button data-modal="signup">View profile ↗</button></div></article>`}
+    function jobCard(j){return `<article class="job"><div><small>${j.posted}</small><h3>${j.title}</h3><div class="job-meta"><span>${j.type}</span><span>Expert</span><span>Remote</span></div><p>${j.desc}</p><div class="skills">${j.skills.map(s=>`<span>${s}</span>`).join('')}</div></div><div class="job-actions"><button class="heart" aria-label="Save job">♡</button><button class="btn btn-outline" data-modal="signup">Apply now</button></div></article>`}
+    function render(){const term=query.value.toLowerCase().trim(),cat=category.value;const data=(mode==='talent'?talents:jobs).filter(x=>(cat==='All categories'||x.cat.includes(cat))&&(!term||JSON.stringify(x).toLowerCase().includes(term)));results.className=mode==='talent'?'cards':'jobs';results.innerHTML=data.length?data.map(mode==='talent'?talentCard:jobCard).join(''):'<div class="empty"><h3>No exact matches yet</h3><p>Try a broader skill or choose another category.</p></div>';bindDynamic()}
+    function setMode(next){mode=next;document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===mode));document.querySelectorAll('[data-switch]').forEach(b=>b.classList.toggle('active',b.dataset.switch===mode));document.querySelector('#market-title').textContent=mode==='talent'?'Find approved public talent.':'Find published work.';document.querySelector('#market-note').textContent=mode==='talent'?'Only public profiles returned by the database are shown.':'Only published jobs returned by the database are shown.';query.placeholder=mode==='talent'?'Search talent and skills':'Search jobs and skills';render()}
+    function toast(text){const el=document.querySelector('#toast');el.textContent='✓  '+text;el.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el.classList.remove('show'),3000)}
+
+    let currentUser=null,currentProfile=null,authMode='signup',authStep='role',selectedRole='',authEmail='',authCode='',authError='',authErrorKind='',authNotice='',authBusy=false,authReady=false,lastCodeSentAt=0,verificationSucceeded=false,verificationSubmitting=false,lastAutoSubmittedCode='',otpSecurityStorageKey='',otpClientSecurityState=normalizeOtpSecurityState(null);
+    let signupFullName='',signupLocation='',signupOrganization='',signupHeadline='';
+    const modal=document.querySelector('#modal'),authContent=document.querySelector('#auth-content');
+    const escapeHtml=value=>{const node=document.createElement('span');node.textContent=value??'';return node.innerHTML};
+    const displayName=()=>currentUser?.user_metadata?.full_name||signupFullName||currentUser?.email?.split('@')[0]||'Account';
+    const isTrustedRole=value=>value==='client'||value==='freelancer'||value==='admin';
+    const currentRole=()=>isTrustedRole(currentProfile?.role)?currentProfile.role:(!currentUser&&isAccountRole(selectedRole)?selectedRole:'');
+    const profileHasVerifiedActiveAccess=(profile=currentProfile,user=currentUser)=>Boolean(
+      user
+      && profile
+      && profile.account_status==='active'
+      && profile.email_verified_at
+      && user.email_confirmed_at
+    );
+    function syncDemoAccountBanner(profile){
+      const isDemo=profile?.is_demo===true;
+      let banner=document.querySelector('.demo-account-banner');
+      if(!isDemo){banner?.remove();return}
+      if(banner)return;
+      banner=document.createElement('aside');
+      banner.className='demo-account-banner';
+      banner.setAttribute('role','status');
+      banner.textContent='You are viewing a GoWorkora demonstration account. Information and transactions in this account are fictional.';
+      document.body.prepend(banner);
+    }
+
+    function clearAuthFeedback(){authError='';authErrorKind='';authNotice=''}
+    function resetAuthForm(){selectedRole='';authEmail='';authCode='';signupFullName='';signupLocation='';signupOrganization='';signupHeadline='';authBusy=false;lastCodeSentAt=0;verificationSucceeded=false;verificationSubmitting=false;lastAutoSubmittedCode='';otpSecurityStorageKey='';otpClientSecurityState=normalizeOtpSecurityState(null);clearAuthFeedback()}
+
+    function updateAccountHeader(){
+      const login=document.querySelector('#login-button'),join=document.querySelector('#join-button'),signout=document.querySelector('#header-signout'),mobileAuth=document.querySelector('.mobile-auth-actions');
+      if(!authReady){login.style.display='none';join.textContent='Checking session…';join.disabled=true;signout.hidden=true;mobileAuth.innerHTML='<button type="button" disabled>Checking session…</button>';return}
+      join.disabled=false;
+      if(currentUser){login.style.display='none';join.innerHTML=`<span class="account-dot">✓</span>Dashboard`;join.dataset.dashboard='true';delete join.dataset.modal;signout.hidden=false;signout.disabled=authBusy;signout.textContent=authBusy?'Signing out…':'Sign out';mobileAuth.innerHTML='<button type="button" data-dashboard="true">Dashboard</button><button type="button" data-signout="true">Sign out</button>'}
+      else{login.style.display='';login.textContent='Log In';login.dataset.modal='login';delete login.dataset.dashboard;join.textContent='Sign Up';join.dataset.modal='signup';delete join.dataset.dashboard;signout.hidden=true;signout.disabled=false;signout.textContent='Sign out';mobileAuth.innerHTML='<button type="button" data-modal="login">Log In</button><button type="button" data-modal="signup">Sign Up</button>'}
+      bindDynamic();
+    }
+
+    function authMessage(){return authError?`<p class="auth-error" data-kind="${escapeHtml(authErrorKind)}" role="alert">${escapeHtml(authError)}</p>`:''}
+    function authNoticeMessage(){return authNotice?`<p class="${verificationSucceeded?'auth-success':'auth-notice'}" role="status">${escapeHtml(authNotice)}</p>`:''}
+
+    function renderAuth(){
+      const resendSeconds=Math.max(cooldownRemaining(lastCodeSentAt),otpRequestGate(otpClientSecurityState).retryAfterSeconds);
+      if(authStep==='role'){
+        authContent.innerHTML=`<span class="modal-kicker">Join GoWorkora</span><form id="role-form"><h2 id="modal-title">Join as a client or freelancer</h2><p class="auth-intro">Choose your path now. You can add another profile type later.</p><div class="role-options"><button class="role-option ${selectedRole==='client'?'selected':''}" type="button" data-role="client" aria-pressed="${selectedRole==='client'}"><i class="role-icon">C</i><strong>I’m a client, hiring for a project</strong><small>Find and work with independent talent</small><b class="role-check">${selectedRole==='client'?'✓':'○'}</b></button><button class="role-option ${selectedRole==='freelancer'?'selected':''}" type="button" data-role="freelancer" aria-pressed="${selectedRole==='freelancer'}"><i class="role-icon">F</i><strong>I’m a freelancer, looking for work</strong><small>Build a profile and connect with clients</small><b class="role-check">${selectedRole==='freelancer'?'✓':'○'}</b></button></div>${authMessage()}<button class="btn btn-dark" type="submit">Continue</button><p class="modal-switch">Already have an account? <button type="button" data-auth-mode="login">Log in</button></p></form>`;
+      }else if(authStep==='details'){
+        authContent.innerHTML=`<span class="modal-kicker">Join GoWorkora</span><form id="details-form"><button class="auth-back" type="button" data-auth-step="role">← Account type</button><h2 id="modal-title">Tell us about your ${selectedRole==='client'?'team':'work'}</h2><p class="auth-intro">We’ll validate these required details before creating your authentication account.</p><div class="form-grid"><label>Full name<input name="full_name" autocomplete="name" value="${escapeHtml(signupFullName)}" placeholder="Your full name" autofocus></label><label>Location <small>(optional)</small><input name="location" value="${escapeHtml(signupLocation)}" placeholder="City, country"></label></div>${selectedRole==='client'?`<label>Company or organisation<input name="organization" autocomplete="organization" value="${escapeHtml(signupOrganization)}" placeholder="Your organisation"></label>`:`<label>Professional title<input name="headline" value="${escapeHtml(signupHeadline)}" placeholder="e.g. Senior product designer"></label>`}${authMessage()}<button class="btn btn-dark" type="submit">Continue to email verification</button></form>`;
+      }else if(authStep==='email'){
+        authContent.innerHTML=`<span class="modal-kicker">${authMode==='signup'?'Join GoWorkora':'Welcome back'}</span><form id="email-form">${authMode==='signup'?'<button class="auth-back" type="button" data-auth-step="details">← Signup details</button>':''}<h2 id="modal-title">${authMode==='signup'?'Create your GoWorkora account':'Log in with your email'}</h2>${selectedRole?`<div class="role-summary"><span>${selectedRole==='client'?'Client':'Freelancer'} account</span><button type="button" data-auth-step="role">Change</button></div>`:''}<label>Email address<input id="auth-email" type="email" autocomplete="email" value="${escapeHtml(authEmail)}" placeholder="you@example.com" autofocus></label><p class="field-help">We’ll email you a one-time verification code. No password needed.</p>${authNoticeMessage()}${authMessage()}<button class="btn btn-dark" type="submit" ${authBusy?'disabled':''}>${authBusy?'Sending code…':'Email me a code'}</button><p class="terms">By continuing, you agree to GoWorkora’s Terms and acknowledge the Privacy Policy.</p><p class="modal-switch">${authMode==='signup'?'Already have an account?':'New to GoWorkora?'} <button type="button" data-auth-mode="${authMode==='signup'?'login':'signup'}">${authMode==='signup'?'Log in':'Join now'}</button></p></form>`;
+      }else if(authStep==='verify'){
+        const inputs=splitOtp(authCode).map((digit,index)=>`<input data-otp-index="${index}" aria-label="Verification code digit ${index+1}" aria-invalid="${Boolean(authError)}" inputmode="numeric" maxlength="1" autocomplete="${index===0?'one-time-code':'off'}" value="${escapeHtml(digit)}" ${authBusy||verificationSucceeded?'disabled':''}>`).join('');
+        authContent.innerHTML=`<span class="modal-kicker">Secure email verification</span><form id="verify-form"><button class="auth-back" type="button" id="correct-email" ${authBusy?'disabled':''}>← Correct email</button><h2 id="modal-title">Check your inbox</h2><p class="auth-intro">Enter the ${OTP_LENGTH}-digit code sent to <strong>${escapeHtml(maskEmail(authEmail))}</strong>.</p><fieldset class="otp-fieldset" ${authBusy||verificationSucceeded?'disabled':''}><legend>Verification code</legend><div class="otp-inputs" id="otp-inputs">${inputs}</div></fieldset>${authNoticeMessage()}${authMessage()}<button class="btn btn-dark" type="submit" ${authBusy||verificationSucceeded||authCode.length!==OTP_LENGTH?'disabled':''}>${verificationSucceeded?'Email verified':authBusy?'Verifying…':'Verify email'}</button><div class="resend-row"><span>Didn’t receive it?</span><button type="button" id="resend-code" ${authBusy||verificationSucceeded||resendSeconds>0?'disabled':''}>${resendSeconds>0?`Resend in 0:${String(resendSeconds).padStart(2,'0')}`:'Resend code'}</button></div><div class="verification-links"><button type="button" data-auth-mode="login" ${authBusy?'disabled':''}>Back to login</button>${authMode==='signup'?`<button type="button" id="restart-signup" ${authBusy?'disabled':''}>Restart signup</button>`:''}</div></form>`;
+      }else if(authStep==='loading'){
+        authContent.innerHTML=`<span class="modal-kicker">Restoring your session</span><div class="auth-loading" role="status"><span class="auth-spinner" aria-hidden="true"></span><h2 id="modal-title">Restoring your secure session</h2><p class="auth-intro">Checking your verified profile and account role…</p></div>`;
+      }else if(authStep==='profile'){
+        authContent.innerHTML=`<span class="modal-kicker">One last step</span><form id="profile-form"><div class="progress"><i class="done"></i><i class="done"></i><i></i></div><h2 id="modal-title">Complete your ${escapeHtml(selectedRole)} profile</h2><p class="auth-intro">Your email is verified. Confirm the details people will see on GoWorkora.</p><div class="form-grid"><label>Full name<input name="full_name" autocomplete="name" value="${escapeHtml(signupFullName)}" placeholder="Your full name" autofocus></label><label>Location<input name="location" value="${escapeHtml(signupLocation)}" placeholder="City, country"></label></div>${selectedRole==='client'?`<label>Company or organisation<input name="organization" autocomplete="organization" value="${escapeHtml(signupOrganization)}" placeholder="Your organisation"></label>`:`<label>Professional title<input name="headline" value="${escapeHtml(signupHeadline)}" placeholder="e.g. Senior product designer"></label>`}${authNoticeMessage()}${authMessage()}<button class="btn btn-dark" type="submit" ${authBusy?'disabled':''}>${authBusy?'Saving profile…':'Finish creating my profile'}</button></form>`;
+      }else{
+        const role=currentRole();
+        authContent.innerHTML=`<span class="modal-kicker">Your GoWorkora account</span><div class="account-complete"><div class="success-seal">✓</div><h2 id="modal-title">Welcome, ${escapeHtml(displayName())}.</h2><p class="auth-intro">Your email is verified and your GoWorkora session is active.</p>${authNoticeMessage()}${authMessage()}<div class="account-summary"><div><span>Email</span><strong>${escapeHtml(currentUser?.email||'')}</strong></div><div><span>Profile</span><strong>${role==='client'?'Client':role==='freelancer'?'Freelancer':role==='admin'?'Administrator':'Member'}</strong></div><div><span>Status</span><strong class="verified">● Verified</strong></div></div><button class="btn btn-lime" type="button" id="explore-account">Open dashboard</button><button class="signout" type="button" id="signout" ${authBusy?'disabled':''}>${authBusy?'Signing out…':'Sign out'}</button></div>`;
+      }
+      bindAuthControls();
+    }
+
+    async function loadProfileForUser(user,navigate=false){
+      const metadata=user.user_metadata||{};
+      const {data,error}=await supabase.from('profiles').select('role, full_name, location, headline, organization, email_verified_at, account_status, onboarding_completed, onboarding_step').eq('id',user.id).maybeSingle();
+      let demoFlag=false;
+      if(!error&&data){
+        const optionalDemo=await supabase.from('profiles').select('is_demo').eq('id',user.id).maybeSingle();
+        demoFlag=!optionalDemo.error&&optionalDemo.data?.is_demo===true
+      }
+      const profileData=data?{...data,is_demo:demoFlag}:data;
+      const profile=profileData&&isTrustedRole(profileData.role)?profileData:null,role=profile?.role||'';
+      currentProfile=profile?{...profile,role}:null;
+      syncDemoAccountBanner(currentProfile);
+      selectedRole=role;authEmail=user.email||'';signupFullName=profile?.full_name||metadata.full_name||'';signupLocation=profile?.location||metadata.location||'';signupHeadline=profile?.headline||metadata.headline||'';signupOrganization=profile?.organization||metadata.organization||'';
+      if(error||!profile){
+        authStep='complete';authErrorKind='profile_recovery_required';authError='Your authenticated account needs profile recovery before protected areas can open. Contact GoWorkora support.';
+        if(navigate){navigateCanonical('/app/access-denied',true);modal.classList.remove('open');document.body.style.overflow='';await renderCanonicalRoute()}
+        renderAuth();return{role:'',complete:false,authorized:false,restrictedPath:'/app/access-denied'}
+      }
+      if(!profileHasVerifiedActiveAccess(profile,user)){
+        const suspended=profile.account_status==='suspended';
+        authStep='complete';authErrorKind=suspended?'account_suspended':'account_not_active';
+        authError=suspended?'This account is currently unavailable. Contact GoWorkora support for help.':'Your verified active profile is required before protected areas can open. Contact GoWorkora support if this persists.';
+        const restrictedPath=suspended?'/app/restricted':'/app/access-denied';
+        if(navigate){navigateCanonical(restrictedPath,true);modal.classList.remove('open');document.body.style.overflow='';await renderCanonicalRoute()}
+        renderAuth();return{role,complete:false,authorized:false,restrictedPath}
+      }
+      const complete=role==='admin'||Boolean(profile?.onboarding_completed);authStep=complete?'complete':'loading';
+      if(navigate&&role){const requested=safeReturnTo(routeReturnTo,dashboardPath(role)),onboardingPath=pathFromLegacyHash(roleOnboardingDestination(role,complete),role),allowed=complete&&(!requested.startsWith('/app/jobs/new')||role==='client')&&(!requested.startsWith('/app/saved-talent')||role==='client')&&(!requested.startsWith('/app/saved-jobs')||role==='freelancer');navigateCanonical(complete?(allowed?requested:dashboardPath(role)):onboardingPath,true);modal.classList.remove('open');document.body.style.overflow='';await renderCanonicalRoute()}
+      renderAuth();return{role,complete,authorized:true};
+    }
+
+    async function finishAuthenticatedUser(user){
+      const result=await loadProfileForUser(user,false);
+      if(result.authorized&&result.complete&&!user.user_metadata?.profile_completed){const {data}=await supabase.auth.updateUser({data:{...user.user_metadata,profile_completed:true}});if(data.user)currentUser=data.user}
+      const destination=result.authorized?postAuthenticationPath(result.role,result.complete):result.restrictedPath||'/app/access-denied';
+      navigateCanonical(destination,true);modal.classList.remove('open');document.body.style.overflow='';await renderCanonicalRoute();
+      authStep=result.authorized?(result.complete?'complete':'loading'):'complete';
+      if(result.authorized)authNotice=result.complete?'Email verified. Your secure session is active.':'Email verified. Continue your saved profile setup.';
+      updateAccountHeader();
+      toast(result.authorized?(result.complete?'You are securely signed in':'Email verified — let’s complete your profile'):'Protected access is unavailable until account recovery is complete');
+    }
+
+    function openModal(type){
+      authMode=type;clearAuthFeedback();authCode='';verificationSucceeded=false;
+      modal.classList.add('open');document.body.style.overflow='hidden';
+      if(currentUser){authStep='loading';authBusy=true;renderAuth();loadProfileForUser(currentUser,true).finally(()=>{authBusy=false;renderAuth()})}
+      else{resetAuthForm();authMode=type;authStep=type==='signup'?'role':'email';renderAuth()}
+    }
+
+    function closeModal(){modal.classList.remove('open');document.body.style.overflow='';if(['/login','/signup','/signup/client','/signup/freelancer','/verify-email'].includes(locationRoute().split('?')[0]))navigateCanonical('/',true)}
+
+    function otpBrowserStorage(){try{return globalThis.localStorage}catch{return null}}
+    async function loadOtpClientSecurity(email){
+      otpSecurityStorageKey=await otpStorageKey(email);
+      otpClientSecurityState=readOtpSecurityState(otpBrowserStorage(),otpSecurityStorageKey);
+      lastCodeSentAt=otpClientSecurityState.lastRequestedAt||0;
+      return otpClientSecurityState
+    }
+    function persistOtpClientSecurity(nextState){
+      otpClientSecurityState=normalizeOtpSecurityState(nextState);
+      lastCodeSentAt=otpClientSecurityState.lastRequestedAt||0;
+      writeOtpSecurityState(otpBrowserStorage(),otpSecurityStorageKey,otpClientSecurityState)
+    }
+
+    async function sendVerificationCode(event){
+      event?.preventDefault();const emailInput=document.querySelector('#auth-email');if(emailInput)authEmail=emailInput.value;clearAuthFeedback();
+      if(authBusy)return;
+      authBusy=true;renderAuth();await loadOtpClientSecurity(authEmail);
+      const requestGate=otpRequestGate(otpClientSecurityState);
+      if(!requestGate.allowed){authBusy=false;authErrorKind='rate_limit';authNotice=OTP_REQUEST_MESSAGE;authError=`Please wait ${requestGate.retryAfterSeconds} seconds before requesting another code.`;renderAuth();return}
+      const result=await requestEmailOtp(supabase.auth,{email:authEmail,mode:authMode,role:selectedRole,signupDetails:{fullName:signupFullName,location:signupLocation,organization:signupOrganization,headline:signupHeadline}});
+      authBusy=false;
+      if(!result.ok){const issue=result.error||classifyAuthError(null,'send');if(issue.kind==='rate_limit'){persistOtpClientSecurity(markOtpRequested(otpClientSecurityState));authNotice=OTP_REQUEST_MESSAGE}authErrorKind=issue.kind;authError=issue.message;renderAuth();return}
+      authEmail=result.email;authCode='';persistOtpClientSecurity(markOtpRequested(otpClientSecurityState,result.requestedAt||Date.now()));verificationSucceeded=false;lastAutoSubmittedCode='';authStep='verify';authNotice=result.message||OTP_REQUEST_MESSAGE;renderAuth();toast(OTP_REQUEST_MESSAGE);
+    }
+
+    async function verifyEmailCode(event,codeOverride){
+      event?.preventDefault();const token=normalizeOtp(codeOverride??authCode);if(verificationSubmitting||verificationSucceeded)return;clearAuthFeedback();verificationSubmitting=true;lastAutoSubmittedCode=token;authBusy=true;renderAuth();
+      await loadOtpClientSecurity(authEmail);
+      const verificationGate=otpVerificationGate(otpClientSecurityState);
+      if(!verificationGate.allowed){verificationSubmitting=false;lastAutoSubmittedCode='';authBusy=false;authErrorKind='verification_locked';authError=`Too many unsuccessful verification attempts. Try again in ${verificationGate.retryAfterSeconds} seconds.`;renderAuth();return}
+      const result=await verifyEmailOtp(supabase.auth,{email:authEmail,code:token});
+      if(!result.ok){const issue=result.error||classifyAuthError(null,'verify');persistOtpClientSecurity(markOtpFailure(otpClientSecurityState));const nextGate=otpVerificationGate(otpClientSecurityState);verificationSubmitting=false;lastAutoSubmittedCode='';authBusy=false;authErrorKind=nextGate.allowed?issue.kind:'verification_locked';authError=nextGate.allowed?issue.message:`Too many unsuccessful verification attempts. Try again in ${nextGate.retryAfterSeconds} seconds.`;renderAuth();return}
+      persistOtpClientSecurity(markOtpSuccess(otpClientSecurityState));
+      currentUser=result.user;verificationSucceeded=true;authNotice='Email verified. Finishing your account…';updateAccountHeader();renderAuth();await finishAuthenticatedUser(result.user);verificationSubmitting=false;authBusy=false;renderAuth();
+    }
+
+    async function completeProfile(event){
+      event.preventDefault();clearAuthFeedback();const fields=new FormData(event.currentTarget);signupFullName=(fields.get('full_name')||'').toString().trim();signupLocation=(fields.get('location')||'').toString().trim();signupOrganization=(fields.get('organization')||'').toString().trim();signupHeadline=(fields.get('headline')||'').toString().trim();
+      const validation=validateSignupDetails({role:selectedRole,fullName:signupFullName,organization:signupOrganization,headline:signupHeadline});if(validation){authErrorKind='validation';authError=validation;renderAuth();return}
+      if(!currentUser){authErrorKind='session';authError='Your verified session has expired. Please start again.';authStep='email';renderAuth();return}
+      const profile={...buildSignupMetadata({role:selectedRole,fullName:signupFullName,location:signupLocation,organization:signupOrganization,headline:signupHeadline}),profile_completed:true};authBusy=true;renderAuth();
+      const {data,error}=await supabase.auth.updateUser({data:profile});if(error||!data.user){const issue=classifyAuthError(error,'profile');authBusy=false;authErrorKind=issue.kind;authError=issue.message;renderAuth();return}
+      currentUser=data.user;const {error:profileError}=await supabase.from('profiles').upsert({id:data.user.id,email:data.user.email||authEmail,role:selectedRole,full_name:profile.full_name,location:profile.location,organization:profile.organization,headline:profile.headline,updated_at:new Date().toISOString()},{onConflict:'id'});
+      if(profileError){const loaded=await loadProfileForUser(data.user);if(!loaded.complete){const issue=classifyAuthError(profileError,'profile');authBusy=false;authErrorKind=issue.kind;authError=issue.message;renderAuth();return}}
+      authBusy=false;authStep='complete';authNotice='Your verified profile is ready.';navigateCanonical(dashboardPath(selectedRole),true);updateAccountHeader();renderAuth();toast('Your GoWorkora profile is ready');
+    }
+
+    async function signOut(){clearAuthFeedback();authBusy=true;if(modal.classList.contains('open'))renderAuth();const {error}=await supabase.auth.signOut({scope:'global'});if(error){const issue=classifyAuthError(error,'signout');authBusy=false;authErrorKind=issue.kind;authError=issue.message;if(modal.classList.contains('open'))renderAuth();return}currentUser=null;currentProfile=null;syncDemoAccountBanner(null);unmountProfileExperience();unmountJobsExperience();unmountContractsExperience();unmountTalentExperience();unmountPaymentsExperience();unmountMessagingExperience();unmountTrustAdminExperience();resetAuthForm();updateAccountHeader();closeModal();navigateCanonical('/',true);toast('You have been signed out')}
+
+    function bindOtpInputs(){
+      const inputs=[...document.querySelectorAll('[data-otp-index]')];
+      inputs.forEach((input,index)=>{
+        input.oninput=()=>{const digits=splitOtp(authCode),incoming=normalizeOtp(input.value);digits[index]=incoming;authCode=digits.join('');clearAuthFeedback();if(incoming&&index<OTP_LENGTH-1)inputs[index+1]?.focus();if(authCode.length===OTP_LENGTH&&!authBusy&&!verificationSucceeded&&lastAutoSubmittedCode!==authCode)setTimeout(()=>verifyEmailCode(null,authCode),0)};
+        input.onkeydown=event=>{if(event.key==='Backspace'&&!input.value&&index>0)inputs[index-1]?.focus();if(event.key==='ArrowLeft'&&index>0){event.preventDefault();inputs[index-1]?.focus()}if(event.key==='ArrowRight'&&index<OTP_LENGTH-1){event.preventDefault();inputs[index+1]?.focus()}};
+      });
+      document.querySelector('#otp-inputs')?.addEventListener('paste',event=>{const pasted=normalizeOtp(event.clipboardData.getData('text'));if(!pasted)return;event.preventDefault();authCode=pasted;renderAuth();const updated=[...document.querySelectorAll('[data-otp-index]')];updated[Math.min(pasted.length,OTP_LENGTH)-1]?.focus();if(pasted.length===OTP_LENGTH)setTimeout(()=>verifyEmailCode(null,pasted),0)});
+    }
+
+    function bindAuthControls(){
+      document.querySelectorAll('[data-role]').forEach(button=>button.onclick=()=>{selectedRole=button.dataset.role;clearAuthFeedback();renderAuth()});
+      document.querySelector('#role-form')?.addEventListener('submit',event=>{event.preventDefault();if(!selectedRole){authErrorKind='validation';authError='Choose an account type to continue.';renderAuth();return}authStep='details';clearAuthFeedback();renderAuth()});
+      document.querySelector('#details-form')?.addEventListener('submit',event=>{event.preventDefault();const fields=new FormData(event.currentTarget);signupFullName=(fields.get('full_name')||'').toString().trim();signupLocation=(fields.get('location')||'').toString().trim();signupOrganization=(fields.get('organization')||'').toString().trim();signupHeadline=(fields.get('headline')||'').toString().trim();const validation=validateSignupDetails({role:selectedRole,fullName:signupFullName,organization:signupOrganization,headline:signupHeadline});if(validation){authErrorKind='validation';authError=validation;renderAuth();return}clearAuthFeedback();authStep='email';renderAuth()});
+      document.querySelector('#email-form')?.addEventListener('submit',sendVerificationCode);
+      document.querySelector('#verify-form')?.addEventListener('submit',verifyEmailCode);
+      document.querySelector('#profile-form')?.addEventListener('submit',completeProfile);
+      document.querySelector('#resend-code')?.addEventListener('click',()=>sendVerificationCode(null,true));
+      document.querySelector('#correct-email')?.addEventListener('click',()=>{clearAuthFeedback();authCode='';lastCodeSentAt=0;authStep='email';renderAuth()});
+      document.querySelector('#restart-signup')?.addEventListener('click',()=>{resetAuthForm();authMode='signup';authStep='role';renderAuth()});
+      document.querySelector('#create-account-from-login')?.addEventListener('click',()=>{const pendingEmail=authEmail.trim().toLowerCase(),suggestedRole=signupRoleFromReturnTo(routeReturnTo);resetAuthForm();authEmail=pendingEmail;authMode='signup';selectedRole=suggestedRole||'';authStep=suggestedRole?'details':'role';renderAuth()});
+      document.querySelectorAll('[data-auth-step]').forEach(button=>button.onclick=()=>{authStep=button.dataset.authStep;clearAuthFeedback();renderAuth()});
+      document.querySelectorAll('[data-auth-mode]').forEach(button=>button.onclick=()=>openModal(button.dataset.authMode));
+      document.querySelector('#explore-account')?.addEventListener('click',()=>{const role=currentRole();closeModal();navigateCanonical(dashboardPath(role))});
+      document.querySelector('#signout')?.addEventListener('click',signOut);bindOtpInputs();
+    }
+
+    function bindDynamic(){document.querySelectorAll('.heart').forEach(b=>b.onclick=()=>{b.classList.toggle('saved');b.textContent=b.classList.contains('saved')?'♥':'♡';toast(b.classList.contains('saved')?'Saved to your shortlist':'Removed from shortlist')});document.querySelectorAll('[data-modal]').forEach(b=>b.onclick=()=>{closeMobileMenu(false);openModal(b.dataset.modal)});document.querySelectorAll('[data-dashboard]').forEach(b=>b.onclick=()=>navigateCanonical(dashboardPath(currentRole())));document.querySelectorAll('[data-signout]').forEach(b=>b.onclick=()=>{closeMobileMenu(false);void signOut()})}
+    document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>setMode(b.dataset.tab));document.querySelectorAll('[data-switch]').forEach(b=>b.onclick=()=>setMode(b.dataset.switch));document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{navigateCanonical(b.dataset.mode==='talent'?'/find-talent':'/find-work')});document.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>navigateCanonical(`/categories/${b.dataset.category}`));document.querySelector('[data-scroll-market]')?.addEventListener('click',()=>document.querySelector('#market').scrollIntoView());document.querySelector('#show-results').onclick=()=>navigateCanonical(mode==='talent'?`/find-talent?q=${encodeURIComponent(query.value)}`:`/find-work?q=${encodeURIComponent(query.value)}`);query.onkeydown=e=>{if(e.key==='Enter')navigateCanonical(mode==='talent'?`/find-talent?q=${encodeURIComponent(query.value)}`:`/find-work?q=${encodeURIComponent(query.value)}`)};document.querySelector('#hero-search').onsubmit=e=>{e.preventDefault();const term=document.querySelector('#hero-query').value;navigateCanonical(mode==='talent'?`/find-talent?q=${encodeURIComponent(term)}`:`/find-work?q=${encodeURIComponent(term)}`)};document.querySelectorAll('[data-toast]').forEach(b=>b.onclick=()=>toast(b.dataset.toast));document.querySelector('.close').onclick=closeModal;modal.onclick=e=>{if(e.target.id==='modal')closeModal()};
+
+    const homeRoute=document.querySelector('#home-route'),homepagePreviewRoute=document.querySelector('#homepage-preview-route'),publicRoute=document.querySelector('#public-route'),globalHeader=document.querySelector('#global-header'),globalFooter=document.querySelector('#global-footer'),freelancerWorkspaceSidebar=document.querySelector('#freelancer-workspace-sidebar'),clientWorkspaceSidebar=document.querySelector('#client-workspace-sidebar');
+    const FREELANCER_SIDEBAR_PREFERENCE_KEY='goworkora.freelancerSidebarCollapsed';
+    const CLIENT_SIDEBAR_PREFERENCE_KEY='goworkora.clientSidebarCollapsed';
+    let routeReturnTo='/app',mobileTrigger=null,mobilePreviousFocus=null,freelancerWorkspaceCollapsed=false,clientWorkspaceCollapsed=false;
+    try{freelancerWorkspaceCollapsed=localStorage.getItem(FREELANCER_SIDEBAR_PREFERENCE_KEY)==='true'}catch{}
+    try{clientWorkspaceCollapsed=localStorage.getItem(CLIENT_SIDEBAR_PREFERENCE_KEY)==='true'}catch{}
+
+    function browserBasePath(){
+      if(location.hostname.endsWith('.github.io')){const repository=location.pathname.split('/').filter(Boolean)[0];return repository?`/${repository}/`:'/'}
+      if(runtimeConfig.basePath)return runtimeConfig.basePath.endsWith('/')?runtimeConfig.basePath:`${runtimeConfig.basePath}/`;
+      return '/';
+    }
+    function locationRoute(){
+      const url=new URL(location.href),redirected=url.searchParams.get('workora_redirect');
+      if(redirected){
+        url.searchParams.delete('workora_redirect');
+        const query=url.searchParams.toString(),restored=normalizePath(`/${redirected.replace(/^\/+/, '')}${query?`?${query}`:''}`);
+        history.replaceState({},'',`${browserDestination(restored)}${url.hash}`);
+        return restored
+      }
+      const base=browserBasePath(),pathname=base!=='/'&&url.pathname.startsWith(base)?`/${url.pathname.slice(base.length).replace(/^\/+/, '')}`:url.pathname;
+      return normalizePath(`${pathname}${url.search}`);
+    }
+    function browserDestination(path){
+      const normalized=normalizePath(path),[pathname,query='']=normalized.split('?'),base=browserBasePath();
+      const joined=base==='/'?pathname:`${base.replace(/\/$/,'')}${pathname==='/'?'/':pathname}`;
+      return `${joined}${query?`?${query}`:''}`;
+    }
+    function navigateCanonical(path,replace=false){
+      const destination=normalizePath(path);history[replace?'replaceState':'pushState']({},'',browserDestination(destination));closeMobileMenu(false);void renderCanonicalRoute();window.scrollTo({top:0,behavior:'auto'});
+    }
+    function refreshGlobalNavigation(pathname){
+      const nav=globalHeader.querySelector('#mobile-navigation'),protectedArea=Boolean(currentUser&&pathname.startsWith('/app'));
+      if(!nav)return;
+      const mobileAuth=nav.querySelector('.mobile-auth-actions')?.innerHTML||'';
+      nav.innerHTML=`${navigationItemsFor(currentRole(),protectedArea).map(([label,path])=>`<a href="${escapeHtml(browserDestination(path))}" data-route="${escapeHtml(path)}"${pathname===path||pathname.startsWith(`${path}/`)?' aria-current="page"':''}>${escapeHtml(label)}</a>`).join('')}<div class="mobile-auth-actions">${mobileAuth}</div>`;
+      bindCanonicalLinks(nav);
+      bindDynamic();
+    }
+    function refreshFreelancerWorkspace(pathname,match){
+      const eligibleRoute=Boolean(match&&(match.access==='public'||match.roles?.includes('freelancer'))&&isFreelancerWorkspaceRoute(pathname));
+      const visible=Boolean(authReady&&currentUser&&currentRole()==='freelancer'&&currentProfile?.onboarding_completed&&eligibleRoute);
+      document.body.classList.toggle('goworkora-freelancer-workspace',visible);
+      document.body.classList.toggle('goworkora-freelancer-workspace-collapsed',visible&&freelancerWorkspaceCollapsed);
+      freelancerWorkspaceSidebar.hidden=!visible;
+      if(!visible){freelancerWorkspaceSidebar.innerHTML='';return}
+      freelancerWorkspaceSidebar.classList.toggle('is-collapsed',freelancerWorkspaceCollapsed);
+      freelancerWorkspaceSidebar.innerHTML=freelancerWorkspaceNavigation({
+        pathname,
+        fullName:currentProfile?.full_name||'Freelancer',
+        headline:currentProfile?.headline&&!currentProfile.headline.includes('@')?currentProfile.headline:'Freelancer account',
+        logoUrl:BRAND_WORDMARK_DARK_URL,
+        collapsed:freelancerWorkspaceCollapsed,
+      });
+      bindCanonicalLinks(freelancerWorkspaceSidebar);
+      freelancerWorkspaceSidebar.querySelector('[data-freelancer-signout]')?.addEventListener('click',()=>void signOut());
+      freelancerWorkspaceSidebar.querySelector('[data-freelancer-sidebar-toggle]')?.addEventListener('click',event=>{
+        freelancerWorkspaceCollapsed=!freelancerWorkspaceCollapsed;
+        document.body.classList.toggle('goworkora-freelancer-workspace-collapsed',freelancerWorkspaceCollapsed);
+        freelancerWorkspaceSidebar.classList.toggle('is-collapsed',freelancerWorkspaceCollapsed);
+        const button=event.currentTarget,expanded=!freelancerWorkspaceCollapsed,label=expanded?'Close freelancer menu':'Open freelancer menu';
+        button.setAttribute('aria-expanded',String(expanded));button.setAttribute('aria-label',label);button.title=expanded?'Close menu':'Open menu';
+        try{localStorage.setItem(FREELANCER_SIDEBAR_PREFERENCE_KEY,String(freelancerWorkspaceCollapsed))}catch{}
+      });
+    }
+    function refreshClientWorkspace(pathname,match){
+      const eligibleRoute=Boolean(match&&(match.access==='public'||match.roles?.includes('client'))&&isClientWorkspaceRoute(pathname));
+      const visible=Boolean(authReady&&currentUser&&currentRole()==='client'&&currentProfile?.onboarding_completed&&eligibleRoute);
+      document.body.classList.toggle('goworkora-client-workspace',visible);
+      document.body.classList.toggle('goworkora-client-workspace-collapsed',visible&&clientWorkspaceCollapsed);
+      clientWorkspaceSidebar.hidden=!visible;
+      if(!visible){clientWorkspaceSidebar.innerHTML='';return}
+      clientWorkspaceSidebar.classList.toggle('is-collapsed',clientWorkspaceCollapsed);
+      clientWorkspaceSidebar.innerHTML=clientWorkspaceNavigation({
+        pathname,
+        fullName:currentProfile?.full_name||'Client',
+        headline:currentProfile?.headline&&!currentProfile.headline.includes('@')?currentProfile.headline:'Hiring workspace',
+        logoUrl:BRAND_WORDMARK_DARK_URL,
+        collapsed:clientWorkspaceCollapsed,
+      });
+      bindCanonicalLinks(clientWorkspaceSidebar);
+      clientWorkspaceSidebar.querySelector('[data-client-signout]')?.addEventListener('click',()=>void signOut());
+      clientWorkspaceSidebar.querySelector('[data-client-sidebar-toggle]')?.addEventListener('click',event=>{
+        clientWorkspaceCollapsed=!clientWorkspaceCollapsed;
+        document.body.classList.toggle('goworkora-client-workspace-collapsed',clientWorkspaceCollapsed);
+        clientWorkspaceSidebar.classList.toggle('is-collapsed',clientWorkspaceCollapsed);
+        const button=event.currentTarget,expanded=!clientWorkspaceCollapsed,label=expanded?'Close client menu':'Open client menu';
+        button.setAttribute('aria-expanded',String(expanded));button.setAttribute('aria-label',label);button.title=expanded?'Close menu':'Open menu';
+        try{localStorage.setItem(CLIENT_SIDEBAR_PREFERENCE_KEY,String(clientWorkspaceCollapsed))}catch{}
+      });
+    }
+    function clearExperiences(){unmountProfileExperience();unmountJobsExperience();unmountContractsExperience();unmountTalentExperience();unmountPaymentsExperience();unmountMessagingExperience();unmountTrustAdminExperience();unmountHomepagePreview()}
+    function setChrome(mode){
+      const feature=mode==='feature',preview=mode==='preview',workspace=document.body.classList.contains('goworkora-freelancer-workspace')||document.body.classList.contains('goworkora-client-workspace'),hideGlobalChrome=feature||preview||workspace;document.body.classList.toggle('goworkora-home',mode==='home');globalHeader.hidden=hideGlobalChrome;globalHeader.style.display=hideGlobalChrome?'none':'';homeRoute.hidden=mode!=='home';homepagePreviewRoute.hidden=!preview;publicRoute.hidden=mode!=='static';globalFooter.hidden=hideGlobalChrome;
+    }
+    function routeAction(label,path,primary=false){return `<a class="btn ${primary?'btn-lime':'btn-outline'}" href="${escapeHtml(browserDestination(path))}" data-route="${escapeHtml(path)}">${escapeHtml(label)}</a>`}
+    function staticPage({eyebrow,title,intro,body,actions=[]}){
+      clearExperiences();setChrome('static');publicRoute.innerHTML=`<span class="route-eyebrow">${escapeHtml(eyebrow)}</span><h1>${escapeHtml(title)}</h1><p class="lede">${escapeHtml(intro)}</p>${body||''}${actions.length?`<div class="route-actions">${actions.map((action,index)=>routeAction(action[0],action[1],index===0)).join('')}</div>`:''}`;bindCanonicalLinks();bindPublicPageActions({root:publicRoute,supabase});
+    }
+    function standardContent(match){
+      return{eyebrow:'Your account',title:match.title.replace(' | GoWorkora',''),intro:'Use this protected GoWorkora area to manage the information and workflows available to your verified role.',body:'<div class="route-copy"><h2>Account controls</h2><p>Profile, security, notification, billing and support controls remain protected by your authenticated session and database permissions.</p></div>',actions:[['Dashboard',dashboardPath(currentRole())],['Help','/help']]};
+    }
+    function renderNotFound(){staticPage({eyebrow:'404 — Page not found',title:'This route does not exist.',intro:'The link may be outdated or incomplete. Use a verified GoWorkora destination below.',body:'<div class="route-copy"><h2>Return to a useful path</h2><p>No account or private data was exposed.</p></div>',actions:[['Go home','/'],['Find Talent','/find-talent'],['Find Work','/find-work']]});document.title='Page not found | GoWorkora'}
+    function renderAccessDenied(){staticPage({eyebrow:'Access denied',title:'This area is not available to your account.',intro:'GoWorkora checks the verified role stored with your authenticated profile before opening protected routes.',body:'<div class="route-copy"><h2>Your data remains protected</h2><p>Return to your role-specific dashboard or ask support if you believe this is incorrect.</p></div>',actions:[['Dashboard',dashboardPath(currentRole())],['Contact Support','/app/support']]});document.title='Access denied | GoWorkora'}
+    function openAuthRoute(path,search){
+      routeReturnTo=safeReturnTo(new URLSearchParams(search).get('returnTo')||'/app');
+      if(path==='/signup/client'||path==='/signup/freelancer'){openModal('signup');selectedRole=path.endsWith('client')?'client':'freelancer';authStep='details';renderAuth()}
+      else if(path==='/signup')openModal('signup');else{openModal('login');if(path==='/forgot-password'||path==='/reset-password')authNotice='Enter your email to receive a secure one-time code.';renderAuth()}
+    }
+    async function syncProtectedRoute(routeHash){
+      const publicMatch=routeHash.match(/^#freelancers\/([^/?#]+)/);if(publicMatch){clearExperiences();await mountPublicFreelancerProfile({supabase,slug:publicMatch[1],user:currentUser,role:currentRole(),onHome:()=>navigateCanonical('/')});return}
+      if(/^(#jobs(?:\/|\?|$)|#proposals(?:\/|$))/.test(routeHash)){clearExperiences();await mountJobsExperience({supabase,user:currentUser,routeHash,onSignOut:signOut,onHome:()=>navigateCanonical('/')});return}
+      if(/^#contracts(?:\/|$)/.test(routeHash)){clearExperiences();await mountContractsExperience({supabase,user:currentUser,routeHash,onSignOut:signOut,onHome:()=>navigateCanonical('/')});return}
+      if(/^(#talent(?:\/|\?|$)|#invitations(?:\?|$))/.test(routeHash)){clearExperiences();await mountTalentExperience({supabase,user:currentUser,routeHash,onSignOut:signOut,onHome:()=>navigateCanonical('/')});return}
+      if(/^#payments(?:\?|$)/.test(routeHash)){clearExperiences();await mountPaymentsExperience({supabase,user:currentUser,onSignOut:signOut,onHome:()=>navigateCanonical('/')});return}
+      if(/^(#messages(?:\/|$)|#notifications(?:\?|$))/.test(routeHash)){clearExperiences();await mountMessagingExperience({supabase,user:currentUser,routeHash,supabaseUrl:SUPABASE_URL,publishableKey:SUPABASE_KEY,onSignOut:signOut,onHome:()=>navigateCanonical('/')});return}
+      if(/^(#reviews(?:\?|$)|#disputes(?:\/|\?|$)|#admin(?:\/|\?|$))/.test(routeHash)){clearExperiences();await mountTrustAdminExperience({supabase,user:currentUser,routeHash,onSignOut:signOut,onHome:()=>navigateCanonical('/'),onNavigate:navigateCanonical});return}
+      clearExperiences();await mountProfileExperience({supabase,user:currentUser,supabaseUrl:SUPABASE_URL,publishableKey:SUPABASE_KEY,onSignOut:signOut,onHome:()=>navigateCanonical('/')})
+    }
+    async function renderApprovedHomepage(){
+      clearExperiences();setChrome('preview');
+      await renderHomepagePreview({root:homepagePreviewRoute,supabase,user:currentUser,role:currentRole(),authReady,onSignOut:signOut,onStartHiring:postJob,onBindRoutes:bindCanonicalLinks});
+    }
+    async function renderCanonicalRoute(){
+      const current=locationRoute(),match=matchRoute(current);closeMobileMenu(false);
+      if(!match){refreshFreelancerWorkspace('/',null);refreshClientWorkspace('/',null);renderNotFound();return}
+      document.title=match.title;
+      refreshGlobalNavigation(match.pathname);
+      refreshFreelancerWorkspace(match.pathname,match);
+      refreshClientWorkspace(match.pathname,match);
+      if(match.access==='protected'){
+        if(!authReady){staticPage({eyebrow:'Secure account',title:'Checking your session…',intro:'GoWorkora is restoring your authenticated state before displaying protected content.',body:'',actions:[]});return}
+        if(!currentUser){routeReturnTo=safeReturnTo(current);navigateCanonical(`/login?returnTo=${encodeURIComponent(routeReturnTo)}`,true);return}
+        const role=currentRole(),supportSafe=match.pathname==='/app/support',accountStateSafe=supportSafe||match.pathname==='/app/restricted'||match.pathname==='/app/access-denied';
+        if(!currentProfile&&!accountStateSafe){renderAccessDenied();return}
+        if(!profileHasVerifiedActiveAccess()&&!accountStateSafe){navigateCanonical(currentProfile?.account_status==='suspended'?'/app/restricted':'/app/access-denied',true);return}
+        if(match.pathname.startsWith('/app/admin')&&role!=='admin'){
+          await supabase.rpc('record_admin_access_attempt',{p_context:'admin_route'});
+          renderAccessDenied();
+          return
+        }
+        if(role==='admin'&&match.pathname!=='/app/admin/security'&&!['/app/restricted','/app/access-denied'].includes(match.pathname)){
+          const [assurance,factors]=await Promise.all([
+            supabase.auth.mfa.getAuthenticatorAssuranceLevel(),
+            supabase.auth.mfa.listFactors(),
+          ]);
+          const snapshot=assurance.error||factors.error?null:adminMfaSnapshot(assurance.data||{},normalizedMfaFactors(factors.data||{}));
+          if(!snapshot?.hasAal2){
+            await supabase.rpc('record_admin_access_attempt',{p_context:'admin_route'});
+            navigateCanonical(adminSecurityDestination(current),true);
+            return
+          }
+        }
+        if(match.pathname==='/app'){const destination=role!=='admin'&&!currentProfile?.onboarding_completed?'/app/onboarding':dashboardPath(role);navigateCanonical(destination,true);return}
+        if(role!=='admin'&&currentProfile&&!currentProfile.onboarding_completed&&!['/app/onboarding','/app/support','/app/restricted'].includes(match.pathname)){navigateCanonical('/app/onboarding',true);return}
+        if(!accountStateSafe&&(!role||!match.roles.includes(role))){renderAccessDenied();return}
+      }
+      if(['/login','/signup','/signup/client','/signup/freelancer','/verify-email','/forgot-password','/reset-password','/auth/callback'].includes(match.pathname)){
+        const role=currentRole();
+        if(currentUser){
+          if(!currentProfile){navigateCanonical('/app/access-denied',true);return}
+          if(!profileHasVerifiedActiveAccess()){navigateCanonical(currentProfile.account_status==='suspended'?'/app/restricted':'/app/access-denied',true);return}
+          if(role){navigateCanonical(postAuthenticationPath(role,role==='admin'||Boolean(currentProfile.onboarding_completed)),true);return}
+        }
+        clearExperiences();setChrome('static');publicRoute.innerHTML='<span class="route-eyebrow">Secure account access</span><h1>'+escapeHtml(match.title.replace(' | GoWorkora',''))+'</h1><p class="lede">Authentication stays inside the verified GoWorkora account flow.</p>';openAuthRoute(match.pathname,match.search);return
+      }
+      if(match.pathname==='/'){await renderApprovedHomepage();return}
+      if(match.pathname==='/homepage-preview'){
+        await renderApprovedHomepage();return
+      }
+      const accountPages=new Set(['/app/client','/app/freelancer','/app/company','/app/company/members','/app/settings','/app/settings/account','/app/settings/security','/app/settings/notifications','/app/settings/billing','/app/gosparks','/app/reports','/app/reports/transactions','/app/reports/invoices','/app/work-diary','/app/support','/app/restricted','/app/access-denied']);
+      if(accountPages.has(match.pathname)||(match.pathname==='/app/profile'&&currentRole()==='admin')){
+        clearExperiences();setChrome('static');
+        await renderAccountPage({root:publicRoute,supabase,user:currentUser,profile:currentProfile,role:currentRole(),path:match.pathname,search:match.search,accountStatus:currentProfile?.account_status||null,onNavigate:navigateCanonical,onSignOut:signOut});
+        return
+      }
+      const legacy=legacyHashFromPath(current,currentRole()||'client');
+      if(legacy){setChrome('feature');await syncProtectedRoute(legacy);return}
+      const publicContent=await publicPageContent(match,{supabase});
+      if(publicContent?.notFound){renderNotFound();return}
+      if(publicContent){staticPage(publicContent);updatePublicMetadata(publicContent,match,browserDestination);return}
+      staticPage(standardContent(match));
+    }
+    function canonicalizeLegacyLinks(root=document){
+      const links=[];
+      if(root instanceof HTMLAnchorElement&&root.matches('a[href^="#"]'))links.push(root);
+      root.querySelectorAll?.('a[href^="#"]').forEach(link=>links.push(link));
+      links.forEach(link=>{
+        const legacy=link.getAttribute('href');if(!legacy)return;
+        const destination=pathFromLegacyHash(legacy,currentRole()||'client');
+        link.href=browserDestination(destination);link.dataset.route=destination
+      })
+    }
+    function bindCanonicalLinks(root=document){root.querySelectorAll?.('[data-route]').forEach(link=>{link.onclick=event=>{event.preventDefault();closeMobileMenu(false);navigateCanonical(link.dataset.route)}})}
+    function closeMobileMenu(restore=true){const open=globalHeader.classList.contains('mobile-open');globalHeader.classList.remove('mobile-open');const trigger=document.querySelector('.menu');trigger?.setAttribute('aria-expanded','false');trigger?.setAttribute('aria-label','Open menu');document.body.style.overflow='';if(open&&restore)mobilePreviousFocus?.focus()}
+    function setupMobileMenu(){
+      const trigger=document.querySelector('.menu'),nav=document.querySelector('#mobile-navigation');mobileTrigger=trigger;
+      trigger.onclick=()=>{const opening=!globalHeader.classList.contains('mobile-open');if(!opening){closeMobileMenu();return}mobilePreviousFocus=document.activeElement;globalHeader.classList.add('mobile-open');trigger.setAttribute('aria-expanded','true');trigger.setAttribute('aria-label','Close menu');document.body.style.overflow='hidden';nav.querySelector('a,button')?.focus()};
+      document.addEventListener('mousedown',event=>{if(globalHeader.classList.contains('mobile-open')&&!nav.contains(event.target)&&event.target!==trigger)closeMobileMenu()});
+      document.addEventListener('keydown',event=>{if(event.key==='Escape'){if(modal.classList.contains('open'))closeModal();else closeMobileMenu()}if(event.key==='Tab'&&globalHeader.classList.contains('mobile-open')){const focusable=[...nav.querySelectorAll('a,button')].filter(item=>!item.disabled);if(!focusable.length)return;const first=focusable[0],last=focusable.at(-1);if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus()}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}}});
+    }
+    const postJob=()=>{const role=currentRole();if(!currentUser)navigateCanonical('/signup/client?returnTo=/app/jobs/new');else if(role==='client')navigateCanonical('/app/jobs/new');else if(role==='freelancer'){toast('Freelancer accounts can find work here.');navigateCanonical('/find-work')}else navigateCanonical('/app/admin')};
+    canonicalizeLegacyLinks();
+    bindCanonicalLinks();
+    const canonicalLinkObserver=new MutationObserver(records=>records.forEach(record=>record.addedNodes.forEach(node=>{if(!(node instanceof Element))return;canonicalizeLegacyLinks(node);bindCanonicalLinks(node)})));
+    canonicalLinkObserver.observe(document.body,{childList:true,subtree:true});
+    document.querySelector('#post-job').onclick=postJob;
+    const footerPostJob=[...document.querySelectorAll('#global-footer a')].find(link=>link.textContent.trim()==='Post a Job');
+    if(footerPostJob)footerPostJob.onclick=event=>{event.preventDefault();postJob()};
+    setupMobileMenu();
+
+    const callbackUrl=new URL(location.href),callbackCode=callbackCodeFromUrl(callbackUrl.href),callbackError=callbackUrl.searchParams.get('error_description')||callbackUrl.searchParams.get('error');
+    if(callbackCode){const {error}=await supabase.auth.exchangeCodeForSession(callbackCode);if(error){const issue=classifyAuthError(error,'callback');authErrorKind=issue.kind;authError=issue.message;authMode='login';authStep='email';modal.classList.add('open')}history.replaceState({},'',removeAuthCallbackParameters(callbackUrl.href))}
+    else if(callbackError){const issue=classifyAuthError(callbackError,'callback');authErrorKind=issue.kind;authError=issue.message;authMode='login';authStep='email';modal.classList.add('open');history.replaceState({},'',removeAuthCallbackParameters(callbackUrl.href))}
+
+    document.documentElement.dataset.appReady='true';document.documentElement.removeAttribute('aria-busy');window.dispatchEvent(new Event('goworkora:ready'));
+    const restored=await restoreAuthenticatedUser(supabase.auth);currentUser=restored.user||null;if(currentUser)await loadProfileForUser(currentUser,false);authReady=true;updateAccountHeader();if(modal.classList.contains('open'))renderAuth();await renderCanonicalRoute();
+    supabase.auth.onAuthStateChange((event,nextSession)=>{
+      currentUser=nextSession?.user||null;authReady=true;
+      if(event==='SIGNED_OUT'){currentProfile=null;syncDemoAccountBanner(null);verificationSucceeded=false;verificationSubmitting=false;lastAutoSubmittedCode='';updateAccountHeader();setTimeout(renderCanonicalRoute,0);return}
+      updateAccountHeader();
+      if(currentUser&&event==='SIGNED_IN'&&verificationSubmitting)return;
+      if(currentUser&&event==='SIGNED_IN'&&modal.classList.contains('open')&&authStep==='verify'&&!verificationSubmitting){verificationSucceeded=true;authNotice='Email verified in another tab. Finishing your account…';authBusy=true;renderAuth();setTimeout(()=>finishAuthenticatedUser(currentUser).finally(()=>{authBusy=false;renderAuth()}),0);return}
+      if(currentUser)setTimeout(()=>loadProfileForUser(currentUser,false).then(()=>{updateAccountHeader();return renderCanonicalRoute()}),0)
+    });
+    window.addEventListener('popstate',()=>void renderCanonicalRoute());
+    window.addEventListener('hashchange',()=>{if(!location.hash||location.hash==='#top')return;const destination=pathFromLegacyHash(location.hash,currentRole()||'client');history.replaceState({},'',browserDestination(destination));void renderCanonicalRoute()});
+    setInterval(()=>{if(authStep!=='verify')return;const button=document.querySelector('#resend-code');if(!button)return;const remaining=cooldownRemaining(lastCodeSentAt);button.textContent=remaining>0?`Resend in 0:${String(remaining).padStart(2,'0')}`:'Resend code';button.disabled=authBusy||verificationSucceeded||remaining>0},1000);
+    window.addEventListener('storage',event=>{if(!otpSecurityStorageKey||event.key!==otpSecurityStorageKey)return;otpClientSecurityState=readOtpSecurityState(otpBrowserStorage(),otpSecurityStorageKey);lastCodeSentAt=otpClientSecurityState.lastRequestedAt||0;if(modal.classList.contains('open')&&authStep==='verify')renderAuth()});
+    bindDynamic();render();
+  </script>
+</body>
+</html>
