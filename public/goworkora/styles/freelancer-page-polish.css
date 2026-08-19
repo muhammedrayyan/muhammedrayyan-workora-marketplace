@@ -1,0 +1,353 @@
+/* Signed-in freelancer workspace: shared black/gold page language and progressive page polish. */
+body.goworkora-freelancer-workspace {
+  --workspace-ink: #111318;
+  --workspace-gold: #ffb000;
+  --workspace-gold-hover: #e69d00;
+  --workspace-cloud: #f7f8fa;
+  --workspace-line: #d9dde5;
+  --workspace-muted: #626b78;
+  --workspace-card: #fff;
+  color: var(--workspace-ink);
+}
+
+body.goworkora-freelancer-workspace .jobs-app,
+body.goworkora-freelancer-workspace .talent-app,
+body.goworkora-freelancer-workspace .contract-app,
+body.goworkora-freelancer-workspace .payment-app,
+body.goworkora-freelancer-workspace .message-app,
+body.goworkora-freelancer-workspace .pe-dashboard,
+body.goworkora-freelancer-workspace .pe-shell,
+body.goworkora-freelancer-workspace .pages-account--freelancer {
+  font-family: Inter, Manrope, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body.goworkora-freelancer-workspace .jobs-shell,
+body.goworkora-freelancer-workspace .talent-shell,
+body.goworkora-freelancer-workspace .contracts-shell,
+body.goworkora-freelancer-workspace .contract-workspace,
+body.goworkora-freelancer-workspace .payment-shell,
+body.goworkora-freelancer-workspace .notification-shell,
+body.goworkora-freelancer-workspace .pe-dashboard,
+body.goworkora-freelancer-workspace .pe-shell,
+body.goworkora-freelancer-workspace .pages-account--freelancer .pages-account-container {
+  max-width: 1420px;
+}
+
+body.goworkora-freelancer-workspace .jobs-shell,
+body.goworkora-freelancer-workspace .contracts-shell,
+body.goworkora-freelancer-workspace .contract-workspace,
+body.goworkora-freelancer-workspace .notification-shell {
+  padding: 42px clamp(20px, 4vw, 58px) 82px;
+}
+
+.workspace-summary-grid,
+.notification-summary {
+  display: grid;
+  gap: 13px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0 0 20px;
+}
+
+.workspace-summary-grid article,
+.notification-summary article {
+  background: var(--workspace-card);
+  border: 1px solid #e1e4e9;
+  border-radius: 16px;
+  box-shadow: 0 8px 26px rgba(17, 19, 24, 0.045);
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 20px;
+}
+
+.workspace-summary-grid article:first-child,
+.notification-summary article:first-child {
+  border-top: 4px solid var(--workspace-gold);
+}
+
+.workspace-summary-grid span,
+.notification-summary span {
+  color: var(--workspace-muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.workspace-summary-grid strong,
+.notification-summary strong {
+  font-size: clamp(26px, 3vw, 36px);
+  letter-spacing: -0.04em;
+}
+
+.workspace-summary-grid small,
+.notification-summary small {
+  color: var(--workspace-muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.workspace-list-toolbar,
+.notification-toolbar {
+  align-items: end;
+  background: #fff;
+  border: 1px solid var(--workspace-line);
+  border-radius: 16px;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin: 0 0 20px;
+  padding: 12px;
+}
+
+.workspace-list-toolbar > label:first-child,
+.notification-toolbar > label {
+  flex: 1 1 360px;
+}
+
+.workspace-list-toolbar label,
+.notification-toolbar label {
+  color: var(--workspace-muted);
+  display: grid;
+  font-size: 11px;
+  font-weight: 800;
+  gap: 6px;
+}
+
+.workspace-list-toolbar input,
+.workspace-list-toolbar select,
+.notification-toolbar input {
+  background: #fff;
+  border: 1px solid #cfd4dc;
+  border-radius: 11px;
+  color: var(--workspace-ink);
+  min-height: 46px;
+  padding: 0 14px;
+  width: 100%;
+}
+
+.workspace-list-toolbar input:focus,
+.workspace-list-toolbar select:focus,
+.notification-toolbar input:focus {
+  border-color: var(--workspace-gold);
+  box-shadow: 0 0 0 3px rgba(255, 176, 0, 0.2);
+  outline: none;
+}
+
+/* Notifications */
+body.goworkora-freelancer-workspace .notification-shell {
+  margin: 0 auto;
+}
+
+body.goworkora-freelancer-workspace .notification-hero {
+  align-items: end;
+  background: var(--workspace-ink);
+  border: 0;
+  border-radius: 24px;
+  color: #fff;
+  margin-bottom: 18px;
+  overflow: hidden;
+  padding: clamp(28px, 4vw, 46px);
+  position: relative;
+}
+
+body.goworkora-freelancer-workspace .notification-hero::after {
+  background: var(--workspace-gold);
+  border-radius: 50%;
+  bottom: -100px;
+  content: "";
+  height: 220px;
+  opacity: 0.15;
+  position: absolute;
+  right: -55px;
+  width: 220px;
+}
+
+body.goworkora-freelancer-workspace .notification-hero span { color: var(--workspace-gold); }
+body.goworkora-freelancer-workspace .notification-hero p { color: #c9cdd4; font-size: 15px; max-width: 690px; }
+body.goworkora-freelancer-workspace .notification-hero button {
+  background: var(--workspace-gold);
+  border: 0;
+  border-radius: 11px;
+  color: var(--workspace-ink);
+  font-weight: 850;
+  min-height: 46px;
+  padding: 0 17px;
+  position: relative;
+  z-index: 1;
+}
+
+body.goworkora-freelancer-workspace .notification-hero button:disabled { opacity: 0.55; }
+
+.notification-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.notification-toolbar { align-items: center; flex-wrap: wrap; }
+.notification-toolbar nav { display: flex; flex: 1 1 650px; gap: 7px; overflow-x: auto; }
+.notification-toolbar nav button {
+  background: #fff;
+  border: 1px solid #d9dde5;
+  border-radius: 9px;
+  color: #525b68;
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 750;
+  min-height: 40px;
+  padding: 0 13px;
+}
+.notification-toolbar nav button[aria-pressed="true"] { background: var(--workspace-ink); border-color: var(--workspace-ink); color: #fff; }
+.notification-toolbar > label { flex-basis: 240px; }
+
+body.goworkora-freelancer-workspace .notification-layout { align-items: start; grid-template-columns: minmax(0, 1fr) 330px; }
+body.goworkora-freelancer-workspace .notification-feed,
+body.goworkora-freelancer-workspace .preference-card { border-color: #e0e4e9; border-radius: 18px; box-shadow: 0 9px 30px rgba(17, 19, 24, 0.045); }
+body.goworkora-freelancer-workspace .notification-card {
+  border-radius: 13px;
+  margin: 7px;
+  padding: 18px;
+  transition: background 160ms ease, transform 160ms ease;
+}
+body.goworkora-freelancer-workspace .notification-card:hover { background: #fff8e5; transform: translateX(2px); }
+body.goworkora-freelancer-workspace .notification-card.unread { background: #fff8e5; box-shadow: inset 4px 0 var(--workspace-gold); }
+body.goworkora-freelancer-workspace .notification-icon { background: var(--workspace-ink); color: var(--workspace-gold); }
+body.goworkora-freelancer-workspace .status-chip.interview { background: #fff1ca; color: #845800; }
+
+/* Jobs, proposals and saved work */
+body.goworkora-freelancer-workspace .marketplace-intro,
+body.goworkora-freelancer-workspace .contracts-intro {
+  background: var(--workspace-ink);
+  border-radius: 24px;
+  color: #fff;
+  margin-bottom: 20px;
+  overflow: hidden;
+  padding: clamp(28px, 4vw, 45px);
+  position: relative;
+}
+body.goworkora-freelancer-workspace .marketplace-intro::after,
+body.goworkora-freelancer-workspace .contracts-intro::after {
+  background: var(--workspace-gold);
+  border-radius: 50%;
+  content: "";
+  height: 180px;
+  opacity: 0.13;
+  position: absolute;
+  right: -60px;
+  top: -75px;
+  width: 180px;
+}
+body.goworkora-freelancer-workspace .marketplace-intro > div > span,
+body.goworkora-freelancer-workspace .contracts-intro > div > span { color: var(--workspace-gold); }
+body.goworkora-freelancer-workspace .marketplace-intro p,
+body.goworkora-freelancer-workspace .contracts-intro p { color: #c9cdd4; font-size: 15px; }
+body.goworkora-freelancer-workspace .marketplace-intro .btn,
+body.goworkora-freelancer-workspace .contracts-intro .btn { position: relative; z-index: 1; }
+
+body.goworkora-freelancer-workspace .job-search-panel {
+  background: #fff;
+  border: 1px solid var(--workspace-line);
+  border-radius: 17px;
+  color: var(--workspace-ink);
+  margin-bottom: 20px;
+}
+body.goworkora-freelancer-workspace .job-search-panel label > span { color: var(--workspace-muted); opacity: 1; }
+body.goworkora-freelancer-workspace .job-search-panel input,
+body.goworkora-freelancer-workspace .job-search-panel select { border: 1px solid #cfd4dc; }
+body.goworkora-freelancer-workspace .real-job-card,
+body.goworkora-freelancer-workspace .my-proposals-list > article {
+  border-color: #e0e4e9;
+  border-radius: 17px;
+  box-shadow: 0 8px 26px rgba(17, 19, 24, 0.04);
+}
+body.goworkora-freelancer-workspace .real-job-card:hover,
+body.goworkora-freelancer-workspace .my-proposals-list > article:hover { border-color: #c9a243; box-shadow: 0 16px 38px rgba(17, 19, 24, 0.08); }
+body.goworkora-freelancer-workspace .my-proposals-list { gap: 12px; }
+body.goworkora-freelancer-workspace .my-proposals-list > article { background: #fff; }
+
+/* Invitations and contracts */
+body.goworkora-freelancer-workspace .invitation-list { gap: 13px; }
+body.goworkora-freelancer-workspace .invitation-card,
+body.goworkora-freelancer-workspace .contract-list-card {
+  border-color: #e0e4e9;
+  border-radius: 17px;
+  box-shadow: 0 8px 26px rgba(17, 19, 24, 0.04);
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+body.goworkora-freelancer-workspace .invitation-card:hover,
+body.goworkora-freelancer-workspace .contract-list-card:hover { border-color: #c9a243; box-shadow: 0 16px 38px rgba(17, 19, 24, 0.08); transform: translateY(-1px); }
+body.goworkora-freelancer-workspace .invitation-actions button,
+body.goworkora-freelancer-workspace .my-proposal-actions button,
+body.goworkora-freelancer-workspace .my-proposal-actions a { border-radius: 10px; min-height: 40px; }
+
+/* Earnings, profile, reports, settings and support */
+body.goworkora-freelancer-workspace .payment-intro {
+  background: var(--workspace-ink);
+  border-radius: 24px;
+  color: #fff;
+  padding: clamp(28px, 4vw, 44px);
+}
+body.goworkora-freelancer-workspace .payment-intro span { color: var(--workspace-gold); }
+body.goworkora-freelancer-workspace .payment-intro p { color: #c9cdd4; font-size: 15px; }
+body.goworkora-freelancer-workspace .payment-metrics article,
+body.goworkora-freelancer-workspace .payment-panel,
+body.goworkora-freelancer-workspace .payment-section,
+body.goworkora-freelancer-workspace .payment-safety,
+body.goworkora-freelancer-workspace .pages-account-panel,
+body.goworkora-freelancer-workspace .pages-account-grid > a,
+body.goworkora-freelancer-workspace .pages-account-metrics > a,
+body.goworkora-freelancer-workspace .pe-stats article {
+  border-color: #e0e4e9;
+  box-shadow: 0 8px 26px rgba(17, 19, 24, 0.045);
+}
+body.goworkora-freelancer-workspace .payment-metrics article:first-child,
+body.goworkora-freelancer-workspace .pages-account-grid > a:first-child,
+body.goworkora-freelancer-workspace .pe-stats article:first-child { border-top: 4px solid var(--workspace-gold); }
+body.goworkora-freelancer-workspace .pages-account-heading span,
+body.goworkora-freelancer-workspace .pages-account-panel > span,
+body.goworkora-freelancer-workspace .pe-kicker,
+body.goworkora-freelancer-workspace .pe-stats span { color: #8a6500; }
+body.goworkora-freelancer-workspace .pages-account-heading h1,
+body.goworkora-freelancer-workspace .pe-dashboard h1 { color: var(--workspace-ink); }
+body.goworkora-freelancer-workspace .pages-account-grid > a,
+body.goworkora-freelancer-workspace .pages-account-metrics > a { min-height: 150px; position: relative; }
+body.goworkora-freelancer-workspace .pages-account-grid > a::after,
+body.goworkora-freelancer-workspace .pages-account-metrics > a::after { color: var(--workspace-gold); content: "→"; font-size: 20px; position: absolute; right: 18px; top: 16px; }
+body.goworkora-freelancer-workspace .pages-account-button,
+body.goworkora-freelancer-workspace .pages-account-button-row button,
+body.goworkora-freelancer-workspace .pages-account-button-row a,
+body.goworkora-freelancer-workspace .pe-button.dark { background: var(--workspace-ink); border-radius: 11px; }
+body.goworkora-freelancer-workspace .pages-account-button:hover,
+body.goworkora-freelancer-workspace .pe-button.dark:hover { background: #292d35; }
+body.goworkora-freelancer-workspace .pe-dashboard { padding: 48px clamp(20px, 4vw, 58px) 82px; }
+
+body.goworkora-freelancer-workspace :is(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid var(--workspace-gold) !important;
+  outline-offset: 2px !important;
+}
+
+@media (max-width: 1040px) {
+  .workspace-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  body.goworkora-freelancer-workspace .notification-layout { grid-template-columns: 1fr; }
+  body.goworkora-freelancer-workspace .preference-card { position: static; }
+}
+
+@media (max-width: 720px) {
+  body.goworkora-freelancer-workspace .jobs-shell,
+  body.goworkora-freelancer-workspace .contracts-shell,
+  body.goworkora-freelancer-workspace .contract-workspace,
+  body.goworkora-freelancer-workspace .notification-shell { padding: 24px 14px 64px; }
+  .workspace-summary-grid,
+  .notification-summary { grid-template-columns: 1fr; }
+  .workspace-list-toolbar { align-items: stretch; flex-direction: column; }
+  .notification-toolbar { align-items: stretch; flex-direction: column; }
+  .notification-toolbar > label { flex-basis: auto; }
+  body.goworkora-freelancer-workspace .notification-hero,
+  body.goworkora-freelancer-workspace .marketplace-intro,
+  body.goworkora-freelancer-workspace .contracts-intro,
+  body.goworkora-freelancer-workspace .payment-intro { align-items: flex-start; border-radius: 18px; flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.goworkora-freelancer-workspace .notification-card,
+  body.goworkora-freelancer-workspace .real-job-card,
+  body.goworkora-freelancer-workspace .my-proposals-list > article,
+  body.goworkora-freelancer-workspace .invitation-card,
+  body.goworkora-freelancer-workspace .contract-list-card { transition: none; }
+}

@@ -1,0 +1,1 @@
+globalThis.WORKORA_CONFIG = Object.freeze({"environment":"development","buildId":"0a7987e9733e","basePath":"/","supabaseUrl":"https://zjkoravrmiieclneepiy.supabase.co","supabasePublishableKey":"sb_publishable_-M_ylf6_yyVesa2EtUHWlQ_fcTf750z"});

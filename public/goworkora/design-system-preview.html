@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>GoWorkora Forward Signal Design System</title>
+  <meta name="description" content="Internal GoWorkora logo-led design-system reference.">
+  <link rel="stylesheet" href="./styles/design-system.css?v=logo-inverse-20260811">
+</head>
+<body class="gw-system">
+  <header class="gw-brand-bar">
+    <div class="gw-shell">
+      <a class="gw-logo-link" href="./" aria-label="Return to GoWorkora homepage">
+        <img class="gw-brand-logo" src="./assets/brand/goworkora-wordmark-transparent.png" width="2172" height="724" alt="GoWorkora">
+      </a>
+      <nav aria-label="Design-system sections">
+        <a href="#foundation">Foundation</a>
+        <a href="#components">Components</a>
+        <a href="#patterns">Patterns</a>
+        <a href="#states">States</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="gw-hero" aria-labelledby="design-system-title">
+      <div class="gw-shell gw-hero-grid">
+        <div>
+          <p class="gw-overline"><span class="gw-motion-cut" aria-hidden="true"></span>Forward Signal</p>
+          <h1 id="design-system-title">A precise design language for work in motion.</h1>
+          <p>GoWorkora’s graphite structure builds trust. Gold marks the next meaningful opportunity. White and gray surfaces keep every task clear.</p>
+          <div class="gw-button-row">
+            <a class="gw-btn gw-btn-primary" href="#components">Explore components</a>
+            <a class="gw-btn gw-btn-dark" href="#patterns">View application patterns</a>
+          </div>
+        </div>
+        <div class="gw-workflow-visual" aria-label="Illustrative GoWorkora workflow showing active work, delivery progress, review and a completed result">
+          <p class="gw-workflow-kicker">Illustrative workflow · fictional interface</p>
+
+          <article class="gw-work-card gw-work-card-brief">
+            <div class="gw-work-card-topline">
+              <span class="gw-work-avatar" aria-hidden="true">GW</span>
+              <span class="gw-work-status"><i aria-hidden="true"></i>Work in progress</span>
+            </div>
+            <p class="gw-work-eyebrow">Project workspace</p>
+            <h2>Customer operations rollout</h2>
+            <div class="gw-work-tags" aria-label="Work areas">
+              <span>Process design</span>
+              <span>Team onboarding</span>
+              <span>Quality review</span>
+            </div>
+          </article>
+
+          <article class="gw-work-card gw-work-card-progress">
+            <p class="gw-work-eyebrow">Delivery progress</p>
+            <strong>72%</strong>
+            <span>3 of 4 outcomes ready</span>
+            <div
+              class="gw-work-progress"
+              role="progressbar"
+              aria-label="Illustrative delivery progress"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="72"
+            ><i aria-hidden="true"></i></div>
+          </article>
+
+          <article class="gw-work-card gw-work-card-result">
+            <p class="gw-work-eyebrow">Latest result</p>
+            <h3>Workflow handoff ready</h3>
+            <p><span class="gw-result-check" aria-hidden="true">✓</span>Reviewed and ready for client approval</p>
+          </article>
+
+          <article class="gw-work-card gw-work-card-signal">
+            <span class="gw-forward-arrow" aria-hidden="true">↗</span>
+            <div>
+              <strong>Work moving forward</strong>
+              <small>Brief · Build · Review · Deliver</small>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="gw-section" id="foundation" aria-labelledby="foundation-title">
+      <div class="gw-shell">
+        <div class="gw-section-header">
+          <div>
+            <p class="gw-overline"><span class="gw-motion-cut" aria-hidden="true"></span>Foundation</p>
+            <h2 id="foundation-title">Trust, action, clarity and structure.</h2>
+          </div>
+          <p>The palette follows the logo directly. Gold is deliberately scarce and reserved for decisions, selected states and progress.</p>
+        </div>
+
+        <div class="gw-grid gw-grid-4" aria-label="Core colour tokens">
+          <article class="gw-token-swatch"><i style="background:#111318"></i><div><strong>Go Black</strong><code>#111318</code></div></article>
+          <article class="gw-token-swatch"><i style="background:#ffb000"></i><div><strong>Go Gold</strong><code>#FFB000</code></div></article>
+          <article class="gw-token-swatch"><i style="background:#fff"></i><div><strong>Pure White</strong><code>#FFFFFF</code></div></article>
+          <article class="gw-token-swatch"><i style="background:#f7f8fa"></i><div><strong>Soft Cloud</strong><code>#F7F8FA</code></div></article>
+          <article class="gw-token-swatch"><i style="background:#eceef2"></i><div><strong>Light Gray</strong><code>#ECEEF2</code></div></article>
+          <article class="gw-token-swatch"><i style="background:#16a34a"></i><div><strong>Success</strong><code>#16A34A</code></div></article>
+          <article class="gw-token-swatch"><i style="background:#d97706"></i><div><strong>Warning</strong><code>#D97706</code></div></article>
+          <article class="gw-token-swatch"><i style="background:#2563eb"></i><div><strong>Information</strong><code>#2563EB</code></div></article>
+        </div>
+
+        <div class="gw-grid gw-grid-2" style="margin-top:48px">
+          <article class="gw-card">
+            <p class="gw-overline">Typography</p>
+            <h2 style="font-size:48px;margin-bottom:16px">Move work forward.</h2>
+            <h3>Professional hierarchy with geometric confidence.</h3>
+            <p>Geist leads display typography. Inter leads readable interface and body copy, with Manrope and system fallbacks.</p>
+          </article>
+          <article class="gw-card">
+            <p class="gw-overline">Spacing scale</p>
+            <div class="gw-spacing-scale" aria-label="Spacing scale from four to 96 pixels">
+              <div><i style="height:4px"></i><code>4</code></div>
+              <div><i style="height:8px"></i><code>8</code></div>
+              <div><i style="height:12px"></i><code>12</code></div>
+              <div><i style="height:16px"></i><code>16</code></div>
+              <div><i style="height:24px"></i><code>24</code></div>
+              <div><i style="height:32px"></i><code>32</code></div>
+              <div><i style="height:48px"></i><code>48</code></div>
+              <div><i style="height:64px"></i><code>64</code></div>
+              <div><i style="height:96px"></i><code>96</code></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="gw-section" id="components" aria-labelledby="components-title" style="background:#fff">
+      <div class="gw-shell">
+        <div class="gw-section-header">
+          <div>
+            <p class="gw-overline"><span class="gw-motion-cut" aria-hidden="true"></span>Components</p>
+            <h2 id="components-title">Purpose before decoration.</h2>
+          </div>
+          <p>Each component communicates content, state and a next action. Empty decorative boxes and ambiguous controls are excluded.</p>
+        </div>
+
+        <div class="gw-grid gw-grid-2">
+          <article class="gw-card">
+            <h3>Button hierarchy</h3>
+            <p>Gold leads one decisive task. Secondary, dark and danger styles support the workflow.</p>
+            <div class="gw-button-row" style="margin-top:24px">
+              <button class="gw-btn gw-btn-primary" type="button" data-demo-action="Primary action selected">Primary action</button>
+              <button class="gw-btn gw-btn-secondary" type="button" data-demo-action="Secondary action selected">Secondary</button>
+              <button class="gw-btn gw-btn-dark" type="button" data-demo-action="Dark action selected">Dark action</button>
+              <button class="gw-btn gw-btn-danger" type="button" data-demo-action="Danger action selected">Danger</button>
+            </div>
+          </article>
+
+          <article class="gw-card">
+            <h3>Form controls</h3>
+            <div class="gw-grid" style="margin-top:20px">
+              <div class="gw-field">
+                <label for="demo-role">Professional role</label>
+                <input id="demo-role" value="Healthcare Operations Specialist">
+                <small>Use a clear, searchable professional title.</small>
+              </div>
+              <div class="gw-field gw-field-error">
+                <label for="demo-rate">Hourly rate</label>
+                <input id="demo-rate" aria-describedby="demo-rate-error" value="0">
+                <small id="demo-rate-error">Enter a rate greater than zero.</small>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="gw-grid gw-grid-2" style="margin-top:24px">
+          <article class="gw-card">
+            <h3>Badges</h3>
+            <div class="gw-button-row" style="margin-top:20px">
+              <span class="gw-badge gw-badge-gold">Selected opportunity</span>
+              <span class="gw-badge gw-badge-success">Available</span>
+              <span class="gw-badge gw-badge-warning">Action required</span>
+              <span class="gw-badge gw-badge-error">Blocked</span>
+              <span class="gw-badge gw-badge-info">Information</span>
+            </div>
+          </article>
+          <article class="gw-card">
+            <h3>Feedback</h3>
+            <div class="gw-grid" style="margin-top:20px">
+              <div class="gw-alert gw-alert-success"><span aria-hidden="true">✓</span><strong>Profile saved</strong><p>Your public information is up to date.</p></div>
+              <div class="gw-alert gw-alert-error"><span aria-hidden="true">!</span><strong>Upload failed</strong><p>The file was not accepted. Review its type and size.</p></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="gw-section" id="patterns" aria-labelledby="patterns-title">
+      <div class="gw-shell">
+        <div class="gw-section-header">
+          <div>
+            <p class="gw-overline"><span class="gw-motion-cut" aria-hidden="true"></span>Application patterns</p>
+            <h2 id="patterns-title">A consistent shell for every role.</h2>
+          </div>
+          <p>Authentication, marketplace workspaces and administration share foundations while adapting density to the task.</p>
+        </div>
+
+        <article class="gw-auth-preview" aria-label="Authentication layout preview">
+          <div class="gw-auth-brand">
+            <img src="./assets/brand/goworkora-wordmark-transparent.png" width="2172" height="724" alt="GoWorkora">
+            <h3>Connect with opportunities that move work forward.</h3>
+          </div>
+          <form class="gw-auth-form" data-demo-form>
+            <p class="gw-overline">Welcome back</p>
+            <h3>Log in to GoWorkora</h3>
+            <p>Enter your email to continue with the existing secure sign-in flow.</p>
+            <div class="gw-field">
+              <label for="demo-email">Email address</label>
+              <input id="demo-email" type="email" value="professional@example.com" required>
+            </div>
+            <button class="gw-btn gw-btn-primary" type="submit">Continue securely</button>
+            <small>This is an internal visual-system demonstration. It does not call authentication services.</small>
+          </form>
+        </article>
+
+        <article class="gw-workspace-preview" aria-label="Professional workspace layout preview" style="margin-top:32px">
+          <aside class="gw-workspace-sidebar">
+            <img src="./assets/brand/goworkora-wordmark-transparent.png" width="2172" height="724" alt="GoWorkora">
+            <nav aria-label="Workspace preview">
+              <a href="#patterns" aria-current="page">Overview</a>
+              <a href="#patterns">Opportunities</a>
+              <a href="#patterns">Contracts</a>
+              <a href="#patterns">Messages</a>
+            </nav>
+          </aside>
+          <div class="gw-workspace-content">
+            <header>
+              <div><p class="gw-overline">Workspace</p><h3>Your next actions</h3><p>Clear priorities with direct destinations.</p></div>
+              <button class="gw-btn gw-btn-primary" type="button" data-demo-action="Primary workspace action selected">Post a job</button>
+            </header>
+            <div class="gw-grid gw-grid-3">
+              <article class="gw-card"><span class="gw-badge gw-badge-gold">Current</span><h3 style="margin-top:20px">Review proposals</h3><p>Compare qualified professionals for an active opportunity.</p><div class="gw-card-footer"><small>4 new</small><strong>Open →</strong></div></article>
+              <article class="gw-card"><span class="gw-badge gw-badge-success">Healthy</span><h3 style="margin-top:20px">Active contracts</h3><p>Track milestones, messages and submitted work.</p><div class="gw-card-footer"><small>2 active</small><strong>View →</strong></div></article>
+              <article class="gw-card"><span class="gw-badge">Saved</span><h3 style="margin-top:20px">Talent shortlist</h3><p>Return to professionals saved for future roles.</p><div class="gw-card-footer"><small>6 profiles</small><strong>Browse →</strong></div></article>
+            </div>
+          </div>
+        </article>
+
+        <div class="gw-table-wrap" style="margin-top:32px">
+          <table class="gw-table">
+            <caption style="padding:18px 16px;text-align:left;font-weight:700">Operational table pattern</caption>
+            <thead><tr><th scope="col">Record</th><th scope="col">Role</th><th scope="col">Status</th><th scope="col">Updated</th></tr></thead>
+            <tbody>
+              <tr><td>Professional profile</td><td>Freelancer</td><td><span class="gw-badge gw-badge-success">Active</span></td><td>Today</td></tr>
+              <tr><td>Customer support role</td><td>Client</td><td><span class="gw-badge gw-badge-warning">Needs review</span></td><td>Yesterday</td></tr>
+              <tr><td>Reported message</td><td>Administrator</td><td><span class="gw-badge gw-badge-info">Under review</span></td><td>2 days ago</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="gw-section" id="states" aria-labelledby="states-title" style="background:#fff">
+      <div class="gw-shell">
+        <div class="gw-section-header">
+          <div>
+            <p class="gw-overline"><span class="gw-motion-cut" aria-hidden="true"></span>System states</p>
+            <h2 id="states-title">No blank or ambiguous screens.</h2>
+          </div>
+          <p>Every data-driven page reserves deliberate loading, empty, success and recoverable error states.</p>
+        </div>
+        <div class="gw-grid gw-grid-4 gw-state-grid">
+          <article class="gw-card"><span class="gw-state-symbol" aria-hidden="true">···</span><h3>Loading</h3><p>Preserve the page structure while content is resolved.</p></article>
+          <article class="gw-card"><span class="gw-state-symbol" aria-hidden="true">○</span><h3>Empty</h3><p>Explain what is absent and provide one useful next action.</p></article>
+          <article class="gw-card"><span class="gw-state-symbol" aria-hidden="true">✓</span><h3>Success</h3><p>Confirm the completed action and its resulting state.</p></article>
+          <article class="gw-card"><span class="gw-state-symbol" aria-hidden="true">!</span><h3>Recoverable error</h3><p>Use plain language, preserve input and offer a safe retry.</p></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="gw-design-footer">
+    <div class="gw-shell">
+      <a class="gw-logo-link" href="./" aria-label="Return to GoWorkora homepage"><img src="./assets/brand/goworkora-wordmark-transparent.png" width="2172" height="724" alt="GoWorkora"></a>
+      <span>Forward Signal · Internal design-system reference</span>
+    </div>
+  </footer>
+
+  <div class="gw-live-status" role="status" aria-live="polite" data-demo-status></div>
+  <script>
+    const status = document.querySelector("[data-demo-status]");
+    let statusTimer;
+    const announce = (message) => {
+      window.clearTimeout(statusTimer);
+      status.textContent = message;
+      status.dataset.visible = "true";
+      statusTimer = window.setTimeout(() => {
+        status.dataset.visible = "false";
+      }, 1800);
+    };
+    document.querySelectorAll("[data-demo-action]").forEach((button) => {
+      button.addEventListener("click", () => announce(button.dataset.demoAction));
+    });
+    document.querySelector("[data-demo-form]").addEventListener("submit", (event) => {
+      event.preventDefault();
+      announce("Visual form state confirmed; no authentication request was sent.");
+    });
+  </script>
+</body>
+</html>

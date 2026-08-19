@@ -1,0 +1,136 @@
+body.goworkora-client-workspace .pages-account { min-height: 100vh; padding: 42px clamp(20px, 4vw, 62px) 72px; }
+body.goworkora-client-workspace .pages-account-container { margin: 0 auto; max-width: 1500px; }
+body.goworkora-client-workspace .pages-account-nav { display: none; }
+body.goworkora-client-workspace .pages-account-heading { margin-bottom: 24px; }
+body.goworkora-client-workspace .pages-account-heading span { color: #875c00; font-size: 12px; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
+body.goworkora-client-workspace .pages-account-heading h1 { font-size: clamp(30px, 4vw, 52px); letter-spacing: -.045em; line-height: 1.04; margin: 7px 0 0; max-width: 900px; }
+
+.client-command-hero { align-items: end; background: #111318; border-radius: 24px; color: #fff; display: flex; gap: 28px; justify-content: space-between; margin-bottom: 22px; overflow: hidden; padding: clamp(25px, 4vw, 46px); position: relative; }
+.client-command-hero::after { background: #ffb000; clip-path: polygon(45% 0,100% 0,100% 100%,0 100%); content: ""; height: 100%; opacity: .1; position: absolute; right: 0; top: 0; width: 38%; }
+.client-command-hero > * { position: relative; z-index: 1; }
+.client-command-hero span, .client-dashboard-panel header span, .client-dashboard-rail section > span, .client-section-heading span { color: #ffb000; font-size: 11px; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
+.client-command-hero h2 { color: #fff; font-size: clamp(29px, 4vw, 48px); letter-spacing: -.04em; line-height: 1.05; margin: 7px 0 11px; }
+.client-command-hero p { color: #d4d7dc; font-size: 15px; line-height: 1.7; margin: 0; max-width: 720px; }
+.client-command-hero > div:last-child { display: flex; flex: 0 0 auto; gap: 10px; }
+.client-command-hero a { align-items: center; border: 1px solid rgba(255,255,255,.32); border-radius: 12px; color: #fff; display: inline-flex; font-size: 13px; font-weight: 800; justify-content: center; min-height: 48px; padding: 12px 18px; }
+.client-command-hero a:first-child { background: #ffb000; border-color: #ffb000; color: #111318; }
+
+.client-overview-grid { display: grid; gap: 13px; grid-template-columns: repeat(4,minmax(0,1fr)); margin-bottom: 22px; }
+.client-overview-grid a { background: #fff; border: 1px solid #eceef2; border-radius: 16px; box-shadow: 0 8px 30px rgba(17,19,24,.06); display: grid; gap: 6px; min-height: 150px; padding: 21px; position: relative; transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease; }
+.client-overview-grid a:hover { border-color: #ffb000; box-shadow: 0 14px 38px rgba(17,19,24,.1); transform: translateY(-2px); }
+.client-overview-grid span { color: #4b5563; font-size: 12px; font-weight: 750; }
+.client-overview-grid strong { color: #111318; font-size: 32px; letter-spacing: -.04em; }
+.client-overview-grid small { color: #6b7280; font-size: 12px; line-height: 1.45; }
+.client-overview-grid b { color: #d49000; font-size: 18px; position: absolute; right: 18px; top: 16px; }
+
+.client-dashboard-layout { align-items: start; display: grid; gap: 20px; grid-template-columns: minmax(0,1fr) minmax(270px,340px); }
+.client-dashboard-main, .client-dashboard-rail { display: grid; gap: 18px; }
+.client-dashboard-panel, .client-dashboard-rail section { background: #fff; border: 1px solid #eceef2; border-radius: 16px; box-shadow: 0 8px 30px rgba(17,19,24,.055); padding: 24px; }
+.client-dashboard-panel > header, .client-section-heading { align-items: center; display: flex; gap: 20px; justify-content: space-between; margin-bottom: 18px; }
+.client-dashboard-panel h2, .client-dashboard-rail h2, .client-section-heading h2 { color: #111318; font-size: 22px; letter-spacing: -.03em; margin: 4px 0 0; }
+.client-dashboard-panel header a, .client-dashboard-rail a { color: #7c5500; font-size: 12px; font-weight: 800; text-decoration: underline; text-underline-offset: 4px; }
+
+.client-candidate-list, .client-job-list, .client-transaction-list, .client-document-list { display: grid; }
+.client-candidate-list article { align-items: center; border-top: 1px solid #eceef2; display: grid; gap: 13px; grid-template-columns: 44px minmax(0,1fr) auto; padding: 16px 0; }
+.client-candidate-list article:first-child, .client-job-list a:first-child, .client-transaction-list article:first-child, .client-document-list article:first-child { border-top: 0; }
+.client-avatar { align-items: center; background: #fff4d6; border: 1px solid #ffd56b; border-radius: 12px; color: #5e4200; display: flex; font-size: 12px; font-weight: 900; height: 44px; justify-content: center; width: 44px; }
+.client-candidate-list article > div:nth-child(2) { display: grid; gap: 3px; min-width: 0; }
+.client-candidate-list strong { color: #111318; font-size: 14px; }
+.client-candidate-list small, .client-job-list small, .client-transaction-list small, .client-document-list small { color: #6b7280; font-size: 11px; }
+.client-candidate-list p { color: #4b5563; font-size: 12px; margin: 2px 0 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.client-candidate-list article > div:last-child { align-items: end; display: grid; gap: 8px; justify-items: end; }
+.client-candidate-list article > div:last-child a { color: #704d00; font-size: 11px; font-weight: 800; }
+.client-status { background: #f7f8fa; border: 1px solid #d9dde5; border-radius: 999px; color: #4b5563; display: inline-flex; font-size: 10px; font-weight: 800; padding: 5px 8px; text-transform: capitalize; }
+
+.client-job-list a { align-items: center; border-top: 1px solid #eceef2; display: grid; gap: 14px; grid-template-columns: minmax(0,1fr) auto 18px; padding: 16px 0; }
+.client-job-list a > div { display: grid; gap: 5px; min-width: 0; }
+.client-job-list strong { color: #111318; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.client-job-list b { color: #d49000; }
+
+.client-dashboard-rail section { padding: 22px; }
+.client-dashboard-rail h2 { margin-bottom: 15px; }
+.client-dashboard-rail p { color: #5d6470; font-size: 12px; line-height: 1.65; }
+.client-dashboard-rail dl { display: grid; gap: 10px; margin: 0 0 16px; }
+.client-dashboard-rail dl div { display: flex; gap: 12px; justify-content: space-between; }
+.client-dashboard-rail dt { color: #6b7280; font-size: 11px; }
+.client-dashboard-rail dd { color: #111318; font-size: 11px; font-weight: 800; margin: 0; text-align: right; }
+.client-dashboard-rail ul { display: grid; gap: 10px; list-style: none; margin: 0 0 16px; padding: 0; }
+.client-dashboard-rail li { border-top: 1px solid #eceef2; display: grid; gap: 3px; padding-top: 10px; }
+.client-dashboard-rail li strong { font-size: 12px; }
+.client-dashboard-rail li small { color: #6b7280; font-size: 10px; text-transform: capitalize; }
+
+.client-empty { background: #f7f8fa; border: 1px dashed #d9dde5; border-radius: 14px; padding: 25px; }
+.client-empty h2, .client-empty h3 { color: #111318; margin: 0 0 7px; }
+.client-empty p { color: #5c6470; font-size: 13px; line-height: 1.6; }
+.client-empty a { color: #6c4a00; font-size: 12px; font-weight: 800; }
+
+.client-report-nav { background: #fff; border: 1px solid #eceef2; border-radius: 14px; display: flex; gap: 7px; margin-bottom: 20px; padding: 7px; width: fit-content; }
+.client-report-nav a { border-radius: 9px; color: #4b5563; font-size: 12px; font-weight: 800; padding: 10px 14px; }
+.client-report-nav a[aria-current="page"] { background: #111318; color: #fff; }
+.client-report-summary { display: grid; gap: 14px; grid-template-columns: repeat(4,minmax(0,1fr)); margin-bottom: 20px; }
+.client-report-summary article { background: #fff; border: 1px solid #eceef2; border-radius: 16px; box-shadow: 0 8px 30px rgba(17,19,24,.055); display: grid; gap: 8px; min-height: 145px; padding: 22px; }
+.client-report-summary span { color: #6b7280; font-size: 11px; font-weight: 750; }
+.client-report-summary strong { color: #111318; font-size: 23px; letter-spacing: -.03em; }
+.client-report-summary small { color: #6b7280; font-size: 11px; line-height: 1.5; }
+.client-report-links > a { min-height: 155px; }
+
+.client-section-heading button, .client-document-list button { background: #fff; border: 1px solid #111318; border-radius: 10px; color: #111318; font-size: 11px; font-weight: 800; min-height: 42px; padding: 10px 13px; }
+.client-section-heading button:hover, .client-document-list button:hover { background: #111318; color: #fff; }
+.client-transaction-list article, .client-document-list article { align-items: center; border-top: 1px solid #eceef2; display: grid; gap: 18px; grid-template-columns: minmax(0,1fr) auto; padding: 17px 0; }
+.client-transaction-list article > div, .client-document-list article > div { display: grid; gap: 4px; }
+.client-transaction-list article > div:last-child, .client-document-list article > div:last-child { justify-items: end; }
+.client-transaction-list strong, .client-document-list strong { color: #111318; font-size: 14px; }
+.client-transaction-list span, .client-document-list span { color: #4b5563; font-size: 12px; }
+.client-pagination { align-items: center; border-top: 1px solid #eceef2; display: flex; font-size: 12px; justify-content: space-between; margin-top: 12px; padding-top: 18px; }
+.client-pagination > div { display: flex; gap: 8px; }
+.client-pagination a { border: 1px solid #d9dde5; border-radius: 9px; color: #111318; font-weight: 800; padding: 8px 11px; }
+
+body.goworkora-client-workspace .pages-account-form { max-width: none; }
+body.goworkora-client-workspace .pages-account-panel, body.goworkora-client-workspace .pages-account-grid > a { box-shadow: 0 8px 30px rgba(17,19,24,.055); }
+body.goworkora-client-workspace :is(a,button,input,select,textarea):focus-visible { outline: 3px solid #ffb000; outline-offset: 2px; }
+.client-company-intro { align-items: center; display: flex; gap: 22px; }
+.client-company-intro img, .client-company-placeholder { background: #111318; border-radius: 16px; flex: 0 0 86px; height: 86px; object-fit: contain; padding: 12px; width: 86px; }
+.client-company-placeholder { align-items: center; color: #ffb000; display: flex; font-size: 24px; font-weight: 800; justify-content: center; }
+.client-company-intro h2 { margin: 4px 0 8px; }
+.client-company-intro p { margin: 0; }
+.client-member-list { display: grid; margin-top: 24px; }
+.client-member-list article { align-items: end; border-top: 1px solid #eceef2; display: grid; gap: 12px; grid-template-columns: minmax(190px,1fr) minmax(150px,.45fr) minmax(140px,.35fr) auto; padding: 18px 0; }
+.client-member-list article > div { display: grid; gap: 5px; }
+.client-member-list label { color: #4b5563; display: grid; font-size: 13px; font-weight: 700; gap: 6px; }
+.client-member-list select, .client-member-list button { min-height: 44px; }
+
+@media (max-width: 1180px) {
+  .client-overview-grid, .client-report-summary { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .client-dashboard-layout { grid-template-columns: 1fr; }
+  .client-dashboard-rail { grid-template-columns: repeat(3,minmax(0,1fr)); }
+}
+
+@media (max-width: 900px) {
+  body.goworkora-client-workspace .pages-account { padding: 30px 18px 58px; }
+  .client-command-hero { align-items: stretch; flex-direction: column; }
+  .client-command-hero > div:last-child { align-self: stretch; }
+  .client-command-hero a { flex: 1; }
+  .client-dashboard-rail { grid-template-columns: 1fr; }
+  .client-member-list article { align-items: stretch; grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 580px) {
+  .client-overview-grid, .client-report-summary { grid-template-columns: 1fr; }
+  .client-overview-grid a { min-height: 132px; }
+  .client-command-hero > div:last-child { flex-direction: column; }
+  .client-candidate-list article { align-items: start; grid-template-columns: 40px minmax(0,1fr); }
+  .client-candidate-list article > div:last-child { grid-column: 2; grid-row: 2; justify-items: start; }
+  .client-job-list a { align-items: start; grid-template-columns: minmax(0,1fr) auto; }
+  .client-job-list a > b { display: none; }
+  .client-section-heading { align-items: stretch; flex-direction: column; }
+  .client-transaction-list article, .client-document-list article { align-items: start; grid-template-columns: 1fr; }
+  .client-transaction-list article > div:last-child, .client-document-list article > div:last-child { justify-items: start; }
+  .client-report-nav { overflow-x: auto; width: 100%; }
+  .client-report-nav a { flex: 0 0 auto; }
+  .client-company-intro { align-items: start; flex-direction: column; }
+  .client-member-list article { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .client-overview-grid a { transition: none; }
+}

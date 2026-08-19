@@ -1,0 +1,31 @@
+.public-sections{display:grid;gap:14px;margin-top:34px}
+.public-sections section,.public-card,.public-state,.public-article,.public-form,.public-legal-note{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px}
+.public-sections h2,.public-helpful h2{font-size:24px;letter-spacing:-.6px;margin:0 0 10px}
+.public-sections p,.public-card span,.public-state p,.public-article li,.public-note,.public-meta,.public-legal-note p{color:var(--muted);font-size:13px;line-height:1.7}
+.public-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:34px}
+.public-card{display:grid;gap:10px;transition:.18s}
+a.public-card:hover{border-color:var(--green);transform:translateY(-3px)}
+.public-card small{color:var(--green);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
+.public-card strong{font-size:22px;letter-spacing:-.5px}
+.public-state{margin-top:34px}
+.public-search{display:grid;gap:8px;font-size:12px;font-weight:800;margin:34px 0 18px}
+.public-search input,.public-form input,.public-form select,.public-form textarea{width:100%;border:1px solid #cbd1ca;border-radius:11px;background:#fff;padding:13px}
+.public-form{display:grid;gap:15px;margin-top:34px}
+.public-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.public-form label{display:grid;gap:7px;font-size:11px;font-weight:800}
+.public-consent{grid-template-columns:auto 1fr!important;align-items:start}
+.public-consent input{width:auto;margin-top:2px}
+.public-honeypot{position:absolute!important;left:-10000px!important}
+.public-form-status{min-height:20px;margin:0;color:var(--green);font-size:12px;font-weight:800}
+.public-form-status.error{color:#9b2f26}
+.public-note{margin:0}
+.public-article{margin-top:34px}
+.public-article ul{display:grid;gap:10px;padding-left:20px}
+.public-meta{margin-top:0}
+.public-helpful{border-top:1px solid var(--line);margin-top:26px;padding-top:24px}
+.public-helpful div{display:flex;gap:8px}
+.public-helpful p{min-height:18px;color:var(--green);font-size:12px;font-weight:800}
+.public-legal-note{background:#fff7df;border-color:#ead498;margin-top:34px}
+.public-legal-note strong{font-size:18px}
+@media(max-width:900px){.public-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.public-card-grid,.public-form-grid{grid-template-columns:1fr}.public-sections section,.public-card,.public-state,.public-article,.public-form,.public-legal-note{padding:20px}}

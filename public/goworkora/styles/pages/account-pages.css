@@ -1,0 +1,1260 @@
+.pages-account{min-height:calc(100vh - 76px);background:#f5f6ef;padding:46px clamp(18px,5vw,70px) 80px}.pages-account-container{max-width:1250px;margin:auto}.pages-account-nav{display:flex;gap:8px;overflow:auto;padding-bottom:20px}.pages-account-nav a{border:1px solid #dfe2da;border-radius:99px;background:#fff;padding:10px 16px;font-size:12px;font-weight:800;white-space:nowrap}.pages-account-nav a.active{background:#17201c;color:#fff}.pages-account-heading{max-width:800px;padding:24px 0 30px}.pages-account-heading span,.pages-account-panel>span{color:#0b7447;font-size:11px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase}.pages-account-heading h1{font-size:clamp(38px,5vw,64px);line-height:1;margin:12px 0;letter-spacing:-3px}.pages-account-status{border:1px solid #d7dfd8;background:#fff;border-radius:13px;padding:13px 16px;margin-bottom:18px;font-size:13px}.pages-account-status.success{background:#e8f6ec;border-color:#98c8a6;color:#12663e}.pages-account-status.error{background:#fff0ef;border-color:#efc3be;color:#8c2c25}.pages-account-metrics,.pages-account-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-bottom:18px}.pages-account-metrics>a,.pages-account-grid>a,.pages-account-actions>a{background:#fff;border:1px solid #dfe2da;border-radius:17px;padding:22px;display:flex;flex-direction:column;gap:9px;min-width:0}.pages-account-metrics>a:hover,.pages-account-grid>a:hover,.pages-account-actions>a:hover{border-color:#17201c;transform:translateY(-2px)}.pages-account-metrics span,.pages-account-grid span{font-size:12px;color:#69736e}.pages-account-metrics strong{font-size:32px}.pages-account-metrics small,.pages-account-grid small{color:#69736e;line-height:1.45}.pages-account-panel{background:#fff;border:1px solid #dfe2da;border-radius:20px;padding:clamp(21px,4vw,36px);margin-top:17px}.pages-account-panel h2{font-size:clamp(24px,3vw,34px);margin:7px 0 18px}.pages-account-panel p{color:#52605a;line-height:1.6}.pages-account-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.pages-account-actions>a{flex-direction:row;justify-content:space-between;font-weight:800}.pages-account-grid>a strong{font-size:18px}.pages-account-form label,.pages-account-danger label{font-size:12px;font-weight:800;display:grid;gap:7px;margin-top:13px}.pages-account-form input,.pages-account-form select,.pages-account-form textarea,.pages-account-danger textarea{width:100%;border:1px solid #cad1cb;border-radius:10px;padding:13px;background:#fff}.pages-account-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.pages-account-button,.pages-account-button-row button,.pages-account-button-row a{border:0;border-radius:99px;background:#17201c;color:#fff;min-height:44px;padding:0 20px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;margin-top:17px}.pages-account-button-row{display:flex;flex-wrap:wrap;gap:9px}.pages-account-button-row button:last-child{background:#7c2923}.pages-account-danger{border-color:#e3b3ae}.pages-account-details{display:grid;gap:1px;margin:0}.pages-account-details>div{display:grid;grid-template-columns:minmax(120px,.6fr) 1.4fr;gap:20px;border-bottom:1px solid #e4e7e1;padding:13px 0}.pages-account-details dt{color:#69736e}.pages-account-details dd{margin:0;font-weight:700;overflow-wrap:anywhere}.pages-notification-form>label{display:flex;align-items:center;justify-content:space-between;gap:18px;border-bottom:1px solid #e4e7e1;padding:15px 0}.pages-notification-form>label span{display:grid;gap:4px}.pages-notification-form>label small{color:#69736e}.pages-notification-form input{width:20px;height:20px}.pages-support-list{display:grid;gap:9px}.pages-support-list article{display:grid;grid-template-columns:150px 1fr auto;gap:12px;border:1px solid #dfe2da;border-radius:12px;padding:13px}.pages-support-list small{color:#69736e}.pages-account a:focus-visible,.pages-account button:focus-visible,.pages-account input:focus-visible,.pages-account select:focus-visible,.pages-account textarea:focus-visible{outline:3px solid rgba(11,116,71,.35);outline-offset:3px}.freelancer-dashboard-layout,.freelancer-report-overview,.freelancer-diary-layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}.freelancer-dashboard-layout .pages-account-panel,.freelancer-report-overview.pages-account-panel{margin-top:0}.freelancer-profile-pulse>a,.freelancer-opportunity-panel>a,.freelancer-empty-state>a{display:inline-flex;margin-top:15px;border-bottom:1px solid currentColor;padding-bottom:4px;font-size:13px;font-weight:850}.freelancer-dashboard-jobs{display:grid;gap:9px;margin:18px 0}.freelancer-dashboard-jobs>a{display:grid;gap:5px;border:1px solid #e1e4de;border-radius:13px;padding:14px}.freelancer-dashboard-jobs>a:hover{border-color:#17201c}.freelancer-dashboard-jobs span,.freelancer-dashboard-jobs small{font-size:11px;color:#69736e}.freelancer-report-tabs{display:flex;gap:7px;overflow-x:auto;margin:0 0 20px;padding:0 0 8px}.freelancer-report-tabs a{white-space:nowrap;border:1px solid #dfe2da;border-radius:10px;background:#fff;padding:11px 15px;font-size:12px;font-weight:800}.freelancer-report-tabs a.active{background:#17201c;border-color:#17201c;color:#fff}.freelancer-money-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-bottom:18px}.freelancer-money-grid>article{background:#17201c;color:#fff;border-radius:18px;padding:25px;min-width:0}.freelancer-money-grid>article>span{color:#c9ff4a;font-size:11px;font-weight:900;letter-spacing:1px}.freelancer-money-grid>article>strong{display:block;font-size:clamp(27px,3vw,38px);margin:12px 0 2px;overflow-wrap:anywhere}.freelancer-money-grid>article>p{color:#bfc8c2;margin:0 0 18px}.freelancer-money-grid dl{border-top:1px solid rgba(255,255,255,.16);display:grid;gap:8px;margin:0;padding-top:15px}.freelancer-money-grid dl>div{display:flex;justify-content:space-between;gap:12px;font-size:12px}.freelancer-money-grid dd{margin:0;font-weight:800}.freelancer-report-overview>div{padding:5px}.freelancer-report-overview h2{font-size:clamp(23px,3vw,34px)}.freelancer-filter-bar{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr)) auto;align-items:end;gap:10px;margin-bottom:17px}.freelancer-filter-bar label{margin:0}.freelancer-filter-bar .pages-account-button{margin:0}.freelancer-section-heading{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:18px}.freelancer-section-heading h2{margin-bottom:0}.freelancer-section-heading button,.freelancer-document-list button,.freelancer-diary-list button{border:1px solid #17201c;border-radius:10px;background:#fff;min-height:40px;padding:0 14px;font-size:12px;font-weight:800}.freelancer-section-heading button:hover,.freelancer-document-list button:hover{background:#17201c;color:#fff}.freelancer-transaction-list,.freelancer-document-list,.freelancer-diary-list{display:grid;gap:9px}.freelancer-transaction-list article,.freelancer-document-list article,.freelancer-diary-list article{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:18px;border:1px solid #e0e4de;border-radius:13px;padding:15px}.freelancer-transaction-list article>div,.freelancer-document-list article>div{display:grid;gap:4px}.freelancer-transaction-list article>div:last-child,.freelancer-document-list article>div:last-child{text-align:right}.freelancer-transaction-list span,.freelancer-transaction-list small,.freelancer-document-list span,.freelancer-document-list small,.freelancer-diary-list small{color:#69736e;font-size:11px}.freelancer-status{justify-self:end;border-radius:99px;background:#eef0ed;padding:4px 8px;font-weight:800;text-transform:capitalize}.freelancer-status.succeeded{background:#e3f4e8;color:#12663e}.freelancer-status.failed,.freelancer-status.reversed{background:#fff0ef;color:#8c2c25}.freelancer-pagination{display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid #e4e7e1;margin-top:18px;padding-top:18px;font-size:12px;color:#69736e}.freelancer-pagination div{display:flex;gap:8px}.freelancer-pagination a{border:1px solid #dfe2da;border-radius:9px;padding:8px 12px;color:#17201c;font-weight:800}.freelancer-empty-state{padding:30px;text-align:center}.freelancer-diary-layout{align-items:start}.freelancer-diary-layout>.pages-account-panel{margin-top:0}.freelancer-checkbox{display:flex!important;grid-template-columns:auto 1fr!important;align-items:center;gap:10px!important}.freelancer-checkbox input{width:20px!important;height:20px}.freelancer-diary-list article{grid-template-columns:120px minmax(0,1fr) auto;align-items:start}.freelancer-diary-list time{font-weight:800}.freelancer-diary-list p{margin:5px 0}.freelancer-diary-list article>div:last-child{display:grid;justify-items:end;gap:8px}.freelancer-diary-list button{min-height:34px;border-color:#e3b3ae;color:#8c2c25}
+@media(max-width:860px){.pages-account-metrics,.pages-account-grid,.pages-account-actions{grid-template-columns:repeat(2,minmax(0,1fr))}.pages-support-list article{grid-template-columns:1fr}}
+@media(max-width:980px){.freelancer-filter-bar{grid-template-columns:repeat(2,minmax(0,1fr))}.freelancer-filter-bar .pages-account-button{min-height:46px}.freelancer-money-grid{grid-template-columns:1fr}.freelancer-dashboard-layout,.freelancer-diary-layout{grid-template-columns:1fr}}
+@media(max-width:700px){.freelancer-report-overview{grid-template-columns:1fr}.freelancer-section-heading{align-items:flex-start;flex-direction:column}.freelancer-transaction-list article,.freelancer-document-list article,.freelancer-diary-list article{grid-template-columns:1fr}.freelancer-transaction-list article>div:last-child,.freelancer-document-list article>div:last-child{text-align:left}.freelancer-status{justify-self:start}.freelancer-diary-list article>div:last-child{justify-items:start}}
+@media(max-width:560px){.pages-account{padding-inline:15px}.pages-account-heading h1{letter-spacing:-2px}.pages-account-metrics,.pages-account-grid,.pages-account-actions,.pages-account-form-grid,.freelancer-filter-bar{grid-template-columns:1fr}.pages-account-details>div{grid-template-columns:1fr;gap:5px}.pages-account-button-row>*{width:100%}.freelancer-pagination{align-items:flex-start;flex-direction:column}}
+
+.freelancer-diary-summary {
+  display: grid;
+  gap: 13px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 18px;
+}
+
+.freelancer-diary-summary article {
+  background: #fff;
+  border: 1px solid #dfe2da;
+  border-radius: 16px;
+  display: grid;
+  gap: 6px;
+  padding: 20px;
+}
+
+.freelancer-diary-summary article:first-child {
+  border-top: 4px solid #ffb000;
+  padding-top: 17px;
+}
+
+.freelancer-diary-summary span {
+  color: #69736e;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.freelancer-diary-summary strong {
+  font-size: clamp(25px, 3vw, 36px);
+  letter-spacing: -.04em;
+}
+
+.freelancer-diary-summary small {
+  color: #69736e;
+  font-size: 12px;
+}
+
+.sr-only {
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.pages-account--freelancer {
+  background: #f7f8fa;
+  min-height: 100vh;
+  padding: 38px clamp(22px, 4vw, 62px) 74px;
+}
+
+.pages-account--freelancer .pages-account-container {
+  max-width: 1420px;
+}
+
+.pages-account--freelancer .pages-account-heading {
+  max-width: 980px;
+  padding: 10px 0 27px;
+}
+
+.pages-account--freelancer .pages-account-heading span {
+  color: #8a6500;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+}
+
+.pages-account--freelancer .pages-account-heading h1 {
+  font-size: clamp(37px, 4.4vw, 62px);
+  letter-spacing: -0.045em;
+  line-height: 1.03;
+  margin: 10px 0 0;
+}
+
+.freelancer-dashboard-command {
+  align-items: end;
+  background: #111318;
+  border-radius: 24px;
+  color: #fff;
+  display: grid;
+  gap: 32px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  overflow: hidden;
+  padding: clamp(29px, 4vw, 48px);
+  position: relative;
+}
+
+.freelancer-dashboard-command::after {
+  background: #ffb000;
+  border-radius: 80% 0 0 0;
+  bottom: -82px;
+  content: "";
+  height: 190px;
+  opacity: 0.14;
+  position: absolute;
+  right: -42px;
+  transform: rotate(-12deg);
+  width: 250px;
+}
+
+.freelancer-dashboard-command > div {
+  max-width: 760px;
+  position: relative;
+  z-index: 1;
+}
+
+.freelancer-dashboard-command span,
+.freelancer-dashboard-feed > header span,
+.freelancer-activity-card > header span {
+  color: #ffb000;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.freelancer-dashboard-command h2 {
+  font-size: clamp(32px, 4vw, 53px);
+  letter-spacing: -0.045em;
+  line-height: 1.03;
+  margin: 12px 0 14px;
+  max-width: 760px;
+}
+
+.freelancer-dashboard-command p {
+  color: #c9cdd4;
+  font-size: 15px;
+  line-height: 1.65;
+  margin: 0;
+  max-width: 670px;
+}
+
+.freelancer-dashboard-command > a {
+  align-items: center;
+  background: #ffb000;
+  border-radius: 12px;
+  color: #111318;
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 850;
+  gap: 24px;
+  justify-content: space-between;
+  min-height: 50px;
+  padding: 0 19px;
+  position: relative;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.freelancer-dashboard-command > a:hover {
+  background: #e69d00;
+}
+
+.freelancer-overview-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 18px;
+}
+
+.freelancer-overview-grid > a {
+  background: #fff;
+  border: 1px solid #dfe3e9;
+  border-radius: 16px;
+  box-shadow: 0 8px 26px rgba(17, 19, 24, 0.045);
+  display: grid;
+  gap: 7px;
+  min-height: 145px;
+  min-width: 0;
+  padding: 19px;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.freelancer-overview-grid > a:hover {
+  border-color: #ffb000;
+  box-shadow: 0 14px 34px rgba(17, 19, 24, 0.08);
+  transform: translateY(-2px);
+}
+
+.freelancer-overview-grid > a:first-child {
+  border-top: 4px solid #ffb000;
+  padding-top: 16px;
+}
+
+.freelancer-overview-grid span {
+  color: #626b78;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.freelancer-overview-grid strong {
+  align-self: end;
+  font-size: clamp(21px, 2.25vw, 31px);
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+}
+
+.freelancer-overview-grid small {
+  color: #69727f;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.freelancer-dashboard-search {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #d9dde5;
+  border-radius: 15px;
+  box-shadow: 0 10px 34px rgba(17, 19, 24, 0.06);
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 23px minmax(0, 1fr) auto;
+  margin: 22px 0 0;
+  padding: 7px 7px 7px 17px;
+}
+
+.freelancer-dashboard-search svg {
+  color: #515967;
+  height: 23px;
+  width: 23px;
+}
+
+.freelancer-dashboard-search input {
+  background: transparent;
+  border: 0;
+  font-size: 15px;
+  min-height: 46px;
+  min-width: 0;
+  outline: 0;
+  width: 100%;
+}
+
+.freelancer-dashboard-search button {
+  background: #111318;
+  border: 0;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  min-height: 44px;
+  padding: 0 18px;
+}
+
+.freelancer-dashboard-tabs {
+  align-items: center;
+  border-bottom: 1px solid #d9dde5;
+  display: flex;
+  gap: 28px;
+  overflow-x: auto;
+  padding: 0 4px;
+}
+
+.freelancer-dashboard-tabs button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  color: #5c6471;
+  cursor: pointer;
+  flex: 0 0 auto;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 750;
+  padding: 20px 0 14px;
+}
+
+.freelancer-dashboard-tabs button[aria-selected="true"],
+.freelancer-dashboard-tabs button:hover {
+  border-bottom-color: #ffb000;
+  color: #111318;
+}
+
+.freelancer-dashboard-tabs button span {
+  align-items: center;
+  background: #eceef2;
+  border-radius: 99px;
+  display: inline-flex;
+  font-size: 10px;
+  justify-content: center;
+  margin-left: 5px;
+  min-height: 21px;
+  min-width: 21px;
+  padding: 1px 6px;
+}
+
+.freelancer-dashboard-tabs button[aria-selected="true"] span {
+  background: #fff0bd;
+  color: #604600;
+}
+
+.freelancer-dashboard-workspace {
+  align-items: start;
+  display: grid;
+  gap: 22px;
+  grid-template-columns: minmax(0, 1fr) minmax(290px, 350px);
+  margin-top: 22px;
+}
+
+.freelancer-dashboard-tab-panels {
+  min-width: 0;
+}
+
+.freelancer-dashboard-feed,
+.freelancer-profile-card,
+.freelancer-activity-card {
+  background: #fff;
+  border: 1px solid #e2e5ea;
+  border-radius: 18px;
+  box-shadow: 0 9px 30px rgba(17, 19, 24, 0.045);
+}
+
+.freelancer-dashboard-feed {
+  overflow: hidden;
+}
+
+.freelancer-dashboard-feed[hidden] {
+  display: none;
+}
+
+.freelancer-dashboard-feed > header,
+.freelancer-activity-card > header {
+  align-items: center;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+}
+
+.freelancer-dashboard-feed > header {
+  border-bottom: 1px solid #e7e9ed;
+  padding: 24px 25px 20px;
+}
+
+.freelancer-dashboard-feed > header h2 {
+  font-size: clamp(25px, 3vw, 34px);
+  letter-spacing: -0.035em;
+  margin: 6px 0 0;
+}
+
+.freelancer-dashboard-feed > header > a,
+.freelancer-activity-card > header a {
+  color: #705100;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.freelancer-dashboard-jobs {
+  display: grid;
+  gap: 0;
+  margin: 0;
+}
+
+.freelancer-dashboard-jobs article {
+  border-bottom: 1px solid #e7e9ed;
+}
+
+.freelancer-dashboard-jobs article:last-child {
+  border-bottom: 0;
+}
+
+.freelancer-dashboard-jobs article > a {
+  display: block;
+  padding: 24px 25px 22px;
+  transition: background 150ms ease;
+}
+
+.freelancer-dashboard-jobs article > a:hover {
+  background: #fbf8ef;
+}
+
+.freelancer-job-heading,
+.freelancer-dashboard-jobs footer {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  justify-content: space-between;
+}
+
+.freelancer-job-heading > div {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.freelancer-job-heading > div > span {
+  background: #fff3d2;
+  border-radius: 99px;
+  color: #7b5900;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  padding: 6px 9px;
+  text-transform: uppercase;
+}
+
+.freelancer-job-heading em {
+  align-items: center;
+  background: #111318;
+  border-radius: 99px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 850;
+  min-height: 26px;
+  padding: 4px 9px;
+}
+
+.freelancer-job-heading small {
+  color: #7a818d;
+  font-size: 11px;
+}
+
+.freelancer-dashboard-jobs h3 {
+  font-size: clamp(20px, 2vw, 25px);
+  letter-spacing: -0.025em;
+  line-height: 1.22;
+  margin: 17px 0 8px;
+}
+
+.freelancer-dashboard-jobs p {
+  color: #636b77;
+  font-size: 14px;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.freelancer-job-facts {
+  display: grid;
+  gap: 8px 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 18px 0 0;
+}
+
+.freelancer-job-facts > div {
+  border-left: 2px solid #ffb000;
+  display: grid;
+  gap: 4px;
+  padding-left: 10px;
+}
+
+.freelancer-job-facts dt {
+  color: #7a818d;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.freelancer-job-facts dd {
+  font-size: 12px;
+  font-weight: 750;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.freelancer-job-skills,
+.freelancer-preference-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 16px;
+}
+
+.freelancer-job-skills span,
+.freelancer-preference-skills span {
+  background: #f0f2f5;
+  border: 1px solid #e1e5ea;
+  border-radius: 8px;
+  color: #4b5563;
+  font-size: 10px;
+  font-weight: 750;
+  padding: 6px 9px;
+}
+
+.freelancer-dashboard-jobs footer {
+  margin-top: 22px;
+}
+
+.freelancer-dashboard-jobs footer strong {
+  display: grid;
+  gap: 3px;
+  font-size: 14px;
+}
+
+.freelancer-dashboard-jobs footer strong small {
+  color: #7a818d;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.freelancer-dashboard-jobs footer span {
+  color: #705100;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.freelancer-dashboard-empty {
+  padding: 50px 25px;
+  text-align: center;
+}
+
+.freelancer-dashboard-empty > strong {
+  display: block;
+  font-size: 22px;
+}
+
+.freelancer-dashboard-empty p {
+  color: #666e79;
+  line-height: 1.6;
+  margin: 10px auto 20px;
+  max-width: 520px;
+}
+
+.freelancer-dashboard-empty > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  justify-content: center;
+}
+
+.freelancer-dashboard-empty a {
+  border: 1px solid #111318;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 800;
+  min-height: 42px;
+  padding: 12px 15px;
+}
+
+.freelancer-dashboard-records {
+  display: grid;
+}
+
+.freelancer-dashboard-records article {
+  border-bottom: 1px solid #e7e9ed;
+  display: grid;
+  gap: 10px;
+  padding: 23px 25px;
+}
+
+.freelancer-dashboard-records article:last-child {
+  border-bottom: 0;
+}
+
+.freelancer-dashboard-records article > div {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.freelancer-record-status {
+  background: #fff3d2;
+  border-radius: 99px;
+  color: #705100;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  padding: 6px 9px;
+  text-transform: uppercase;
+}
+
+.freelancer-dashboard-records small {
+  color: #7a818d;
+  font-size: 11px;
+}
+
+.freelancer-dashboard-records h3 {
+  font-size: clamp(20px, 2vw, 25px);
+  letter-spacing: -0.025em;
+  line-height: 1.22;
+  margin: 3px 0 0;
+}
+
+.freelancer-dashboard-records p {
+  color: #636b77;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.freelancer-dashboard-records p strong {
+  color: #111318;
+}
+
+.freelancer-dashboard-records article > a {
+  color: #705100;
+  font-size: 12px;
+  font-weight: 800;
+  justify-self: start;
+  margin-top: 5px;
+}
+
+.freelancer-dashboard-rail {
+  display: grid;
+  gap: 17px;
+  position: sticky;
+  top: 24px;
+}
+
+.freelancer-profile-card,
+.freelancer-activity-card,
+.freelancer-rail-card {
+  padding: 22px;
+}
+
+.freelancer-rail-card {
+  background: #fff;
+  border: 1px solid #e2e5ea;
+  border-radius: 18px;
+  box-shadow: 0 9px 30px rgba(17, 19, 24, 0.045);
+}
+
+.freelancer-rail-card > header {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.freelancer-rail-card > header > span {
+  color: #111318;
+  font-size: 14px;
+  font-weight: 850;
+}
+
+.freelancer-rail-card > header a,
+.freelancer-rail-card > a {
+  color: #705100;
+  font-size: 11px;
+  font-weight: 850;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.freelancer-rail-card > header small {
+  color: #737b87;
+  font-size: 10px;
+}
+
+.freelancer-rail-card > p {
+  color: #68717d;
+  font-size: 11px;
+  line-height: 1.55;
+  margin: 15px 0 0;
+}
+
+.freelancer-profile-card-top {
+  align-items: center;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 52px minmax(0, 1fr);
+}
+
+.freelancer-profile-card-top > span {
+  align-items: center;
+  background: #ffb000;
+  border-radius: 14px;
+  display: flex;
+  font-size: 18px;
+  font-weight: 900;
+  height: 52px;
+  justify-content: center;
+  width: 52px;
+}
+
+.freelancer-profile-card-top > div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.freelancer-profile-card-top strong,
+.freelancer-profile-card-top small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.freelancer-profile-card-top strong {
+  font-size: 16px;
+}
+
+.freelancer-profile-card-top small {
+  color: #707784;
+  font-size: 11px;
+}
+
+.freelancer-profile-card dl {
+  display: grid;
+  margin: 20px 0 18px;
+}
+
+.freelancer-profile-progress {
+  display: grid;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.freelancer-profile-progress > span {
+  align-items: center;
+  display: flex;
+  font-size: 11px;
+  justify-content: space-between;
+}
+
+.freelancer-profile-progress > div {
+  background: #eceef2;
+  border-radius: 99px;
+  height: 7px;
+  overflow: hidden;
+}
+
+.freelancer-profile-progress i {
+  background: #ffb000;
+  display: block;
+  height: 100%;
+}
+
+.freelancer-reach-card dl,
+.freelancer-preferences-card dl {
+  display: grid;
+  margin: 13px 0 0;
+}
+
+.freelancer-reach-card dl > div,
+.freelancer-preferences-card dl > div {
+  align-items: start;
+  border-top: 1px solid #e7e9ed;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 11px 0;
+}
+
+.freelancer-reach-card dt,
+.freelancer-preferences-card dt {
+  color: #707784;
+  font-size: 10px;
+}
+
+.freelancer-reach-card dd,
+.freelancer-preferences-card dd {
+  font-size: 10px;
+  font-weight: 800;
+  margin: 0;
+  max-width: 55%;
+  text-align: right;
+  text-transform: capitalize;
+}
+
+.freelancer-gospark-card {
+  background: #111318;
+  border-color: #111318;
+  color: #fff;
+  overflow: hidden;
+  position: relative;
+}
+
+.freelancer-gospark-card::after {
+  background: #ffb000;
+  border-radius: 50%;
+  content: "";
+  height: 90px;
+  opacity: 0.14;
+  position: absolute;
+  right: -30px;
+  top: -32px;
+  width: 90px;
+}
+
+.freelancer-gospark-card > header > span,
+.freelancer-gospark-card > header small,
+.freelancer-gospark-card > p {
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+
+.freelancer-gospark-card > header small,
+.freelancer-gospark-card > p {
+  color: #c6cbd2;
+}
+
+.freelancer-gospark-card > strong {
+  color: #ffb000;
+  display: block;
+  font-size: 42px;
+  line-height: 1;
+  margin-top: 18px;
+}
+
+.freelancer-gospark-card > a {
+  align-items: center;
+  background: #ffb000;
+  border-radius: 10px;
+  color: #111318;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+  min-height: 42px;
+  padding: 0 12px;
+  text-decoration: none;
+}
+
+.freelancer-preference-skills {
+  margin-top: 13px;
+}
+
+.freelancer-proposal-card > div {
+  display: grid;
+  gap: 7px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 15px;
+}
+
+.freelancer-proposal-card > div > span {
+  background: #f7f8fa;
+  border-radius: 10px;
+  color: #69717d;
+  display: grid;
+  font-size: 9px;
+  gap: 5px;
+  padding: 10px 7px;
+  text-align: center;
+}
+
+.freelancer-proposal-card > div b {
+  color: #111318;
+  font-size: 18px;
+}
+
+.gospark-wallet-hero {
+  align-items: center;
+  background: #111318;
+  border-radius: 24px;
+  color: #fff;
+  display: grid;
+  gap: clamp(30px, 6vw, 80px);
+  grid-template-columns: minmax(220px, .7fr) minmax(0, 1.3fr);
+  overflow: hidden;
+  padding: clamp(28px, 5vw, 56px);
+  position: relative;
+}
+
+.gospark-wallet-hero::after {
+  background: #ffb000;
+  border-radius: 50%;
+  bottom: -140px;
+  content: "";
+  height: 310px;
+  opacity: .12;
+  position: absolute;
+  right: -90px;
+  width: 310px;
+}
+
+.gospark-wallet-hero > div {
+  position: relative;
+  z-index: 1;
+}
+
+.gospark-wallet-hero > div:first-child {
+  border-right: 1px solid rgba(255, 255, 255, .18);
+  display: grid;
+  gap: 4px;
+}
+
+.gospark-wallet-hero span,
+.gospark-section-heading span {
+  color: #ffb000;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.gospark-wallet-hero > div:first-child strong {
+  color: #ffb000;
+  font-size: clamp(62px, 10vw, 112px);
+  line-height: .95;
+}
+
+.gospark-wallet-hero > div:first-child small {
+  color: #d6dae0;
+  font-size: 16px;
+  font-weight: 750;
+}
+
+.gospark-wallet-hero h2 {
+  font-size: clamp(29px, 4vw, 46px);
+  letter-spacing: -.04em;
+  line-height: 1.05;
+  margin: 0;
+}
+
+.gospark-wallet-hero p {
+  color: #c7ccd3;
+  line-height: 1.65;
+  margin: 15px 0 22px;
+  max-width: 680px;
+}
+
+.gospark-wallet-hero a {
+  align-items: center;
+  background: #ffb000;
+  border-radius: 11px;
+  color: #111318;
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 850;
+  gap: 26px;
+  min-height: 46px;
+  padding: 0 15px;
+}
+
+.gospark-section-heading {
+  align-items: end;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.gospark-section-heading h2 {
+  margin: 7px 0 0;
+}
+
+.gospark-section-heading > small {
+  color: #6b7280;
+  font-size: 11px;
+}
+
+.gospark-pack-grid {
+  display: grid;
+  gap: 13px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 22px;
+}
+
+.gospark-pack-grid article {
+  border: 1px solid #dfe3e9;
+  border-radius: 16px;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto auto;
+  padding: 22px;
+}
+
+.gospark-pack-grid article > span {
+  color: #705100;
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.gospark-pack-grid article > strong {
+  font-size: 30px;
+  margin-top: 8px;
+}
+
+.gospark-pack-grid article > strong small {
+  color: #6b7280;
+  font-size: 11px;
+}
+
+.gospark-pack-grid article p {
+  font-size: 12px;
+  margin: 12px 0 22px;
+}
+
+.gospark-pack-grid article > div {
+  align-items: center;
+  border-top: 1px solid #e8ebef;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 14px;
+}
+
+.gospark-pack-grid article > div small {
+  color: #6b7280;
+  font-size: 10px;
+}
+
+.gospark-pack-grid button {
+  background: #ffb000;
+  border: 0;
+  border-radius: 11px;
+  color: #111318;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 850;
+  margin-top: 16px;
+  min-height: 46px;
+  padding: 8px 12px;
+}
+
+.gospark-pack-grid button:hover {
+  background: #e69d00;
+}
+
+.gospark-pack-grid button:disabled {
+  cursor: wait;
+  opacity: .65;
+}
+
+.gospark-terms {
+  border-top: 1px solid #e8ebef;
+  color: #6b7280;
+  font-size: 11px;
+  margin: 22px 0 0;
+  padding-top: 16px;
+}
+
+.gospark-history > div:last-child {
+  display: grid;
+  margin-top: 17px;
+}
+
+.gospark-history article {
+  align-items: center;
+  border-top: 1px solid #e5e8ed;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  padding: 15px 0;
+}
+
+.gospark-history article > span {
+  align-items: center;
+  border-radius: 11px;
+  display: flex;
+  font-size: 13px;
+  font-weight: 900;
+  height: 42px;
+  justify-content: center;
+}
+
+.gospark-history article > span.positive {
+  background: #e9f8ed;
+  color: #16713a;
+}
+
+.gospark-history article > span.negative {
+  background: #fff2d3;
+  color: #705100;
+}
+
+.gospark-history article > div {
+  display: grid;
+  gap: 4px;
+}
+
+.gospark-history article small,
+.gospark-history article > b {
+  color: #6b7280;
+  font-size: 10px;
+}
+
+.gospark-explainer > a {
+  color: #705100;
+  font-weight: 800;
+  text-decoration: underline;
+}
+
+.freelancer-profile-card dl > div {
+  align-items: center;
+  border-top: 1px solid #e7e9ed;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 11px 0;
+}
+
+.freelancer-profile-card dt {
+  color: #707784;
+  font-size: 11px;
+}
+
+.freelancer-profile-card dd {
+  font-size: 11px;
+  font-weight: 800;
+  margin: 0;
+  text-align: right;
+  text-transform: capitalize;
+}
+
+.freelancer-profile-card > a {
+  align-items: center;
+  background: #111318;
+  border-radius: 10px;
+  color: #fff;
+  display: flex;
+  font-size: 12px;
+  font-weight: 800;
+  justify-content: space-between;
+  min-height: 44px;
+  padding: 0 14px;
+}
+
+.freelancer-activity-card > header {
+  border-bottom: 1px solid #e7e9ed;
+  padding-bottom: 15px;
+}
+
+.freelancer-activity-card > div {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 14px;
+}
+
+.freelancer-activity-card > div > a {
+  background: #f7f8fa;
+  border-radius: 10px;
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: 12px;
+}
+
+.freelancer-activity-card > div > a:hover {
+  background: #fff3d2;
+}
+
+.freelancer-activity-card > div span {
+  color: #676f7b;
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+.freelancer-activity-card > div strong {
+  font-size: 20px;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1160px) {
+  .freelancer-dashboard-workspace {
+    grid-template-columns: minmax(0, 1fr) 300px;
+  }
+}
+
+@media (max-width: 980px) {
+  .pages-account--freelancer {
+    padding-top: 29px;
+  }
+
+  .freelancer-dashboard-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .freelancer-overview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .freelancer-dashboard-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    position: static;
+  }
+
+  .gospark-pack-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.status-chip.interview {
+  background: #fff3d6;
+  border-color: #e7ba52;
+  color: #6f4a00;
+}
+
+@media (max-width: 700px) {
+  .freelancer-diary-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .freelancer-dashboard-command {
+    align-items: start;
+    grid-template-columns: 1fr;
+  }
+
+  .freelancer-dashboard-command > a {
+    justify-self: start;
+  }
+
+  .freelancer-dashboard-search {
+    grid-template-columns: 22px minmax(0, 1fr);
+  }
+
+  .freelancer-dashboard-search button {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .freelancer-dashboard-rail {
+    grid-template-columns: 1fr;
+  }
+
+  .freelancer-job-facts,
+  .gospark-wallet-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .gospark-wallet-hero > div:first-child {
+    border-bottom: 1px solid rgba(255, 255, 255, .18);
+    border-right: 0;
+    padding-bottom: 24px;
+  }
+
+  .gospark-section-heading {
+    align-items: start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 520px) {
+  .pages-account--freelancer {
+    padding: 24px 14px 55px;
+  }
+
+  .pages-account--freelancer .pages-account-heading h1 {
+    font-size: 36px;
+  }
+
+  .freelancer-dashboard-command {
+    border-radius: 18px;
+    padding: 25px 21px;
+  }
+
+  .freelancer-dashboard-command h2 {
+    font-size: 32px;
+  }
+
+  .freelancer-overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .freelancer-dashboard-tabs {
+    gap: 22px;
+  }
+
+  .freelancer-dashboard-feed > header,
+  .freelancer-dashboard-jobs article > a,
+  .freelancer-dashboard-records article {
+    padding-inline: 18px;
+  }
+}

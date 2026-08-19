@@ -1,0 +1,1660 @@
+/*
+ * GoWorkora Forward Signal platform theme
+ * Presentation-only overrides shared by public, account and feature surfaces.
+ * The approved homepage remains isolated under .ke-preview.
+ */
+
+:root {
+  --gw-black: #111318;
+  --gw-black-soft: #20242c;
+  --gw-gold: #ffb000;
+  --gw-gold-hover: #e69d00;
+  --gw-gold-soft: #fff3cf;
+  --gw-white: #ffffff;
+  --gw-cloud: #f7f8fa;
+  --gw-gray-100: #eceef2;
+  --gw-gray-200: #d9dde5;
+  --gw-text: #111318;
+  --gw-text-secondary: #4b5563;
+  --gw-text-muted: #6b7280;
+  --gw-success: #16a34a;
+  --gw-warning: #d97706;
+  --gw-error: #dc2626;
+  --gw-info: #2563eb;
+  --gw-radius-sm: 8px;
+  --gw-radius-input: 12px;
+  --gw-radius-card: 16px;
+  --gw-radius-panel: 24px;
+  --gw-shadow-card: 0 8px 30px rgba(17, 19, 24, 0.08);
+  --gw-shadow-hover: 0 16px 42px rgba(17, 19, 24, 0.12);
+  --gw-shadow-dialog: 0 30px 90px rgba(17, 19, 24, 0.28);
+  --ink: var(--gw-black);
+  --soft: var(--gw-text-secondary);
+  --cream: var(--gw-cloud);
+  --paper: var(--gw-white);
+  --lime: var(--gw-gold);
+  --green: #9a6900;
+  --line: var(--gw-gray-200);
+  --muted: var(--gw-text-muted);
+  --shadow: var(--gw-shadow-dialog);
+}
+
+/* Author-level layout declarations can otherwise override the native hidden rule. */
+[hidden] {
+  display: none !important;
+}
+
+html {
+  background: var(--gw-cloud);
+}
+
+body {
+  background: var(--gw-cloud);
+  color: var(--gw-text);
+  font-family: "Inter", "Manrope", "Geist", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body :where(button, input, select, textarea) {
+  font-family: inherit;
+}
+
+body :where(button, a, input, select, textarea):focus-visible {
+  border-radius: var(--gw-radius-sm);
+  box-shadow:
+    0 0 0 2px var(--gw-white),
+    0 0 0 5px var(--gw-gold);
+  outline: 0;
+}
+
+body :where(h1, h2, h3, h4) {
+  font-family: "Inter Tight", "Manrope", "Geist", system-ui, sans-serif;
+}
+
+/* Shared approved wordmark */
+.gw-brand-home {
+  align-items: center;
+  display: inline-flex;
+  flex: 0 0 auto;
+  justify-content: center;
+  line-height: 1;
+}
+
+.gw-brand-wordmark {
+  aspect-ratio: 2172 / 724;
+  display: block;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  width: 190px;
+}
+
+/* Keep the approved black-and-gold artwork legible on dark chrome. The hue
+   rotation restores the gold accent after inversion while the wordmark turns
+   white. Light surfaces continue to use the original artwork unchanged. */
+body:not(.goworkora-home) #global-header .gw-brand-wordmark,
+#global-footer .gw-brand-wordmark,
+:is(
+  .pe-header,
+  .jobs-header,
+  .contract-header,
+  .talent-header,
+  .payment-header,
+  .message-header,
+  .trust-header
+) .gw-brand-wordmark {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+body:not(.goworkora-home) #global-header .gw-brand-home,
+#global-footer .gw-brand-home,
+.modal > .gw-brand-home {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+  padding: 0;
+}
+
+body:not(.goworkora-home) #global-header .gw-brand-wordmark {
+  width: 184px;
+}
+
+#global-footer .gw-brand-wordmark {
+  width: 218px;
+}
+
+.modal > .gw-brand-home {
+  width: max-content;
+}
+
+.modal > .gw-brand-home .gw-brand-wordmark {
+  width: 202px;
+}
+
+/* Global public chrome */
+body:not(.goworkora-home) .header {
+  background: rgba(17, 19, 24, 0.97);
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+  color: var(--gw-white);
+  min-height: 82px;
+}
+
+body:not(.goworkora-home) .header .brand,
+body:not(.goworkora-home) .header .nav a,
+body:not(.goworkora-home) .header .nav button {
+  color: var(--gw-white);
+}
+
+body:not(.goworkora-home) .header .brand {
+  font-size: 24px;
+}
+
+body:not(.goworkora-home) .header .mark,
+.modal .mark,
+:is(
+  .pe-header,
+  .jobs-header,
+  .contract-header,
+  .talent-header,
+  .payment-header,
+  .message-header,
+  .trust-header
+) :is(.mark, .brand-mark) {
+  background: var(--gw-gold);
+  color: var(--gw-black);
+  transform: none;
+}
+
+body:not(.goworkora-home) .header .nav a:hover,
+body:not(.goworkora-home) .header .nav button:hover,
+body:not(.goworkora-home) .header .nav a[aria-current="page"] {
+  color: var(--gw-gold);
+}
+
+body:not(.goworkora-home) .header .header-actions .btn-outline {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.42);
+  color: var(--gw-white);
+}
+
+body:not(.goworkora-home) .header .header-actions .btn-outline:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--gw-gold);
+  color: var(--gw-gold);
+}
+
+body:not(.goworkora-home) .header .btn-dark,
+body:not(.goworkora-home) .header .btn-lime {
+  background: var(--gw-gold);
+  border-color: var(--gw-gold);
+  color: var(--gw-black);
+}
+
+body:not(.goworkora-home) .header .menu {
+  color: var(--gw-white);
+}
+
+body:not(.goworkora-home) .header.mobile-open > .nav {
+  background: var(--gw-black);
+}
+
+body:not(.goworkora-home) .header > .nav a,
+body:not(.goworkora-home) .header > .nav button {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+#global-footer {
+  background: var(--gw-black);
+  color: var(--gw-white);
+}
+
+#global-footer .mark {
+  background: var(--gw-gold);
+  color: var(--gw-black);
+  transform: none;
+}
+
+#global-footer .footer-brand p {
+  color: rgba(255, 255, 255, 0.72);
+  font-family: "Inter Tight", "Manrope", system-ui, sans-serif;
+}
+
+#global-footer .footer-links h3 {
+  color: var(--gw-gold);
+  font-size: 12px;
+}
+
+#global-footer .footer-links a {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+#global-footer .footer-links a:hover {
+  color: var(--gw-white);
+}
+
+#global-footer .copyright {
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 12px;
+}
+
+/* Shared controls */
+body:not(.goworkora-home) :is(.btn, .pages-account-button, .pages-account-button-row button, .pages-account-button-row a),
+:is(
+  .workora-profile-root,
+  .workora-jobs-root,
+  .workora-contracts-root,
+  .workora-talent-root,
+  .workora-payments-root,
+  .workora-messaging-root,
+  .workora-trust-root
+) :is(button, .btn, a.btn) {
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+body:not(.goworkora-home) :is(.btn-dark, .btn-lime),
+.pages-account-button,
+.pages-account-button-row button:not(:last-child),
+:is(
+  .workora-profile-root,
+  .workora-jobs-root,
+  .workora-contracts-root,
+  .workora-talent-root,
+  .workora-payments-root,
+  .workora-messaging-root,
+  .workora-trust-root
+) :is(
+  .pe-button.dark,
+  .primary,
+  .contract-primary,
+  .btn-dark,
+  .send-button,
+  .payment-panel-actions button:not(.secondary)
+) {
+  background: var(--gw-gold);
+  border-color: var(--gw-gold);
+  border-radius: var(--gw-radius-input);
+  color: var(--gw-black);
+}
+
+body:not(.goworkora-home) :is(.btn-dark, .btn-lime):hover,
+.pages-account-button:hover,
+:is(
+  .workora-profile-root,
+  .workora-jobs-root,
+  .workora-contracts-root,
+  .workora-talent-root,
+  .workora-payments-root,
+  .workora-messaging-root,
+  .workora-trust-root
+) :is(
+  .pe-button.dark,
+  .primary,
+  .contract-primary,
+  .btn-dark,
+  .send-button,
+  .payment-panel-actions button:not(.secondary)
+):hover {
+  background: var(--gw-gold-hover);
+  border-color: var(--gw-gold-hover);
+  transform: translateY(-2px);
+}
+
+body:not(.goworkora-home) :is(.btn-outline, .btn-light),
+.pages-account-button-row a,
+:is(
+  .workora-profile-root,
+  .workora-jobs-root,
+  .workora-contracts-root,
+  .workora-talent-root,
+  .workora-payments-root,
+  .workora-messaging-root,
+  .workora-trust-root
+) :is(
+  .pe-button:not(.dark),
+  .secondary,
+  .text-button,
+  .text-link,
+  .talent-filter-toggle,
+  .trust-secondary-button
+) {
+  background: var(--gw-white);
+  border: 1px solid var(--gw-black);
+  border-radius: var(--gw-radius-input);
+  color: var(--gw-black);
+}
+
+/* Premium authentication surface */
+.modal-wrap {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 176, 0, 0.14), transparent 30%),
+    rgba(4, 5, 7, 0.82);
+  backdrop-filter: blur(14px);
+}
+
+.modal {
+  background:
+    linear-gradient(90deg, var(--gw-black) 0 40%, var(--gw-white) 40% 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--gw-radius-panel);
+  box-shadow: var(--gw-shadow-dialog);
+  display: grid;
+  gap: 18px 58px;
+  grid-template-columns: minmax(245px, 0.72fr) minmax(360px, 1fr);
+  max-width: 960px;
+  padding: 48px;
+  width: min(960px, 100%);
+}
+
+.modal > .brand {
+  align-self: start;
+  color: var(--gw-white);
+  font-size: 29px;
+  grid-column: 1;
+  grid-row: 1;
+  letter-spacing: -1px;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.modal .auth-brand-copy {
+  align-self: end;
+  color: rgba(255, 255, 255, 0.72);
+  grid-column: 1;
+  grid-row: 2;
+  line-height: 1.65;
+  margin: 80px 0 0;
+  max-width: 250px;
+  position: relative;
+  z-index: 1;
+}
+
+.modal .auth-brand-copy strong {
+  color: var(--gw-white);
+  display: block;
+  font-family: "Inter Tight", "Manrope", system-ui, sans-serif;
+  font-size: 28px;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+  margin-bottom: 14px;
+}
+
+.modal .auth-brand-copy::before {
+  background: var(--gw-gold);
+  content: "";
+  display: block;
+  height: 8px;
+  margin-bottom: 24px;
+  transform: skewX(-24deg);
+  width: 56px;
+}
+
+.modal #auth-content {
+  align-self: center;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  min-width: 0;
+}
+
+.modal .close {
+  border-color: var(--gw-gray-200);
+  color: var(--gw-black);
+  min-height: 44px;
+  min-width: 44px;
+  right: 18px;
+  top: 18px;
+  z-index: 3;
+}
+
+.modal .modal-kicker,
+.modal .auth-back,
+.modal .role-summary button,
+.modal .modal-switch button,
+.modal .auth-recovery button,
+.modal .resend-row button,
+.modal .verification-links button {
+  color: #875c00;
+}
+
+.modal .modal-kicker {
+  font-size: 12px;
+}
+
+.modal .modal-switch button {
+  font-size: 13px;
+  line-height: 1.5;
+  min-height: 24px;
+}
+
+.modal h2 {
+  color: var(--gw-black);
+  font-size: clamp(34px, 4vw, 48px);
+  letter-spacing: -0.045em;
+}
+
+.modal :is(.auth-intro, .field-help, .terms, .auth-recovery, .modal-switch) {
+  color: var(--gw-text-secondary);
+  font-size: 12px;
+}
+
+.modal label,
+.modal .otp-fieldset legend {
+  color: var(--gw-black);
+  font-size: 13px;
+}
+
+.modal :is(input, select, textarea, .otp-input) {
+  border-color: var(--gw-gray-200);
+  border-radius: var(--gw-radius-input);
+  min-height: 48px;
+}
+
+.modal :is(input, select, textarea, .otp-input):focus {
+  border-color: var(--gw-gold);
+  box-shadow: 0 0 0 3px rgba(255, 176, 0, 0.2);
+}
+
+.modal .btn {
+  border-radius: var(--gw-radius-input);
+  min-height: 50px;
+}
+
+.modal .btn-dark,
+.modal .btn-lime {
+  background: var(--gw-gold);
+  border-color: var(--gw-gold);
+  color: var(--gw-black);
+}
+
+.modal .role-option {
+  border-color: var(--gw-gray-200);
+  border-radius: var(--gw-radius-input);
+}
+
+.modal .role-option:hover,
+.modal .role-option.selected {
+  background: var(--gw-gold-soft);
+  border-color: var(--gw-gold);
+  box-shadow: 0 0 0 2px rgba(255, 176, 0, 0.14);
+}
+
+.modal .role-option.selected .role-icon,
+.modal .success-seal,
+.modal .progress i.done {
+  background: var(--gw-gold);
+  color: var(--gw-black);
+}
+
+.modal .role-option small,
+.modal .field-help,
+.modal .terms,
+.modal .auth-recovery,
+.modal .modal-switch,
+.modal .account-summary span,
+.modal .role-summary,
+.modal .resend-row,
+.modal .verification-links {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.modal .auth-error {
+  background: #fff1f0;
+  border-color: #f4b8b3;
+  color: #a12820;
+  font-size: 12px;
+}
+
+.modal .auth-notice,
+.modal .auth-success {
+  font-size: 12px;
+}
+
+/* Public and legal pages */
+.route-page {
+  background:
+    linear-gradient(180deg, var(--gw-black) 0 340px, var(--gw-cloud) 340px 100%);
+  margin: 0;
+  max-width: none;
+  min-height: 74vh;
+  padding:
+    82px max(20px, calc((100vw - 1180px) / 2))
+    110px;
+}
+
+.route-page > .route-eyebrow {
+  color: var(--gw-gold);
+  font-size: 12px;
+}
+
+.route-page > h1 {
+  color: var(--gw-white);
+  font-size: clamp(48px, 6vw, 76px);
+  letter-spacing: -0.055em;
+  max-width: 940px;
+}
+
+.route-page > .lede {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 18px;
+  max-width: 760px;
+}
+
+.route-page .route-copy,
+.public-sections section,
+.public-card,
+.public-state,
+.public-article,
+.public-form,
+.public-legal-note {
+  border-color: var(--gw-gray-200);
+  border-radius: var(--gw-radius-card);
+  box-shadow: var(--gw-shadow-card);
+}
+
+.public-card {
+  min-height: 180px;
+  position: relative;
+}
+
+.public-card::after {
+  background: var(--gw-gold);
+  bottom: 18px;
+  content: "↗";
+  display: grid;
+  height: 32px;
+  place-items: center;
+  position: absolute;
+  right: 18px;
+  width: 32px;
+}
+
+a.public-card:hover {
+  border-color: var(--gw-gold);
+  box-shadow: var(--gw-shadow-hover);
+}
+
+.public-card small,
+.public-form-status,
+.route-page .route-eyebrow {
+  color: #875c00;
+}
+
+.public-sections p,
+.public-card span,
+.public-state p,
+.public-article li,
+.public-note,
+.public-meta,
+.public-legal-note p {
+  color: var(--gw-text-secondary);
+  font-size: 14px;
+}
+
+.public-search input,
+.public-form :is(input, select, textarea) {
+  border-color: var(--gw-gray-200);
+  border-radius: var(--gw-radius-input);
+  min-height: 48px;
+}
+
+.public-search input:focus,
+.public-form :is(input, select, textarea):focus {
+  border-color: var(--gw-gold);
+  box-shadow: 0 0 0 3px rgba(255, 176, 0, 0.16);
+  outline: 0;
+}
+
+.public-form label {
+  font-size: 13px;
+}
+
+.public-legal-note {
+  background: var(--gw-gold-soft);
+  border-color: #eacb77;
+}
+
+/* Preserve the approved homepage while keeping its compact storytelling legible. */
+.ke-preview .ke-marketplace-story .ke-story-card :is(small, span),
+.ke-preview .ke-hero-media .ke-story-live > div > span,
+.ke-preview .ke-human-frame .ke-human-prompt > span,
+.ke-preview .ke-talent-promise .ke-talent-orbit-core small {
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.ke-preview .ke-hero-media .ke-story-live p {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.route-actions .btn:first-child,
+.public-helpful button:first-child {
+  background: var(--gw-gold);
+  border-color: var(--gw-gold);
+  color: var(--gw-black);
+}
+
+/* Account pages and dashboard cards */
+.pages-account {
+  background:
+    radial-gradient(circle at 90% 0, rgba(255, 176, 0, 0.12), transparent 28%),
+    var(--gw-cloud);
+}
+
+.pages-account-nav a {
+  border-color: var(--gw-gray-200);
+  border-radius: var(--gw-radius-input);
+  font-size: 13px;
+}
+
+.pages-account-nav a.active {
+  background: var(--gw-black);
+  border-color: var(--gw-black);
+  color: var(--gw-white);
+}
+
+.pages-account-heading span,
+.pages-account-panel > span {
+  color: #875c00;
+  font-size: 12px;
+}
+
+.pages-account-heading h1 {
+  color: var(--gw-black);
+}
+
+.pages-account-status,
+.pages-account-panel,
+.pages-account-metrics > a,
+.pages-account-grid > a,
+.pages-account-actions > a {
+  border-color: var(--gw-gray-200);
+  border-radius: var(--gw-radius-card);
+  box-shadow: var(--gw-shadow-card);
+}
+
+.pages-account-metrics > a {
+  border-top: 4px solid var(--gw-gold);
+}
+
+.pages-account-metrics > a:hover,
+.pages-account-grid > a:hover,
+.pages-account-actions > a:hover {
+  border-color: var(--gw-gold);
+  box-shadow: var(--gw-shadow-hover);
+}
+
+.pages-account-metrics span,
+.pages-account-grid span,
+.pages-account-metrics small,
+.pages-account-grid small,
+.pages-account-panel p,
+.pages-account-details dt,
+.pages-notification-form small,
+.pages-support-list small {
+  color: var(--gw-text-secondary);
+  font-size: 13px;
+}
+
+.pages-account-form :is(input, select, textarea),
+.pages-account-danger textarea {
+  border-color: var(--gw-gray-200);
+  border-radius: var(--gw-radius-input);
+  min-height: 48px;
+}
+
+.pages-account-button,
+.pages-account-button-row button,
+.pages-account-button-row a {
+  border-radius: var(--gw-radius-input);
+}
+
+/* Shared authenticated application shell */
+:is(
+  .workora-profile-root,
+  .workora-jobs-root,
+  .workora-contracts-root,
+  .workora-talent-root,
+  .workora-payments-root,
+  .workora-messaging-root,
+  .workora-trust-root
+) {
+  background: var(--gw-cloud);
+  color: var(--gw-text);
+  min-height: 100vh;
+}
+
+:is(
+  .workora-profile-root,
+  .workora-jobs-root,
+  .workora-contracts-root,
+  .workora-talent-root,
+  .workora-payments-root,
+  .workora-messaging-root,
+  .workora-trust-root
+) :is(
+  .pe-app,
+  .jobs-app,
+  .contract-app,
+  .talent-app,
+  .payment-app,
+  .message-app,
+  .trust-app
+) {
+  background: var(--gw-cloud);
+  color: var(--gw-text);
+}
+
+:is(
+  .workora-profile-root,
+  .workora-jobs-root,
+  .workora-contracts-root,
+  .workora-talent-root,
+  .workora-payments-root,
+  .workora-messaging-root,
+  .workora-trust-root
+) :is(h1, h2, h3, h4) {
+  color: inherit;
+  font-family: "Inter Tight", "Manrope", "Geist", system-ui, sans-serif;
+}
+
+:is(
+  .workora-profile-root,
+  .workora-jobs-root,
+  .workora-contracts-root,
+  .workora-talent-root,
+  .workora-payments-root,
+  .workora-messaging-root,
+  .workora-trust-root
+) :is(
+  .text-link,
+  .contract-breadcrumb a,
+  .talent-result-count a,
+  .talent-card footer a,
+  .invitation-person a,
+  .invitation-card footer a,
+  .deliverable-versions a,
+  .contract-sidebar a,
+  .text-button,
+  .trust-back
+) {
+  color: #875c00;
+}
+
+:is(
+  .pe-header,
+  .jobs-header,
+  .contract-header,
+  .talent-header,
+  .payment-header,
+  .message-header,
+  .trust-header
+) {
+  background: rgba(17, 19, 24, 0.98);
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+  color: var(--gw-white);
+  min-height: 78px;
+}
+
+:is(
+  .pe-header,
+  .jobs-header,
+  .contract-header,
+  .talent-header,
+  .payment-header,
+  .message-header,
+  .trust-header
+) :is(.brand, a, button) {
+  color: var(--gw-white);
+}
+
+:is(
+  .pe-header,
+  .jobs-header,
+  .contract-header,
+  .talent-header,
+  .payment-header,
+  .message-header,
+  .trust-header
+) .brand {
+  background: transparent;
+  border: 0;
+  font-size: 22px;
+}
+
+:is(
+  .pe-header,
+  .jobs-header,
+  .contract-header,
+  .talent-header,
+  .payment-header,
+  .message-header,
+  .trust-header
+) .gw-brand-home {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex: 0 0 auto;
+  justify-content: center;
+  min-height: 0;
+  overflow: visible;
+  padding: 0;
+}
+
+:is(
+  .pe-header,
+  .jobs-header,
+  .contract-header,
+  .talent-header,
+  .payment-header,
+  .message-header,
+  .trust-header
+) .gw-brand-home:hover {
+  opacity: 0.88;
+}
+
+:is(
+  .pe-header,
+  .jobs-header,
+  .contract-header,
+  .talent-header,
+  .payment-header,
+  .message-header,
+  .trust-header
+) .gw-brand-wordmark {
+  width: 166px;
+}
+
+:is(
+  .pe-header,
+  .jobs-header,
+  .contract-header,
+  .talent-header,
+  .payment-header,
+  .message-header,
+  .trust-header
+) nav a {
+  color: rgba(255, 255, 255, 0.74);
+}
+
+:is(
+  .pe-header,
+  .jobs-header,
+  .contract-header,
+  .talent-header,
+  .payment-header,
+  .message-header,
+  .trust-header
+) nav {
+  align-items: center;
+  display: flex;
+  gap: clamp(13px, 1.8vw, 25px);
+  justify-content: center;
+  min-width: 0;
+}
+
+.pe-header {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.pe-header > div {
+  justify-self: end;
+}
+
+:is(
+  .pe-header,
+  .jobs-header,
+  .contract-header,
+  .talent-header,
+  .payment-header,
+  .message-header,
+  .trust-header
+) nav a:hover,
+:is(
+  .pe-header,
+  .jobs-header,
+  .contract-header,
+  .talent-header,
+  .payment-header,
+  .message-header,
+  .trust-header
+) nav a.active {
+  color: var(--gw-gold);
+}
+
+:is(
+  .pe-header,
+  .jobs-header,
+  .contract-header,
+  .talent-header,
+  .payment-header,
+  .message-header,
+  .trust-header
+) :is(
+  #pe-signout,
+  .jobs-signout,
+  .contract-signout,
+  .talent-signout,
+  #wp-signout,
+  #wm-signout,
+  #wt-signout
+) {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: var(--gw-radius-input);
+  color: var(--gw-white);
+  min-height: 40px;
+  padding: 0 15px;
+}
+
+:is(.jobs-header, .contract-header) .icon-button {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.38);
+  color: var(--gw-white);
+}
+
+:is(.jobs-header, .contract-header) .icon-button:hover {
+  border-color: var(--gw-gold);
+  color: var(--gw-gold);
+}
+
+:is(
+  .pe-header,
+  .jobs-header,
+  .contract-header,
+  .talent-header,
+  .payment-header,
+  .message-header,
+  .trust-header
+) :is(
+  #pe-signout,
+  .jobs-signout,
+  .contract-signout,
+  .talent-signout,
+  #wp-signout,
+  #wm-signout,
+  #wt-signout
+):hover {
+  border-color: var(--gw-gold);
+  color: var(--gw-gold);
+}
+
+:is(.pe-kicker, .section-kicker, .contract-eyebrow, .trust-security-kicker),
+:is(.marketplace-intro, .talent-intro, .contracts-intro, .payment-intro) > div > span,
+.payment-section > header span,
+.trust-card > span {
+  color: #875c00;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Shared cards, panels and form fields */
+:is(
+  .pe-card,
+  .pe-public-card,
+  .real-job-card,
+  .manager-job,
+  .proposal-review-card,
+  .submitted-proposal,
+  .editor-section,
+  .job-detail-main,
+  .job-detail-aside,
+  .contract-list-card,
+  .contract-section,
+  .milestone-card,
+  .talent-card,
+  .talent-filters,
+  .talent-searchbar,
+  .talent-dialog,
+  .invitation-card,
+  .payment-panel,
+  .payment-section,
+  .payment-safety,
+  .notification-card,
+  .preference-card,
+  .trust-card,
+  .trust-table
+) {
+  border-color: var(--gw-gray-200);
+  border-radius: var(--gw-radius-card);
+  box-shadow: var(--gw-shadow-card);
+}
+
+:is(.real-job-card, .talent-card, .contract-list-card, .trust-card, .notification-card):hover {
+  border-color: var(--gw-gold);
+  box-shadow: var(--gw-shadow-hover);
+}
+
+:is(
+  .pe-field,
+  .job-field,
+  .talent-filters,
+  .talent-searchbar,
+  .milestone-editor,
+  .trust-form,
+  .message-composer,
+  .pages-account-form,
+  .public-form
+) :is(input, select, textarea),
+:is(.talent-searchbar, .message-composer) > input {
+  border-color: var(--gw-gray-200);
+  border-radius: var(--gw-radius-input);
+  min-height: 46px;
+}
+
+:is(
+  .workora-profile-root,
+  .workora-jobs-root,
+  .workora-contracts-root,
+  .workora-talent-root,
+  .workora-payments-root,
+  .workora-messaging-root,
+  .workora-trust-root
+) :is(input, select, textarea):focus {
+  border-color: var(--gw-gold);
+  box-shadow: 0 0 0 3px rgba(255, 176, 0, 0.16);
+  outline: 0;
+}
+
+/* Profile and onboarding */
+.pe-side ol {
+  border-left: 2px solid var(--gw-gray-200);
+}
+
+.pe-side li.active,
+.pe-side li.done {
+  border-color: var(--gw-gold);
+  color: var(--gw-black);
+}
+
+.pe-progress i.done,
+.pe-progress i.active {
+  background: var(--gw-gold);
+}
+
+.pe-card {
+  border-top: 5px solid var(--gw-gold);
+}
+
+.pe-option.selected {
+  background: var(--gw-gold-soft);
+  border-color: var(--gw-gold);
+}
+
+.pe-public-hero {
+  background:
+    radial-gradient(circle at 92% 8%, rgba(255, 176, 0, 0.18), transparent 28%),
+    var(--gw-black);
+}
+
+.pe-role,
+.pe-tags span,
+.pe-skills span {
+  background: var(--gw-gold-soft);
+  color: #735000;
+}
+
+/* Jobs, proposals and invitations */
+.marketplace-intro,
+.talent-intro,
+.contracts-intro,
+.payment-intro {
+  background:
+    radial-gradient(circle at 92% 10%, rgba(255, 176, 0, 0.16), transparent 28%),
+    var(--gw-black);
+  border-radius: var(--gw-radius-panel);
+  color: var(--gw-white);
+  margin-bottom: 28px;
+  padding: clamp(28px, 4vw, 44px);
+}
+
+:is(.marketplace-intro, .talent-intro, .contracts-intro, .payment-intro) h1,
+:is(.marketplace-intro, .talent-intro, .contracts-intro, .payment-intro) h2 {
+  color: var(--gw-white);
+}
+
+:is(.marketplace-intro, .talent-intro, .contracts-intro, .payment-intro) p {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.job-search-panel {
+  background: var(--gw-black-soft);
+  border-radius: var(--gw-radius-card);
+}
+
+.real-job-card,
+.talent-card {
+  border-top: 4px solid transparent;
+}
+
+.talent-avatar {
+  background: var(--gw-gold);
+  color: var(--gw-black);
+}
+
+.job-meta > *,
+.job-skill-list span,
+.talent-skill-list span,
+.talent-card-meta span,
+.pe-tags span,
+.pe-skills span {
+  background: var(--gw-cloud);
+  border-color: var(--gw-gray-200);
+  color: var(--gw-text-secondary);
+}
+
+.job-meta strong {
+  background: var(--gw-gold-soft);
+  color: #735000;
+}
+
+.real-job-card:hover,
+.talent-card:hover {
+  border-top-color: var(--gw-gold);
+}
+
+.status-chip.active,
+.status-chip.published,
+.status-chip.accepted,
+.invitation-status.accepted {
+  background: #eaf7ee;
+  color: #126c35;
+}
+
+.status-chip.draft,
+.status-chip.paused,
+.invitation-status.pending {
+  background: var(--gw-gold-soft);
+  color: #735000;
+}
+
+.talent-save.saved,
+.save-job.saved {
+  background: var(--gw-gold-soft);
+  color: #735000;
+}
+
+.talent-dialog-backdrop,
+.message-modal-backdrop {
+  backdrop-filter: blur(10px);
+}
+
+/* Contracts and milestones */
+.contract-hero {
+  background:
+    radial-gradient(circle at 92% 10%, rgba(255, 176, 0, 0.2), transparent 32%),
+    var(--gw-black);
+}
+
+.contract-list-card {
+  border-left: 4px solid var(--gw-gold);
+}
+
+.milestone-sequence,
+.milestone-progress i {
+  background: var(--gw-gold);
+  color: var(--gw-black);
+}
+
+.test-chip,
+.test-funding-banner {
+  background: var(--gw-gold-soft);
+  border-color: #e5c46a;
+  color: #735000;
+}
+
+/* Payments */
+.test-mode-lock,
+.payment-safety {
+  background: var(--gw-black);
+  color: var(--gw-white);
+}
+
+.test-mode-lock strong {
+  background: var(--gw-gold);
+  color: var(--gw-black);
+}
+
+.payment-metrics > article,
+.payment-metrics > div {
+  border-top: 4px solid var(--gw-gold);
+  box-shadow: var(--gw-shadow-card);
+}
+
+.payment-panel {
+  background: var(--gw-white);
+}
+
+.payment-status.succeeded,
+.payment-status.processed,
+.payment-status.active {
+  background: #eaf7ee;
+  color: #126c35;
+}
+
+/* Messaging and notifications */
+.message-workspace {
+  background: var(--gw-cloud);
+}
+
+.conversation-sidebar,
+.conversation-detail,
+.message-composer {
+  border-color: var(--gw-gray-200);
+}
+
+.conversation-row.active {
+  background: var(--gw-gold-soft);
+  border-left: 4px solid var(--gw-gold);
+}
+
+.conversation-row.unread .conversation-copy strong::after {
+  background: var(--gw-gold);
+}
+
+.message-bubble.own {
+  background: var(--gw-black);
+  color: var(--gw-white);
+}
+
+.message-bubble:not(.own) {
+  background: var(--gw-white);
+  border: 1px solid var(--gw-gray-200);
+}
+
+.send-button {
+  border-radius: var(--gw-radius-input);
+}
+
+.notification-hero {
+  background:
+    radial-gradient(circle at 90% 0, rgba(255, 176, 0, 0.18), transparent 30%),
+    var(--gw-black);
+  border-radius: var(--gw-radius-panel);
+  color: var(--gw-white);
+  padding: clamp(28px, 4vw, 44px);
+}
+
+.notification-hero p {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.notification-card.unread {
+  border-left: 4px solid var(--gw-gold);
+}
+
+/* Trust, moderation and administrator operations */
+.trust-hero {
+  background:
+    radial-gradient(circle at 92% 0, rgba(255, 176, 0, 0.2), transparent 30%),
+    var(--gw-black);
+}
+
+.trust-tabs a,
+.trust-tabs button {
+  border-radius: var(--gw-radius-input);
+}
+
+.trust-tabs :is(a, button).active {
+  background: var(--gw-gold);
+  color: var(--gw-black);
+}
+
+.trust-table thead,
+.transaction-head {
+  background: var(--gw-black);
+  color: var(--gw-white);
+}
+
+.trust-security-summary {
+  border-left: 5px solid var(--gw-gold);
+}
+
+.trust-status.active,
+.trust-status.visible,
+.trust-status.published,
+.trust-status.done {
+  background: #eaf7ee;
+  color: #126c35;
+}
+
+.trust-status.pending,
+.trust-status.under_review,
+.trust-status.opened {
+  background: var(--gw-gold-soft);
+  color: #735000;
+}
+
+.trust-status.suspended,
+.trust-status.cancelled,
+.trust-status.error {
+  background: #fff0ef;
+  color: #a12820;
+}
+
+/* Deliberate states */
+:is(
+  .pe-empty,
+  .jobs-empty,
+  .jobs-page-state,
+  .contract-empty,
+  .talent-empty,
+  .talent-page-state,
+  .payment-empty,
+  .payment-state,
+  .message-empty,
+  .message-state,
+  .trust-empty,
+  .trust-state,
+  .public-state
+) {
+  background: var(--gw-white);
+  border: 1px solid var(--gw-gray-200);
+  border-radius: var(--gw-radius-card);
+  box-shadow: var(--gw-shadow-card);
+}
+
+:is(
+  .pe-empty,
+  .jobs-empty,
+  .jobs-page-state,
+  .contract-empty,
+  .talent-empty,
+  .talent-page-state,
+  .payment-empty,
+  .payment-state,
+  .message-empty,
+  .message-state,
+  .trust-empty,
+  .trust-state,
+  .public-state
+)::before {
+  background: var(--gw-gold);
+  content: "";
+  display: block;
+  height: 8px;
+  margin: 0 auto 22px;
+  transform: skewX(-24deg);
+  width: 48px;
+}
+
+.demo-account-banner {
+  background: var(--gw-gold);
+  border-color: var(--gw-gold-hover);
+  color: var(--gw-black);
+}
+
+/* Keep supporting copy readable across dense marketplace and admin views. */
+:is(
+  .workora-profile-root,
+  .workora-jobs-root,
+  .workora-contracts-root,
+  .workora-talent-root,
+  .workora-payments-root,
+  .workora-messaging-root,
+  .workora-trust-root
+) small {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+:is(
+  .workora-profile-root,
+  .workora-jobs-root,
+  .workora-contracts-root,
+  .workora-talent-root,
+  .workora-payments-root,
+  .workora-messaging-root,
+  .workora-trust-root
+) label {
+  font-size: max(12px, 0.75rem);
+}
+
+:is(
+  .status-chip,
+  .contract-status,
+  .milestone-status,
+  .test-chip,
+  .invitation-status,
+  .trust-status,
+  .demo-badge
+) {
+  font-size: 11px;
+  line-height: 1.25;
+}
+
+:is(
+  .workora-profile-root,
+  .workora-jobs-root,
+  .workora-contracts-root,
+  .workora-talent-root,
+  .workora-payments-root,
+  .workora-messaging-root,
+  .workora-trust-root
+) :is(
+  .pe-stats span,
+  .pe-stats p,
+  .pe-public-meta,
+  .pe-tags span,
+  .pe-portfolio p,
+  .talent-metrics span,
+  .talent-skill-list span,
+  .talent-card-meta span,
+  .talent-card footer a,
+  .talent-card footer button,
+  .invitation-person span,
+  .invitation-card footer span,
+  .invitation-card footer a,
+  .contract-list-card footer,
+  .milestone-meta dt,
+  .milestone-meta dd,
+  .contract-sidebar dt,
+  .contract-sidebar dd,
+  .activity li span,
+  .activity li b,
+  .activity li p
+) {
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+@media (max-width: 1050px) {
+  .modal {
+    background: var(--gw-white);
+    display: block;
+    max-width: 620px;
+  }
+
+  .modal > .brand {
+    color: var(--gw-black);
+    margin-bottom: 28px;
+  }
+
+  .modal .auth-brand-copy {
+    background: var(--gw-black);
+    border-radius: var(--gw-radius-card);
+    color: rgba(255, 255, 255, 0.74);
+    margin: 0 0 28px;
+    max-width: none;
+    padding: 24px;
+  }
+
+  .modal .auth-brand-copy strong {
+    font-size: 24px;
+  }
+
+  :is(
+    .pe-header,
+    .jobs-header,
+    .contract-header,
+    .talent-header,
+    .payment-header,
+    .message-header,
+    .trust-header
+  ) {
+    display: grid !important;
+    gap: 8px 14px !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    height: auto !important;
+    min-height: 76px !important;
+    padding: 10px 16px !important;
+  }
+
+  :is(
+    .pe-header,
+    .jobs-header,
+    .contract-header,
+    .talent-header,
+    .payment-header,
+    .message-header,
+    .trust-header
+  ) nav {
+    background: transparent !important;
+    border: 0 !important;
+    display: flex !important;
+    gap: 18px !important;
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+    justify-content: flex-start !important;
+    margin: 0 !important;
+    overflow-x: auto;
+    padding: 6px 0 4px !important;
+    position: static !important;
+    scrollbar-width: thin;
+    top: auto !important;
+    width: 100% !important;
+  }
+
+  :is(
+    .pe-header,
+    .jobs-header,
+    .contract-header,
+    .talent-header,
+    .payment-header,
+    .message-header,
+    .trust-header
+  ) nav a {
+    flex: 0 0 auto;
+    min-height: 36px;
+    padding: 8px 0;
+    white-space: nowrap;
+  }
+
+  :is(
+    .pe-header,
+    .jobs-header,
+    .contract-header,
+    .talent-header,
+    .payment-header,
+    .message-header,
+    .trust-header
+  ) .gw-brand-wordmark {
+    width: 148px;
+  }
+
+  .pe-header > div,
+  .jobs-header-actions,
+  .contract-header-actions,
+  .message-header-actions {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  .jobs-signout {
+    display: inline-flex !important;
+  }
+
+  :is(
+    .marketplace-intro,
+    .talent-intro,
+    .contracts-intro,
+    .payment-intro
+  ) {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 720px) {
+  body:not(.goworkora-home) .header {
+    min-height: 68px;
+  }
+
+  body:not(.goworkora-home) #global-header .gw-brand-wordmark {
+    width: 145px;
+  }
+
+  .route-page {
+    background:
+      linear-gradient(180deg, var(--gw-black) 0 310px, var(--gw-cloud) 310px 100%);
+    padding: 58px 16px 80px;
+  }
+
+  .route-page > h1 {
+    font-size: clamp(42px, 13vw, 58px);
+  }
+
+  .modal {
+    border-radius: 20px;
+    padding: 28px 20px;
+  }
+
+  .modal .auth-brand-copy {
+    padding: 20px;
+  }
+
+  :is(
+    .pe-header,
+    .jobs-header,
+    .contract-header,
+    .talent-header,
+    .payment-header,
+    .message-header,
+    .trust-header
+  ) {
+    min-height: 66px;
+  }
+
+  :is(
+    .marketplace-intro,
+    .talent-intro,
+    .contracts-intro,
+    .payment-intro,
+    .notification-hero,
+    .trust-hero
+  ) {
+    border-radius: 18px;
+    padding: 24px 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(
+    .public-card,
+    .pages-account-metrics > a,
+    .pages-account-grid > a,
+    .pages-account-actions > a,
+    .real-job-card,
+    .talent-card,
+    .contract-list-card,
+    .notification-card,
+    .trust-card
+  ) {
+    transition: none;
+  }
+}

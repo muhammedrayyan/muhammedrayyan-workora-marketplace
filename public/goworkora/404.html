@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline'; form-action 'self'">
+  <title>Opening GoWorkora…</title>
+</head>
+<body>
+  <p>Opening GoWorkora…</p>
+  <script>
+    (() => {
+      const segments = location.pathname.split("/").filter(Boolean);
+      const basePath = location.hostname.endsWith(".github.io") && segments.length
+        ? `/${segments[0]}/`
+        : "/";
+      const requestedPath = location.pathname.startsWith(basePath)
+        ? location.pathname.slice(basePath.length)
+        : location.pathname.replace(/^\/+/, "");
+      const target = new URL(basePath, location.origin);
+
+      for (const [name, value] of new URLSearchParams(location.search)) {
+        target.searchParams.append(name, value);
+      }
+      if (requestedPath) target.searchParams.set("workora_redirect", requestedPath);
+      target.hash = location.hash;
+      location.replace(target.href);
+    })();
+  </script>
+  <noscript>JavaScript is required to restore this GoWorkora route. Return to the site home page and try again.</noscript>
+</body>
+</html>
