@@ -6,28 +6,39 @@ import { matchRoute } from "../public/goworkora/site-routes.js";
 
 const read = (path) => readFile(new URL(path, import.meta.url), "utf8");
 
-test("the approved marketplace homepage is mounted at root with a non-indexed preview alias", async () => {
+test("the approved marketplace homepage is canonical at root and the preview alias redirects", async () => {
   const route = matchRoute("/homepage-preview");
   const shell = await read("../public/goworkora/index.html");
 
   assert.equal(route?.access, "public");
   assert.equal(route?.indexable, false);
-  assert.match(shell, /<main id="home-route">/);
+  assert.match(shell, /<template id="retired-homepage" aria-hidden="true">/);
+  assert.match(shell, /<main id="home-route" hidden aria-hidden="true"><\/main>/);
   assert.match(shell, /<div id="homepage-preview-route" hidden><\/div>/);
   assert.match(shell, /async function renderApprovedHomepage\(\)/);
   assert.match(shell, /if\(match\.pathname==='\/'\)\{await renderApprovedHomepage\(\);return\}/);
-  assert.match(shell, /if\(match\.pathname==='\/homepage-preview'\)/);
+  assert.match(shell, /if\(match\.pathname==='\/homepage-preview'\)\{navigateCanonical\('\/',true\);return\}/);
   assert.match(shell, /renderHomepagePreview/);
 });
 
-test("the actual homepage uses the approved presentation while retaining a static fallback", async () => {
+test("the actual homepage preloads the approved presentation and retires the old surface", async () => {
   const shell = await read("../public/goworkora/index.html");
 
-  assert.match(shell, /Bring the right people to your <em>most important work\.<\/em>/);
-  assert.match(shell, /goworkora-hero-marketplace\.jpg/);
-  assert.match(shell, /homeRoute\.hidden=mode!=='home'/);
+  assert.match(shell, /id="kinetic-ember-preview-styles"[^>]+homepage-canonical-20260819/);
+  assert.match(shell, /rel="modulepreload"[^>]+homepage-preview\.js\?v=homepage-canonical-20260819/);
+  assert.match(shell, /id="gw-app-loading"/);
+  assert.match(shell, /homeRoute\.hidden=true/);
   assert.match(shell, /setChrome\('preview'\)/);
-  assert.match(shell, /readability-v9-20260729/);
+  assert.match(shell, /await renderCanonicalRoute\(\);document\.documentElement\.dataset\.appReady='true'/);
+  assert.doesNotMatch(shell, /document\.querySelector\('#post-job'\)\.onclick/);
+});
+
+test("the approved shell renders before marketplace data hydrates", async () => {
+  const source = await read("../public/goworkora/pages/homepage-preview.js");
+
+  assert.match(source, /root\.innerHTML = initialMarkup/);
+  assert.match(source, /void loadPreviewData\(supabase, role\)\.then/);
+  assert.match(source, /version !== renderVersion/);
 });
 
 test("preview data stays read-only and within existing public boundaries", async () => {

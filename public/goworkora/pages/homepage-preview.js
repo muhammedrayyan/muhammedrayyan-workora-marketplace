@@ -10,6 +10,7 @@ let activeRoot = null;
 let menuCleanup = null;
 let revealCleanup = null;
 let interactionCleanup = null;
+let renderVersion = 0;
 const brandLogoUrl = new URL("../assets/brand/goworkora-wordmark-transparent.png", import.meta.url).href;
 const brandMarkUrl = new URL("../assets/brand/goworkora-mark-transparent.png", import.meta.url).href;
 const marketplaceImageUrl = new URL("../goworkora-hero-marketplace.jpg", import.meta.url).href;
@@ -819,32 +820,34 @@ export async function renderHomepagePreview({
   onStartHiring,
   onBindRoutes,
 }) {
+  const version = ++renderVersion;
   activeRoot = root;
   await ensurePreviewStyles();
+  if (activeRoot !== root || version !== renderVersion) return;
   root.innerHTML = initialMarkup({ user, role, authReady });
   bindPreviewActions(root, { onSignOut, onStartHiring });
   onBindRoutes(root);
-  try {
-    const data = await loadPreviewData(supabase, role);
-    if (activeRoot !== root) return;
+  void loadPreviewData(supabase, role).then((data) => {
+    if (activeRoot !== root || version !== renderVersion) return;
     root.querySelector(".ke-categories-section").outerHTML = categoriesSection(data.categories);
     root.querySelector(".ke-talent-section").outerHTML = talentSection(data.talent);
     root.querySelector(".ke-jobs-section").outerHTML = jobsSection(data.jobs);
     onBindRoutes(root);
     refreshScrollReveals(root);
     refreshInteractiveElements(root);
-  } catch {
-    if (activeRoot !== root) return;
+  }).catch(() => {
+    if (activeRoot !== root || version !== renderVersion) return;
     root.querySelector(".ke-categories-section").outerHTML = categoriesSection({ items: [], error: true });
     root.querySelector(".ke-talent-section").outerHTML = talentSection({ items: [], error: true });
     root.querySelector(".ke-jobs-section").outerHTML = jobsSection({ items: [], skillMap: {}, error: true });
     onBindRoutes(root);
     refreshScrollReveals(root);
     refreshInteractiveElements(root);
-  }
+  });
 }
 
 export function unmountHomepagePreview() {
+  renderVersion += 1;
   menuCleanup?.();
   menuCleanup = null;
   interactionCleanup?.();
