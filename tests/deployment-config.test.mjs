@@ -125,7 +125,7 @@ test("GitHub Pages deploys only a checked Production artifact", async () => {
   assert.match(workflow, /branches:\s*\n\s*- main/);
   assert.match(workflow, /GOWORKORA_PUBLIC_ENVIRONMENT: production/);
   assert.match(workflow, /https:\/\/www\.goworkora\.com/);
-  assert.match(workflow, /https:\/\/txgygjjxwnswpqfaxkom\.supabase\.co/);
+  assert.match(workflow, /https:\/\/zjkoravrmiieclneepiy\.supabase\.co/);
   assert.match(
     workflow,
     /secrets\.GOWORKORA_PRODUCTION_SUPABASE_PUBLISHABLE_KEY/,

@@ -7,13 +7,21 @@ authentication, database access, storage, and Edge Functions.
 
 | Environment | Frontend | Supabase project |
 | --- | --- | --- |
-| Local development | `http://localhost:3001` | Development (`zjkoravrmiieclneepiy`) |
-| Production | `https://www.goworkora.com` | Production (`txgygjjxwnswpqfaxkom`) |
+| Local development | `http://localhost:3001` | Hosted GoWorkora (`zjkoravrmiieclneepiy`, shared) |
+| Production | `https://www.goworkora.com` | Hosted GoWorkora (`zjkoravrmiieclneepiy`) |
 
-The committed `public/goworkora/config.js` remains a browser-safe Development
-configuration. The production workflow copies the static source to
-`github-pages-dist/` and replaces only the generated artifact configuration.
-It never writes the production value back into the source tree.
+The owner selected `zjkoravrmiieclneepiy` as the hosted backend for the public
+GoWorkora deployment on August 19, 2026. Its Supabase dashboard display name may
+still be `Workora Development`. The committed `public/goworkora/config.js`
+contains only that project's browser-safe public configuration. The production
+workflow copies the static source to `github-pages-dist/`, sets the production
+site URL and environment, and injects the browser-safe key from GitHub Actions.
+It never writes the Actions secret back into the source tree.
+
+Until a separate development project is introduced, local development and the
+public site share this backend. Treat its records as live: do not run demo-data
+reset, cleanup, destructive migrations, or development-only provisioning
+commands against it without a current backup and an explicit production review.
 
 ## Normal release flow
 
@@ -65,7 +73,7 @@ apex records separately. Do not point `www` at the repository path.
 
 ## Production Supabase Auth configuration
 
-In Production Supabase (`txgygjjxwnswpqfaxkom`), open
+In the hosted GoWorkora Supabase project (`zjkoravrmiieclneepiy`), open
 **Authentication → URL Configuration** and set:
 
 - Site URL: `https://www.goworkora.com`
@@ -73,9 +81,10 @@ In Production Supabase (`txgygjjxwnswpqfaxkom`), open
   - `https://www.goworkora.com/auth/callback`
   - `https://www.goworkora.com/login`
 
-Keep local callback URLs in the Development project, not Production. Add a new
-exact Production callback only when the application introduces a flow that
-actually uses it. Avoid broad Production wildcards.
+Because the hosted project currently serves both local development and the
+public site, retain only the exact localhost callbacks that the application
+actually uses alongside the production callbacks above. Avoid broad wildcards.
+Move local callbacks to a separate development project when one is provisioned.
 
 Verify Production email templates use GoWorkora branding and generate links or
 codes for the Production site. Confirm OTP expiry, attempt limits, and resend
@@ -143,7 +152,7 @@ To verify configuration generation without revealing a key in terminal output:
 GOWORKORA_PUBLIC_ENVIRONMENT=production \
 GOWORKORA_PUBLIC_SITE_URL=https://www.goworkora.com \
 GOWORKORA_PUBLIC_BASE_PATH=/ \
-GOWORKORA_SUPABASE_URL=https://txgygjjxwnswpqfaxkom.supabase.co \
+GOWORKORA_SUPABASE_URL=https://zjkoravrmiieclneepiy.supabase.co \
 GOWORKORA_SUPABASE_PUBLISHABLE_KEY='<browser-safe publishable key>' \
 GOWORKORA_BUILD_ID=local-verification \
 npm run config:generate -- --root github-pages-dist

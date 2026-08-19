@@ -56,7 +56,7 @@ jobs:
           GOWORKORA_PUBLIC_ENVIRONMENT: production
           GOWORKORA_PUBLIC_SITE_URL: https://www.goworkora.com
           GOWORKORA_PUBLIC_BASE_PATH: /
-          GOWORKORA_SUPABASE_URL: https://txgygjjxwnswpqfaxkom.supabase.co
+          GOWORKORA_SUPABASE_URL: https://zjkoravrmiieclneepiy.supabase.co
           GOWORKORA_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.GOWORKORA_PRODUCTION_SUPABASE_PUBLISHABLE_KEY }}
           GOWORKORA_BUILD_ID: ${{ github.sha }}
 
