@@ -1,6 +1,8 @@
-# GoWorkora homepage preview inventory
+# GoWorkora canonical homepage inventory
 
-The `/homepage-preview` route is an isolated visual review surface. The existing `/` homepage remains the current baseline and is not replaced.
+The approved marketplace UI is the canonical `/` homepage. The former homepage markup is retired inside an inert template and cannot render, receive interaction handlers, or load its media. `/homepage-preview` remains a non-indexed compatibility route and redirects to `/`.
+
+The approved stylesheet and module are preloaded in the application shell. The complete homepage structure renders before authentication restoration, while categories, public talent, and public jobs hydrate progressively through their existing read-only data sources. This prevents the retired homepage from flashing and avoids blocking first presentation on network requests.
 
 ## Reused functional contracts
 
@@ -26,7 +28,7 @@ The `/homepage-preview` route is an isolated visual review surface. The existing
 
 ## Preserved identifiers and handlers
 
-- Existing homepage IDs and controls remain in `#home-route`.
+- The historical homepage is retained only as inert source in `#retired-homepage`; the disabled `#home-route` is never used as a visible route.
 - Existing authentication modal IDs, OTP fields, role selection, session restoration, and account header logic remain unchanged.
 - Existing protected routes, route parameters, data attributes, forms, Supabase configuration, feature mounts, and database bindings remain unchanged.
 - Preview-specific IDs and classes use the `ke-` prefix and are scoped below `.ke-preview`.

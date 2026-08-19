@@ -155,16 +155,30 @@
   <link rel="stylesheet" href="./styles/freelancer-page-polish.css?v=workspace-pages-20260805">
   <link rel="stylesheet" href="./styles/client-workspace-shell.css?v=client-workspace-20260811">
   <link rel="stylesheet" href="./styles/client-page-polish.css?v=client-workspace-20260811">
+  <link id="kinetic-ember-preview-styles" rel="stylesheet" href="./styles/pages/homepage-preview.css?v=homepage-canonical-20260819" data-loaded="true">
+  <link rel="modulepreload" href="./pages/homepage-preview.js?v=homepage-canonical-20260819">
+  <style>
+    .gw-app-loading{position:fixed;inset:0;z-index:1000;display:grid;place-content:center;justify-items:center;gap:18px;background:#111318;color:#fff;transition:opacity .18s ease,visibility .18s ease}
+    .gw-app-loading img{display:block;width:min(320px,70vw);height:auto;filter:invert(1) hue-rotate(180deg)}
+    .gw-app-loading p{margin:0;color:#d9dde5;font-size:14px;font-weight:600;letter-spacing:.04em}
+    .gw-app-loading span{display:block;width:min(240px,58vw);height:3px;overflow:hidden;border-radius:999px;background:rgba(255,255,255,.16)}
+    .gw-app-loading span::after{display:block;width:42%;height:100%;border-radius:inherit;background:#ffb000;content:"";animation:gw-loading-progress 1s ease-in-out infinite alternate}
+    html[data-app-ready="true"] .gw-app-loading{visibility:hidden;opacity:0;pointer-events:none}
+    @keyframes gw-loading-progress{from{transform:translateX(-5%)}to{transform:translateX(145%)}}
+    @media(prefers-reduced-motion:reduce){.gw-app-loading,.gw-app-loading span::after{transition:none;animation:none}.gw-app-loading span::after{width:100%}}
+  </style>
 </head>
-<body class="goworkora-home">
-  <header class="header" id="global-header">
+<body class="goworkora-booting">
+  <div class="gw-app-loading" id="gw-app-loading" role="status" aria-live="polite"><img src="./assets/brand/goworkora-wordmark-transparent.png" width="2172" height="724" alt="GoWorkora"><p>Opening your GoWorkora marketplace…</p><span aria-hidden="true"></span></div>
+  <header class="header" id="global-header" hidden>
     <a class="brand gw-brand-home" href="./" data-route="/" data-logo-surface="dark" aria-label="GoWorkora home"><img class="gw-brand-wordmark" src="./assets/brand/goworkora-wordmark-transparent.png" width="2172" height="724" alt="GoWorkora" decoding="async"></a>
     <nav class="nav" id="mobile-navigation" aria-label="Primary navigation"><a href="./find-talent" data-route="/find-talent">Find Talent</a><a href="./find-work" data-route="/find-work">Find Work</a><a href="./how-it-works" data-route="/how-it-works">How It Works</a><a href="./pricing" data-route="/pricing">Pricing</a><a href="./managed-services" data-route="/managed-services">Managed Services</a><div class="mobile-auth-actions"><button type="button" data-modal="login">Log In</button><button type="button" data-modal="signup">Sign Up</button></div></nav>
     <div class="header-actions"><button id="login-button" class="login btn btn-outline btn-small" data-modal="login">Log In</button><button id="join-button" class="btn btn-dark btn-small" data-modal="signup">Sign Up</button><button id="header-signout" class="btn btn-outline btn-small" type="button" data-signout="true" hidden>Sign out</button><button class="menu" aria-label="Open menu" aria-controls="mobile-navigation" aria-expanded="false">☰</button></div>
   </header>
   <aside class="freelancer-workspace-sidebar" id="freelancer-workspace-sidebar" hidden></aside>
   <aside class="client-workspace-sidebar" id="client-workspace-sidebar" hidden></aside>
-  <main id="home-route">
+  <template id="retired-homepage" aria-hidden="true">
+  <main id="retired-home-route">
     <section class="hero" id="top">
       <div><div class="eyebrow"><i></i>Hire Better. Work Smarter.</div><h1>Bring the right people to your <em>most important work.</em></h1><p class="lede">GoWorkora connects businesses with skilled freelancers and managed remote professionals through a secure, transparent and results-focused platform.</p>
         <div class="popular"><a class="btn btn-lime" href="./find-talent" data-route="/find-talent">Hire Talent</a><a class="btn btn-outline" href="./find-work" data-route="/find-work">Find Work</a><button class="btn btn-dark" type="button" id="post-job">Post a Job</button></div>
@@ -182,9 +196,11 @@
     <section class="business" id="business"><div><span class="kicker">GoWorkora Managed Services</span><h2>Build a remote team with structured support.</h2><p>For organisations that need more than a marketplace search, start with a clear workforce requirement.</p><ul><li><span>✓</span>Requirements and role scoping</li><li><span>✓</span>Talent matching and workforce coordination</li><li><span>✓</span>A real contact workflow</li></ul><a class="btn btn-lime" href="./managed-services" data-route="/managed-services">Explore Managed Services</a></div><div class="team-panel"><strong>Start with your hiring goal</strong><p>Tell us the roles, timelines, and outcomes you need. GoWorkora does not display a fake booking or chat control.</p><a class="btn btn-outline" href="./contact?subject=managed-services" data-route="/contact?subject=managed-services">Contact GoWorkora</a></div></section>
     <section class="cta"><div><span class="kicker">GoWorkora</span><h2>Hire Better.<br>Work Smarter.</h2></div><div class="cta-actions"><a class="btn btn-lime" href="./signup" data-route="/signup">Get Started</a><a class="btn btn-light" href="./pricing" data-route="/pricing">View Pricing</a></div></section>
   </main>
+  </template>
+  <main id="home-route" hidden aria-hidden="true"></main>
   <div id="homepage-preview-route" hidden></div>
   <main id="public-route" class="route-page" hidden></main>
-  <footer id="global-footer"><div class="footer-main"><div class="footer-brand"><a class="gw-brand-home" href="./" data-route="/" data-logo-surface="dark" aria-label="GoWorkora home"><img class="gw-brand-wordmark" src="./assets/brand/goworkora-wordmark-transparent.png" width="2172" height="724" alt="GoWorkora" loading="lazy" decoding="async"></a><p>Hire Better.<br>Work Smarter.</p></div><div class="footer-links"><div><h3>For Clients</h3><a href="./find-talent" data-route="/find-talent">Find Talent</a><a href="./signup/client?returnTo=/app/jobs/new" data-route="/signup/client?returnTo=/app/jobs/new">Post a Job</a><a href="./managed-services" data-route="/managed-services">Managed Services</a><a href="./pricing" data-route="/pricing">Pricing</a><a href="./how-it-works/clients" data-route="/how-it-works/clients">How It Works for Clients</a></div><div><h3>For Freelancers</h3><a href="./find-work" data-route="/find-work">Find Work</a><a href="./signup/freelancer" data-route="/signup/freelancer">Create Freelancer Profile</a><a href="./how-it-works/freelancers" data-route="/how-it-works/freelancers">How It Works for Freelancers</a><a href="./help/freelancer-getting-started" data-route="/help/freelancer-getting-started">Freelancer Help</a><a href="./help/earnings-and-payments" data-route="/help/earnings-and-payments">Earnings and Payments</a></div><div><h3>GoWorkora</h3><a href="./about" data-route="/about">About</a><a href="./careers" data-route="/careers">Careers</a><a href="./blog" data-route="/blog">Blog</a><a href="./contact" data-route="/contact">Contact</a><a href="./trust-and-safety" data-route="/trust-and-safety">Trust and Safety</a></div><div><h3>Support</h3><a href="./help" data-route="/help">Help Centre</a><a href="./accessibility" data-route="/accessibility">Accessibility</a><a href="./contact?subject=safety-report" data-route="/contact?subject=safety-report">Report an Issue</a><a href="./contact?subject=support" data-route="/contact?subject=support">Contact Support</a></div><div><h3>Legal</h3><a href="./terms" data-route="/terms">Terms</a><a href="./privacy" data-route="/privacy">Privacy</a><a href="./cookies" data-route="/cookies">Cookie Policy</a></div></div></div><div class="copyright"><span>© 2026 GoWorkora.</span><span>Hire Better. Work Smarter.</span></div></footer>
+  <footer id="global-footer" hidden><div class="footer-main"><div class="footer-brand"><a class="gw-brand-home" href="./" data-route="/" data-logo-surface="dark" aria-label="GoWorkora home"><img class="gw-brand-wordmark" src="./assets/brand/goworkora-wordmark-transparent.png" width="2172" height="724" alt="GoWorkora" loading="lazy" decoding="async"></a><p>Hire Better.<br>Work Smarter.</p></div><div class="footer-links"><div><h3>For Clients</h3><a href="./find-talent" data-route="/find-talent">Find Talent</a><a href="./signup/client?returnTo=/app/jobs/new" data-route="/signup/client?returnTo=/app/jobs/new">Post a Job</a><a href="./managed-services" data-route="/managed-services">Managed Services</a><a href="./pricing" data-route="/pricing">Pricing</a><a href="./how-it-works/clients" data-route="/how-it-works/clients">How It Works for Clients</a></div><div><h3>For Freelancers</h3><a href="./find-work" data-route="/find-work">Find Work</a><a href="./signup/freelancer" data-route="/signup/freelancer">Create Freelancer Profile</a><a href="./how-it-works/freelancers" data-route="/how-it-works/freelancers">How It Works for Freelancers</a><a href="./help/freelancer-getting-started" data-route="/help/freelancer-getting-started">Freelancer Help</a><a href="./help/earnings-and-payments" data-route="/help/earnings-and-payments">Earnings and Payments</a></div><div><h3>GoWorkora</h3><a href="./about" data-route="/about">About</a><a href="./careers" data-route="/careers">Careers</a><a href="./blog" data-route="/blog">Blog</a><a href="./contact" data-route="/contact">Contact</a><a href="./trust-and-safety" data-route="/trust-and-safety">Trust and Safety</a></div><div><h3>Support</h3><a href="./help" data-route="/help">Help Centre</a><a href="./accessibility" data-route="/accessibility">Accessibility</a><a href="./contact?subject=safety-report" data-route="/contact?subject=safety-report">Report an Issue</a><a href="./contact?subject=support" data-route="/contact?subject=support">Contact Support</a></div><div><h3>Legal</h3><a href="./terms" data-route="/terms">Terms</a><a href="./privacy" data-route="/privacy">Privacy</a><a href="./cookies" data-route="/cookies">Cookie Policy</a></div></div></div><div class="copyright"><span>© 2026 GoWorkora.</span><span>Hire Better. Work Smarter.</span></div></footer>
   <div class="modal-wrap" id="modal"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><a class="brand gw-brand-home" href="./" data-route="/" data-logo-surface="light" aria-label="GoWorkora home"><img class="gw-brand-wordmark" src="./assets/brand/goworkora-wordmark-on-white.png" width="2172" height="724" alt="GoWorkora" decoding="async"></a><button class="close" aria-label="Close">×</button><div class="auth-brand-copy" aria-hidden="true"><strong>Move work forward.</strong>Connect with opportunities, professionals, and structured collaboration in one trusted workspace.</div><div id="auth-content"></div></section></div><div class="toast" id="toast" role="status"></div>
   <script type="module">
     import { APP_DESCRIPTION, APP_NAME, APP_TAGLINE } from './shared/brand.js?v=goworkora-rebrand-20260728';
@@ -236,7 +252,7 @@
     import { bindPublicPageActions, publicPageContent, updatePublicMetadata } from './pages/public-pages.js?v=0a7987e9733e';
     import { renderAccountPage } from './pages/account-pages.js?v=client-workspace-privacy-20260811';
     import { clientWorkspaceNavigation, isClientWorkspaceRoute } from './shared/client-chrome.js?v=client-workspace-20260811';
-    import { renderHomepagePreview, unmountHomepagePreview } from './pages/homepage-preview.js?v=readability-v9-20260729-public-privacy-20260811';
+    import { renderHomepagePreview, unmountHomepagePreview } from './pages/homepage-preview.js?v=homepage-canonical-20260819';
 
     document.documentElement.dataset.applicationName=APP_NAME;
     document.querySelector('meta[name="description"]')?.setAttribute('content',APP_DESCRIPTION);
@@ -246,13 +262,6 @@
     if(!SUPABASE_URL||!SUPABASE_KEY)throw new Error('GoWorkora browser configuration is missing. Rebuild the GitHub Pages artifact with browser-safe Supabase values.');
     const supabase=createClient(SUPABASE_URL,SUPABASE_KEY);
     document.documentElement.style.setProperty('--otp-length',String(OTP_LENGTH));
-    const talents=[];
-    const jobs=[];
-    let mode='talent';const results=document.querySelector('#results'),query=document.querySelector('#filter-query'),category=document.querySelector('#category');
-    function talentCard(t,i){return `<article class="card"><div class="card-head"><span class="talent-avatar">${t.initials}</span><button class="heart" aria-label="Save ${t.name}">♡</button></div><h3>${t.name} ✓</h3><p class="role">${t.role}</p><div class="stats"><span><b>★ ${t.rating}</b> · ${t.jobs}</span><strong>${t.rate}</strong></div><div class="skills">${t.skills.map(s=>`<span>${s}</span>`).join('')}</div><div class="card-foot"><span>◎ ${t.location}</span><button data-modal="signup">View profile ↗</button></div></article>`}
-    function jobCard(j){return `<article class="job"><div><small>${j.posted}</small><h3>${j.title}</h3><div class="job-meta"><span>${j.type}</span><span>Expert</span><span>Remote</span></div><p>${j.desc}</p><div class="skills">${j.skills.map(s=>`<span>${s}</span>`).join('')}</div></div><div class="job-actions"><button class="heart" aria-label="Save job">♡</button><button class="btn btn-outline" data-modal="signup">Apply now</button></div></article>`}
-    function render(){const term=query.value.toLowerCase().trim(),cat=category.value;const data=(mode==='talent'?talents:jobs).filter(x=>(cat==='All categories'||x.cat.includes(cat))&&(!term||JSON.stringify(x).toLowerCase().includes(term)));results.className=mode==='talent'?'cards':'jobs';results.innerHTML=data.length?data.map(mode==='talent'?talentCard:jobCard).join(''):'<div class="empty"><h3>No exact matches yet</h3><p>Try a broader skill or choose another category.</p></div>';bindDynamic()}
-    function setMode(next){mode=next;document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===mode));document.querySelectorAll('[data-switch]').forEach(b=>b.classList.toggle('active',b.dataset.switch===mode));document.querySelector('#market-title').textContent=mode==='talent'?'Find approved public talent.':'Find published work.';document.querySelector('#market-note').textContent=mode==='talent'?'Only public profiles returned by the database are shown.':'Only published jobs returned by the database are shown.';query.placeholder=mode==='talent'?'Search talent and skills':'Search jobs and skills';render()}
     function toast(text){const el=document.querySelector('#toast');el.textContent='✓  '+text;el.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el.classList.remove('show'),3000)}
 
     let currentUser=null,currentProfile=null,authMode='signup',authStep='role',selectedRole='',authEmail='',authCode='',authError='',authErrorKind='',authNotice='',authBusy=false,authReady=false,lastCodeSentAt=0,verificationSucceeded=false,verificationSubmitting=false,lastAutoSubmittedCode='',otpSecurityStorageKey='',otpClientSecurityState=normalizeOtpSecurityState(null);
@@ -445,7 +454,7 @@
     }
 
     function bindDynamic(){document.querySelectorAll('.heart').forEach(b=>b.onclick=()=>{b.classList.toggle('saved');b.textContent=b.classList.contains('saved')?'♥':'♡';toast(b.classList.contains('saved')?'Saved to your shortlist':'Removed from shortlist')});document.querySelectorAll('[data-modal]').forEach(b=>b.onclick=()=>{closeMobileMenu(false);openModal(b.dataset.modal)});document.querySelectorAll('[data-dashboard]').forEach(b=>b.onclick=()=>navigateCanonical(dashboardPath(currentRole())));document.querySelectorAll('[data-signout]').forEach(b=>b.onclick=()=>{closeMobileMenu(false);void signOut()})}
-    document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>setMode(b.dataset.tab));document.querySelectorAll('[data-switch]').forEach(b=>b.onclick=()=>setMode(b.dataset.switch));document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{navigateCanonical(b.dataset.mode==='talent'?'/find-talent':'/find-work')});document.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>navigateCanonical(`/categories/${b.dataset.category}`));document.querySelector('[data-scroll-market]')?.addEventListener('click',()=>document.querySelector('#market').scrollIntoView());document.querySelector('#show-results').onclick=()=>navigateCanonical(mode==='talent'?`/find-talent?q=${encodeURIComponent(query.value)}`:`/find-work?q=${encodeURIComponent(query.value)}`);query.onkeydown=e=>{if(e.key==='Enter')navigateCanonical(mode==='talent'?`/find-talent?q=${encodeURIComponent(query.value)}`:`/find-work?q=${encodeURIComponent(query.value)}`)};document.querySelector('#hero-search').onsubmit=e=>{e.preventDefault();const term=document.querySelector('#hero-query').value;navigateCanonical(mode==='talent'?`/find-talent?q=${encodeURIComponent(term)}`:`/find-work?q=${encodeURIComponent(term)}`)};document.querySelectorAll('[data-toast]').forEach(b=>b.onclick=()=>toast(b.dataset.toast));document.querySelector('.close').onclick=closeModal;modal.onclick=e=>{if(e.target.id==='modal')closeModal()};
+    document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{navigateCanonical(b.dataset.mode==='talent'?'/find-talent':'/find-work')});document.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>navigateCanonical(`/categories/${b.dataset.category}`));document.querySelectorAll('[data-toast]').forEach(b=>b.onclick=()=>toast(b.dataset.toast));document.querySelector('.close').onclick=closeModal;modal.onclick=e=>{if(e.target.id==='modal')closeModal()};
 
     const homeRoute=document.querySelector('#home-route'),homepagePreviewRoute=document.querySelector('#homepage-preview-route'),publicRoute=document.querySelector('#public-route'),globalHeader=document.querySelector('#global-header'),globalFooter=document.querySelector('#global-footer'),freelancerWorkspaceSidebar=document.querySelector('#freelancer-workspace-sidebar'),clientWorkspaceSidebar=document.querySelector('#client-workspace-sidebar');
     const FREELANCER_SIDEBAR_PREFERENCE_KEY='goworkora.freelancerSidebarCollapsed';
@@ -540,7 +549,7 @@
     }
     function clearExperiences(){unmountProfileExperience();unmountJobsExperience();unmountContractsExperience();unmountTalentExperience();unmountPaymentsExperience();unmountMessagingExperience();unmountTrustAdminExperience();unmountHomepagePreview()}
     function setChrome(mode){
-      const feature=mode==='feature',preview=mode==='preview',workspace=document.body.classList.contains('goworkora-freelancer-workspace')||document.body.classList.contains('goworkora-client-workspace'),hideGlobalChrome=feature||preview||workspace;document.body.classList.toggle('goworkora-home',mode==='home');globalHeader.hidden=hideGlobalChrome;globalHeader.style.display=hideGlobalChrome?'none':'';homeRoute.hidden=mode!=='home';homepagePreviewRoute.hidden=!preview;publicRoute.hidden=mode!=='static';globalFooter.hidden=hideGlobalChrome;
+      const feature=mode==='feature',preview=mode==='preview',workspace=document.body.classList.contains('goworkora-freelancer-workspace')||document.body.classList.contains('goworkora-client-workspace'),hideGlobalChrome=feature||preview||workspace;document.body.classList.remove('goworkora-home');globalHeader.hidden=hideGlobalChrome;globalHeader.style.display=hideGlobalChrome?'none':'';homeRoute.hidden=true;homepagePreviewRoute.hidden=!preview;publicRoute.hidden=mode!=='static';globalFooter.hidden=hideGlobalChrome;
     }
     function routeAction(label,path,primary=false){return `<a class="btn ${primary?'btn-lime':'btn-outline'}" href="${escapeHtml(browserDestination(path))}" data-route="${escapeHtml(path)}">${escapeHtml(label)}</a>`}
     function staticPage({eyebrow,title,intro,body,actions=[]}){
@@ -614,9 +623,7 @@
         clearExperiences();setChrome('static');publicRoute.innerHTML='<span class="route-eyebrow">Secure account access</span><h1>'+escapeHtml(match.title.replace(' | GoWorkora',''))+'</h1><p class="lede">Authentication stays inside the verified GoWorkora account flow.</p>';openAuthRoute(match.pathname,match.search);return
       }
       if(match.pathname==='/'){await renderApprovedHomepage();return}
-      if(match.pathname==='/homepage-preview'){
-        await renderApprovedHomepage();return
-      }
+      if(match.pathname==='/homepage-preview'){navigateCanonical('/',true);return}
       const accountPages=new Set(['/app/client','/app/freelancer','/app/company','/app/company/members','/app/settings','/app/settings/account','/app/settings/security','/app/settings/notifications','/app/settings/billing','/app/gosparks','/app/reports','/app/reports/transactions','/app/reports/invoices','/app/work-diary','/app/support','/app/restricted','/app/access-denied']);
       if(accountPages.has(match.pathname)||(match.pathname==='/app/profile'&&currentRole()==='admin')){
         clearExperiences();setChrome('static');
@@ -653,7 +660,6 @@
     bindCanonicalLinks();
     const canonicalLinkObserver=new MutationObserver(records=>records.forEach(record=>record.addedNodes.forEach(node=>{if(!(node instanceof Element))return;canonicalizeLegacyLinks(node);bindCanonicalLinks(node)})));
     canonicalLinkObserver.observe(document.body,{childList:true,subtree:true});
-    document.querySelector('#post-job').onclick=postJob;
     const footerPostJob=[...document.querySelectorAll('#global-footer a')].find(link=>link.textContent.trim()==='Post a Job');
     if(footerPostJob)footerPostJob.onclick=event=>{event.preventDefault();postJob()};
     setupMobileMenu();
@@ -662,7 +668,7 @@
     if(callbackCode){const {error}=await supabase.auth.exchangeCodeForSession(callbackCode);if(error){const issue=classifyAuthError(error,'callback');authErrorKind=issue.kind;authError=issue.message;authMode='login';authStep='email';modal.classList.add('open')}history.replaceState({},'',removeAuthCallbackParameters(callbackUrl.href))}
     else if(callbackError){const issue=classifyAuthError(callbackError,'callback');authErrorKind=issue.kind;authError=issue.message;authMode='login';authStep='email';modal.classList.add('open');history.replaceState({},'',removeAuthCallbackParameters(callbackUrl.href))}
 
-    document.documentElement.dataset.appReady='true';document.documentElement.removeAttribute('aria-busy');window.dispatchEvent(new Event('goworkora:ready'));
+    await renderCanonicalRoute();document.documentElement.dataset.appReady='true';document.documentElement.removeAttribute('aria-busy');document.body.classList.remove('goworkora-booting');window.dispatchEvent(new Event('goworkora:ready'));
     const restored=await restoreAuthenticatedUser(supabase.auth);currentUser=restored.user||null;if(currentUser)await loadProfileForUser(currentUser,false);authReady=true;updateAccountHeader();if(modal.classList.contains('open'))renderAuth();await renderCanonicalRoute();
     supabase.auth.onAuthStateChange((event,nextSession)=>{
       currentUser=nextSession?.user||null;authReady=true;
@@ -676,7 +682,7 @@
     window.addEventListener('hashchange',()=>{if(!location.hash||location.hash==='#top')return;const destination=pathFromLegacyHash(location.hash,currentRole()||'client');history.replaceState({},'',browserDestination(destination));void renderCanonicalRoute()});
     setInterval(()=>{if(authStep!=='verify')return;const button=document.querySelector('#resend-code');if(!button)return;const remaining=cooldownRemaining(lastCodeSentAt);button.textContent=remaining>0?`Resend in 0:${String(remaining).padStart(2,'0')}`:'Resend code';button.disabled=authBusy||verificationSucceeded||remaining>0},1000);
     window.addEventListener('storage',event=>{if(!otpSecurityStorageKey||event.key!==otpSecurityStorageKey)return;otpClientSecurityState=readOtpSecurityState(otpBrowserStorage(),otpSecurityStorageKey);lastCodeSentAt=otpClientSecurityState.lastRequestedAt||0;if(modal.classList.contains('open')&&authStep==='verify')renderAuth()});
-    bindDynamic();render();
+    bindDynamic();
   </script>
 </body>
 </html>
