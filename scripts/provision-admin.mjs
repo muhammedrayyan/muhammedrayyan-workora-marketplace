@@ -1,25 +1,30 @@
 #!/usr/bin/env node
 import { execFile } from "node:child_process";
+import { randomUUID } from "node:crypto";
 import { promisify } from "node:util";
 
 import {
   assertPromotableProfile,
+  adminProvisioningPlan,
   buildAdminProfile,
   normalizeAdminEmail,
+  parseAdminProvisioningArgs,
   redactServerSecret,
   selectServerSecret,
   validateAdminProvisioningConfig,
 } from "./admin-provisioning-lib.mjs";
 
 const execFileAsync = promisify(execFile);
-const action = process.argv[2] ?? "provision";
+const args = parseAdminProvisioningArgs(process.argv.slice(2));
+const action = args.action;
 const config = validateAdminProvisioningConfig({
-  environment: process.env.GOWORKORA_ADMIN_ENVIRONMENT,
+  environment: args.environment ?? process.env.GOWORKORA_ADMIN_ENVIRONMENT,
   projectLabel: process.env.GOWORKORA_ADMIN_PROJECT_LABEL,
-  projectRef: process.env.GOWORKORA_ADMIN_PROJECT_REF,
-  supabaseUrl: process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL,
-  email: process.env.GOWORKORA_ADMIN_EMAIL,
-  confirmation: process.env.GOWORKORA_ADMIN_ALLOW,
+  projectRef: args.projectRef ?? process.env.GOWORKORA_ADMIN_PROJECT_REF,
+  supabaseUrl: args.supabaseUrl ?? process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL,
+  email: args.email ?? process.env.GOWORKORA_ADMIN_EMAIL,
+  role: args.role ?? process.env.GOWORKORA_ADMIN_ROLE ?? "super_admin",
+  confirmation: args.confirm ? "YES_PROVISION_TRUSTED_ADMIN" : process.env.GOWORKORA_ADMIN_ALLOW,
 });
 
 async function serverSecret() {
@@ -57,7 +62,7 @@ async function serverSecret() {
   return key;
 }
 
-const secret = await serverSecret();
+let secret = "";
 
 async function api(path, { method = "GET", body, headers = {}, allow404 = false } = {}) {
   const response = await fetch(`${config.supabaseUrl}${path}`, {
@@ -99,7 +104,7 @@ async function findAuthUser(email) {
 
 async function profileForUser(userId) {
   const rows = await api(
-    `/rest/v1/profiles?select=id,email,role,account_status,onboarding_completed`
+    `/rest/v1/profiles?select=id,email,role,account_status,email_verified_at,onboarding_completed`
     + `&id=eq.${encodeURIComponent(userId)}`,
   );
   return rows?.[0] ?? null;
@@ -108,42 +113,38 @@ async function profileForUser(userId) {
 async function verifyAccount() {
   const user = await findAuthUser(config.email);
   if (!user) return { ready: false, reason: "Auth user is missing." };
+  const emailConfirmed = Boolean(user.email_confirmed_at ?? user.confirmed_at);
+  if (!emailConfirmed) return { ready: false, reason: "Administrator Auth email is not verified." };
   const profile = await profileForUser(user.id);
   if (!profile) return { ready: false, reason: "Trusted profile is missing." };
   if (profile.role !== "admin") return { ready: false, reason: "Trusted profile is not an administrator." };
   if (profile.account_status !== "active") return { ready: false, reason: "Administrator profile is not active." };
+  if (!profile.email_verified_at) return { ready: false, reason: "Administrator profile email is not verified." };
+  const memberships = await api(
+    `/rest/v1/admin_memberships?select=role_key,status&user_id=eq.${encodeURIComponent(user.id)}`,
+  );
+  const membership = memberships?.[0] ?? null;
+  if (!membership || membership.status !== "active") {
+    return { ready: false, reason: "Trusted administrator membership is missing or inactive." };
+  }
   return {
     ready: true,
     userId: user.id,
-    emailConfirmed: Boolean(user.email_confirmed_at ?? user.confirmed_at),
+    emailConfirmed,
     onboardingCompleted: Boolean(profile.onboarding_completed),
+    role: membership.role_key,
   };
 }
 
 async function provisionAccount() {
   let user = await findAuthUser(config.email);
   if (!user) {
-    user = await api("/auth/v1/admin/users", {
+    user = await api("/auth/v1/invite", {
       method: "POST",
       body: {
         email: config.email,
-        email_confirm: true,
-        user_metadata: {
+        data: {
           full_name: process.env.GOWORKORA_ADMIN_DISPLAY_NAME ?? "GoWorkora Administrator",
-          provisioned_by: "goworkora_trusted_admin_tool",
-        },
-      },
-    });
-  } else if (!(user.email_confirmed_at ?? user.confirmed_at)) {
-    user = await api(`/auth/v1/admin/users/${user.id}`, {
-      method: "PUT",
-      body: {
-        email_confirm: true,
-        user_metadata: {
-          ...(user.user_metadata ?? {}),
-          full_name: user.user_metadata?.full_name
-            ?? process.env.GOWORKORA_ADMIN_DISPLAY_NAME
-            ?? "GoWorkora Administrator",
           provisioned_by: "goworkora_trusted_admin_tool",
         },
       },
@@ -159,6 +160,7 @@ async function provisionAccount() {
     userId: user.id,
     email: config.email,
     displayName: process.env.GOWORKORA_ADMIN_DISPLAY_NAME,
+    emailVerifiedAt: user.email_confirmed_at ?? user.confirmed_at ?? null,
   });
   await api("/rest/v1/profiles?on_conflict=id", {
     method: "POST",
@@ -166,27 +168,62 @@ async function provisionAccount() {
     headers: { Prefer: "resolution=merge-duplicates,return=minimal" },
   });
 
+  const correlationId = randomUUID();
+  const membership = await api("/rest/v1/rpc/provision_admin_membership", {
+    method: "POST",
+    body: {
+      p_user_id: user.id,
+      p_role_key: config.role,
+      p_reason: "Trusted GoWorkora administrator provisioning workflow.",
+      p_correlation_id: correlationId,
+    },
+  });
+
   const result = await verifyAccount();
+  if (!result.ready && !(user.email_confirmed_at ?? user.confirmed_at)) {
+    return {
+      ready: false,
+      awaitingEmailVerification: true,
+      reason: "Administrator invitation created; email verification is required before access.",
+      userId: user.id,
+      membership,
+      correlationId,
+    };
+  }
   if (!result.ready) throw new Error(`Provisioning verification failed: ${result.reason}`);
-  return result;
+  return { ...result, membership, correlationId };
 }
 
-if (!["provision", "verify"].includes(action)) {
-  throw new Error("Usage: node scripts/provision-admin.mjs <provision|verify>");
+if (args.dryRun) {
+  console.log(JSON.stringify(adminProvisioningPlan({ config, dryRun: true, action }), null, 2));
+  process.exit(0);
 }
 
+secret = await serverSecret();
 const result = action === "verify" ? await verifyAccount() : await provisionAccount();
 if (!result.ready) {
-  console.error(`Administrator login is not ready: ${result.reason}`);
-  process.exitCode = 1;
+  const pending = Boolean(result.awaitingEmailVerification);
+  console[pending ? "log" : "error"](JSON.stringify({
+    ready: false,
+    awaitingEmailVerification: pending,
+    environment: config.environment,
+    projectRef: config.projectRef,
+    email: config.email,
+    role: config.role,
+    reason: result.reason,
+    correlationId: result.correlationId,
+  }, null, 2));
+  if (!pending) process.exitCode = 1;
 } else {
   console.log(JSON.stringify({
     ready: true,
     environment: config.environment,
     projectRef: config.projectRef,
     email: config.email,
+    role: result.role ?? config.role,
     emailConfirmed: result.emailConfirmed,
     onboardingCompleted: result.onboardingCompleted,
     dashboard: "/app/admin",
+    correlationId: result.correlationId,
   }, null, 2));
 }

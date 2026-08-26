@@ -32,8 +32,8 @@ async function text(path) {
 
 test("the public and authenticated route inventory is unique and complete", () => {
   assert.equal(PUBLIC_ROUTES.length, 35);
-  assert.equal(AUTHENTICATED_ROUTES.length, 45);
-  assert.equal(ROUTES.length, 80);
+  assert.equal(AUTHENTICATED_ROUTES.length, 75);
+  assert.equal(ROUTES.length, 110);
   assert.equal(new Set(ROUTES.map((route) => route.path)).size, ROUTES.length);
 
   for (const path of [
@@ -57,7 +57,13 @@ test("the public and authenticated route inventory is unique and complete", () =
     "/app/client",
     "/app/freelancer",
     "/app/admin",
+    "/app/admin/overview",
     "/app/admin/security",
+    "/app/admin/users",
+    "/app/admin/credits",
+    "/app/admin/deliverables",
+    "/app/admin/disputes/example-dispute",
+    "/app/admin/system",
     "/app/company",
     "/app/company/members",
     "/app/jobs/new",
@@ -70,6 +76,7 @@ test("the public and authenticated route inventory is unique and complete", () =
     "/app/work-diary",
     "/app/gosparks",
     "/app/settings/security",
+    "/app/settings/privacy",
   ]) {
     assert.equal(matchRoute(path)?.access, "protected", path);
   }
@@ -118,6 +125,8 @@ test("role dashboards and legacy compatibility resolve to known routes", () => {
   assert.equal(legacyHashFromPath("/app/messages/demo-conversation", "client"), "#messages/demo-conversation");
   assert.equal(pathFromLegacyHash("#reports", "freelancer"), "/app/reports");
   assert.equal(pathFromLegacyHash("#reports/transactions?type=release", "freelancer"), "/app/reports/transactions?type=release");
+  assert.equal(pathFromLegacyHash("#settings/privacy", "freelancer"), "/app/settings/privacy");
+  assert.equal(legacyHashFromPath("/app/settings/privacy", "freelancer"), "#settings/privacy");
   assert.equal(legacyHashFromPath("/app/work-diary?page=2", "freelancer"), "#work-diary?page=2");
   assert.ok(matchRoute(pathFromLegacyHash("#contracts/demo-contract", "freelancer")));
 });

@@ -121,6 +121,7 @@ export function buildDemoManifest(environment, accountIds) {
     is_demo: true, demo_key: keyFor(environment, "company", slug), demo_environment: environment,
   }));
   const company = Object.fromEntries(companies.map((item) => [item.demo_key.split(":").at(-1), item.id]));
+  const skillCategory = Object.fromEntries(SKILL_SPECS.map(([slug, , category]) => [slug, category]));
 
   const freelancerProfiles = PROFILE_SPECS.map(([account, slug, title, skills, rate], index) => ({
     account, skills,
@@ -128,6 +129,7 @@ export function buildDemoManifest(environment, accountIds) {
       user_id: user(account), professional_title: title,
       bio: `Fictional demonstration profile for a ${title.toLowerCase()}. This profile exists only to validate GoWorkora workflows and privacy controls.`,
       hourly_rate_minor: rate, currency: "AUD", experience_level: index < 2 ? "expert" : "intermediate",
+      primary_category: skillCategory[skills[0]], years_experience: 5,
       availability_status: index === 7 ? "limited" : "available", weekly_capacity_hours: 30,
       minimum_project_minor: 50000, country_code: "AU", timezone: "Australia/Perth",
       profile_slug: `demo-${slug}`, verification_status: "unverified",
@@ -138,6 +140,7 @@ export function buildDemoManifest(environment, accountIds) {
       user_id: user("suspended"), professional_title: "Restricted Demo Specialist",
       bio: "Fictional suspended profile for restriction testing.", hourly_rate_minor: 5000, currency: "AUD",
       experience_level: "intermediate", availability_status: "unavailable",
+      primary_category: "IT Support", years_experience: 5,
       weekly_capacity_hours: 0, minimum_project_minor: 50000, country_code: "AU",
       timezone: "Australia/Perth", profile_slug: "demo-suspended-specialist",
       verification_status: "unverified",

@@ -1,7 +1,33 @@
-const ALLOWED_ENVIRONMENTS = new Set(["local", "development", "test"]);
+const ALLOWED_ENVIRONMENTS = new Set(["local", "development", "test", "production"]);
+export const ADMIN_ROLES = new Set([
+  "super_admin",
+  "operations_admin",
+  "trust_safety_admin",
+  "finance_admin",
+  "support_admin",
+  "content_admin",
+  "auditor",
+]);
+export const PRIMARY_SUPER_ADMIN_EMAIL = "rayyan.muhammed.a+admin@gmail.com";
 
 export const ADMIN_PROVISION_CONFIRMATION = "YES_PROVISION_TRUSTED_ADMIN";
 export const ADMIN_PROMOTION_CONFIRMATION = "YES_PROMOTE_THIS_EXISTING_ACCOUNT";
+
+export function parseAdminProvisioningArgs(argv = []) {
+  const result = { action: "provision", confirm: false, dryRun: false };
+  for (const value of argv) {
+    if (value === "provision" || value === "verify") result.action = value;
+    else if (value === "--confirm") result.confirm = true;
+    else if (value === "--dry-run") result.dryRun = true;
+    else if (value.startsWith("--email=")) result.email = value.slice(8);
+    else if (value.startsWith("--role=")) result.role = value.slice(7);
+    else if (value.startsWith("--environment=")) result.environment = value.slice(14);
+    else if (value.startsWith("--project-ref=")) result.projectRef = value.slice(14);
+    else if (value.startsWith("--supabase-url=")) result.supabaseUrl = value.slice(15);
+    else throw new Error(`Unknown administrator provisioning argument: ${value}`);
+  }
+  return result;
+}
 
 export function normalizeAdminEmail(value) {
   return String(value ?? "").trim().toLowerCase();
@@ -44,19 +70,19 @@ export function validateAdminProvisioningConfig({
   projectRef,
   supabaseUrl,
   email,
+  role = "super_admin",
   confirmation,
 }) {
   const normalizedEnvironment = String(environment ?? "").trim().toLowerCase();
+  const normalizedProjectLabel = String(projectLabel ?? "").trim();
   const normalizedProjectRef = String(projectRef ?? "").trim();
   const normalizedUrl = String(supabaseUrl ?? "").trim().replace(/\/+$/, "");
   const normalizedEmail = normalizeAdminEmail(email);
+  const normalizedRole = String(role ?? "").trim().toLowerCase();
   const actualProjectRef = projectRefFromSupabaseUrl(normalizedUrl);
 
-  if (/prod|production|live/i.test(`${normalizedEnvironment} ${projectLabel ?? ""}`)) {
-    throw new Error("Administrator provisioning refuses production/live environment labels.");
-  }
   if (!ALLOWED_ENVIRONMENTS.has(normalizedEnvironment)) {
-    throw new Error("GOWORKORA_ADMIN_ENVIRONMENT must be local, development, or test.");
+    throw new Error("Administrator environment must be local, development, test, or production.");
   }
   if (!actualProjectRef) {
     throw new Error("SUPABASE_URL must identify Supabase or a loopback local Supabase service.");
@@ -67,6 +93,9 @@ export function validateAdminProvisioningConfig({
   if (!isValidAdminEmail(normalizedEmail)) {
     throw new Error("GOWORKORA_ADMIN_EMAIL must be a valid email address.");
   }
+  if (!ADMIN_ROLES.has(normalizedRole)) {
+    throw new Error("Administrator role is not recognized by the trusted RBAC model.");
+  }
   if (confirmation !== ADMIN_PROVISION_CONFIRMATION) {
     throw new Error(
       `Set GOWORKORA_ADMIN_ALLOW=${ADMIN_PROVISION_CONFIRMATION} to authorize this trusted operation.`,
@@ -75,9 +104,11 @@ export function validateAdminProvisioningConfig({
 
   return {
     environment: normalizedEnvironment,
+    projectLabel: normalizedProjectLabel,
     projectRef: normalizedProjectRef,
     supabaseUrl: normalizedUrl,
     email: normalizedEmail,
+    role: normalizedRole,
   };
 }
 
@@ -97,21 +128,38 @@ export function buildAdminProfile({
   userId,
   email,
   displayName = "GoWorkora Administrator",
+  emailVerifiedAt,
   now = new Date().toISOString(),
 }) {
+  const verifiedAt = emailVerifiedAt ?? null;
   return {
     id: userId,
     email: normalizeAdminEmail(email),
     role: "admin",
     full_name: String(displayName).trim() || "GoWorkora Administrator",
     display_name: String(displayName).trim() || "GoWorkora Administrator",
-    email_verified_at: now,
-    account_status: "active",
+    email_verified_at: verifiedAt,
+    account_status: verifiedAt ? "active" : "pending",
     onboarding_completed: true,
     onboarding_confirmed_at: now,
     onboarding_step: 7,
     profile_visibility: "private",
     updated_at: now,
+  };
+}
+
+export function adminProvisioningPlan({ config, dryRun, action }) {
+  return {
+    action,
+    dryRun: Boolean(dryRun),
+    environment: config.environment,
+    projectLabel: config.projectLabel,
+    projectRef: config.projectRef,
+    email: config.email,
+    role: config.role,
+    requiresVerifiedEmail: true,
+    requiresMfaForAdminAccess: true,
+    writes: action === "provision" && !dryRun,
   };
 }
 

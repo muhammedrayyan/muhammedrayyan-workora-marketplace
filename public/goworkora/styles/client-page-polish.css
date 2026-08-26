@@ -73,6 +73,19 @@ body.goworkora-client-workspace .pages-account-heading h1 { font-size: clamp(30p
 .client-report-summary strong { color: #111318; font-size: 23px; letter-spacing: -.03em; }
 .client-report-summary small { color: #6b7280; font-size: 11px; line-height: 1.5; }
 .client-report-links > a { min-height: 155px; }
+.client-delivery-report { margin-top: 20px; }
+.client-delivery-report .client-section-heading > a { color: #704d00; font-size: 12px; font-weight: 800; text-decoration: underline; text-underline-offset: 4px; }
+.client-delivery-list { display: grid; }
+.client-delivery-list > a { align-items: center; border-top: 1px solid #eceef2; color: #111318; display: grid; gap: 20px; grid-template-columns: minmax(180px,.8fr) minmax(280px,1.25fr) auto 18px; padding: 19px 0; }
+.client-delivery-list > a:first-child { border-top: 0; }
+.client-delivery-list > a > b { color: #d49000; font-size: 18px; }
+.client-delivery-person, .client-delivery-progress { display: grid; gap: 5px; min-width: 0; }
+.client-delivery-person strong, .client-delivery-progress strong { font-size: 14px; }
+.client-delivery-person span, .client-delivery-progress span { color: #4b5563; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.client-delivery-person small, .client-delivery-progress small { color: #6b7280; font-size: 11px; line-height: 1.45; }
+.client-delivery-progress > div:first-child { align-items: baseline; display: flex; gap: 12px; justify-content: space-between; }
+.client-progress-track { background: #eceef2; border-radius: 999px; height: 8px; overflow: hidden; }
+.client-progress-track > span { background: #ffb000; display: block; height: 100%; max-width: 100%; }
 
 .client-section-heading button, .client-document-list button { background: #fff; border: 1px solid #111318; border-radius: 10px; color: #111318; font-size: 11px; font-weight: 800; min-height: 42px; padding: 10px 13px; }
 .client-section-heading button:hover, .client-document-list button:hover { background: #111318; color: #fff; }
@@ -112,6 +125,8 @@ body.goworkora-client-workspace :is(a,button,input,select,textarea):focus-visibl
   .client-command-hero a { flex: 1; }
   .client-dashboard-rail { grid-template-columns: 1fr; }
   .client-member-list article { align-items: stretch; grid-template-columns: 1fr 1fr; }
+  .client-delivery-list > a { grid-template-columns: minmax(160px,.7fr) minmax(240px,1fr) auto; }
+  .client-delivery-list > a > b { display: none; }
 }
 
 @media (max-width: 580px) {
@@ -129,6 +144,8 @@ body.goworkora-client-workspace :is(a,button,input,select,textarea):focus-visibl
   .client-report-nav a { flex: 0 0 auto; }
   .client-company-intro { align-items: start; flex-direction: column; }
   .client-member-list article { grid-template-columns: 1fr; }
+  .client-delivery-list > a { align-items: start; grid-template-columns: 1fr; }
+  .client-delivery-list > a > .client-status { justify-self: start; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -54,6 +54,7 @@
   <link rel="stylesheet" href="./styles/features/payments.css?v=0a7987e9733e">
   <link rel="stylesheet" href="./styles/features/messaging.css?v=message-composer-20260731">
   <link rel="stylesheet" href="./styles/features/trust-admin.css?v=0a7987e9733e">
+  <link rel="stylesheet" href="./styles/features/admin-control.css?v=admin-control-20260823">
   <link rel="stylesheet" href="./styles/pages/public-pages.css?v=0a7987e9733e">
   <link rel="stylesheet" href="./styles/pages/account-pages.css?v=gosparks-20260804">
   <link rel="stylesheet" href="./styles/demo-data.css?v=0a7987e9733e">
@@ -246,7 +247,7 @@
     import { mountTalentExperience, unmountTalentExperience } from './features/talent/experience.js?v=public-privacy-v3-20260811';
     import { mountPaymentsExperience, unmountPaymentsExperience } from './features/payments/experience.js?v=surface-logo-20260730';
     import { mountMessagingExperience, unmountMessagingExperience } from './features/messaging/experience.js?v=message-composer-20260731';
-    import { mountTrustAdminExperience, unmountTrustAdminExperience } from './features/trust-admin/experience.js?v=surface-logo-20260730';
+    import { mountTrustAdminExperience, unmountTrustAdminExperience } from './features/trust-admin/experience.js?v=admin-control-20260823';
     import { adminMfaSnapshot, adminSecurityDestination, normalizedMfaFactors } from './features/admin-security/workflow.js?v=admin-mfa-20260729';
     import { dashboardPath, legacyHashFromPath, matchRoute, normalizePath, pathFromLegacyHash, postAuthenticationPath, safeReturnTo } from './routing/site-routes.js?v=client-workspace-20260811';
     import { bindPublicPageActions, publicPageContent, updatePublicMetadata } from './pages/public-pages.js?v=0a7987e9733e';
@@ -624,7 +625,7 @@
       }
       if(match.pathname==='/'){await renderApprovedHomepage();return}
       if(match.pathname==='/homepage-preview'){navigateCanonical('/',true);return}
-      const accountPages=new Set(['/app/client','/app/freelancer','/app/company','/app/company/members','/app/settings','/app/settings/account','/app/settings/security','/app/settings/notifications','/app/settings/billing','/app/gosparks','/app/reports','/app/reports/transactions','/app/reports/invoices','/app/work-diary','/app/support','/app/restricted','/app/access-denied']);
+      const accountPages=new Set(['/app/client','/app/freelancer','/app/company','/app/company/members','/app/settings','/app/settings/account','/app/settings/security','/app/settings/notifications','/app/settings/privacy','/app/settings/billing','/app/gosparks','/app/reports','/app/reports/transactions','/app/reports/invoices','/app/work-diary','/app/support','/app/restricted','/app/access-denied']);
       if(accountPages.has(match.pathname)||(match.pathname==='/app/profile'&&currentRole()==='admin')){
         clearExperiences();setChrome('static');
         await renderAccountPage({root:publicRoute,supabase,user:currentUser,profile:currentProfile,role:currentRole(),path:match.pathname,search:match.search,accountStatus:currentProfile?.account_status||null,onNavigate:navigateCanonical,onSignOut:signOut});

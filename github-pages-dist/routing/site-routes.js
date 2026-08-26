@@ -41,7 +41,36 @@ const PROTECTED_ROUTE_DEFINITIONS = [
   ["/app/client", "Client Dashboard", ["client"]],
   ["/app/freelancer", "Freelancer Dashboard", ["freelancer"]],
   ["/app/admin", "Administration", ["admin"]],
+  ["/app/admin/overview", "Administrator Overview", ["admin"]],
   ["/app/admin/security", "Administrator Security", ["admin"]],
+  ["/app/admin/search", "Administrator Search", ["admin"]],
+  ["/app/admin/users", "User Administration", ["admin"]],
+  ["/app/admin/users/:userId", "Administrator User Detail", ["admin"]],
+  ["/app/admin/clients", "Client Administration", ["admin"]],
+  ["/app/admin/freelancers", "Freelancer Administration", ["admin"]],
+  ["/app/admin/companies", "Company Administration", ["admin"]],
+  ["/app/admin/jobs", "Job Administration", ["admin"]],
+  ["/app/admin/proposals", "Proposal Administration", ["admin"]],
+  ["/app/admin/invitations", "Invitation Administration", ["admin"]],
+  ["/app/admin/contracts", "Contract Administration", ["admin"]],
+  ["/app/admin/milestones", "Milestone Administration", ["admin"]],
+  ["/app/admin/deliverables", "Deliverable Administration", ["admin"]],
+  ["/app/admin/work-diaries", "Work Diary Administration", ["admin"]],
+  ["/app/admin/messages", "Message Report Administration", ["admin"]],
+  ["/app/admin/payments", "Payment Administration", ["admin"]],
+  ["/app/admin/transactions", "Transaction Administration", ["admin"]],
+  ["/app/admin/invoices", "Invoice Administration", ["admin"]],
+  ["/app/admin/credits", "Credit Administration", ["admin"]],
+  ["/app/admin/disputes", "Dispute Administration", ["admin"]],
+  ["/app/admin/disputes/:disputeId", "Administrator Dispute Detail", ["admin"]],
+  ["/app/admin/reports", "Safety Report Administration", ["admin"]],
+  ["/app/admin/support", "Support Administration", ["admin"]],
+  ["/app/admin/content", "Content Administration", ["admin"]],
+  ["/app/admin/settings", "Platform Administration", ["admin"]],
+  ["/app/admin/feature-flags", "Feature Flag Administration", ["admin"]],
+  ["/app/admin/audit", "Administrator Audit History", ["admin"]],
+  ["/app/admin/system", "System Health", ["admin"]],
+  ["/app/admin/admin-team", "Administrator Team", ["admin"]],
   ["/app/onboarding", "Account Onboarding", ["client", "freelancer"]],
   ["/app/profile", "Profile", ["client", "freelancer", "admin"]],
   ["/app/profile/edit", "Edit Profile", ["client", "freelancer"]],
@@ -51,6 +80,7 @@ const PROTECTED_ROUTE_DEFINITIONS = [
   ["/app/settings/account", "Account Settings", ["client", "freelancer", "admin"]],
   ["/app/settings/security", "Security Settings", ["client", "freelancer", "admin"]],
   ["/app/settings/notifications", "Notification Settings", ["client", "freelancer", "admin"]],
+  ["/app/settings/privacy", "Privacy Settings", ["client", "freelancer", "admin"]],
   ["/app/settings/billing", "Billing Settings", ["client", "freelancer", "admin"]],
   ["/app/jobs", "Jobs", ["client", "freelancer", "admin"]],
   ["/app/jobs/new", "Post a Job", ["client"]],
@@ -188,9 +218,12 @@ export function legacyHashFromPath(value, role = "client") {
     return section ? `#admin/${section}` : "#admin";
   }
   if (path === "/app/admin/security") return `#admin/security${suffix}`;
+  if ((match = path.match(/^\/app\/admin\/([a-z-]+)\/([0-9a-f-]{36})$/i))) return `#admin/${match[1]}/${match[2]}${suffix}`;
+  if ((match = path.match(/^\/app\/admin\/([a-z-]+)$/))) return `#admin/${match[1]}${suffix}`;
   if (path === "/app/onboarding") return `#onboarding/${role}`;
   if (path === "/app/profile") return `#dashboard/${role}`;
   if (path === "/app/profile/edit") return `#onboarding/${role}`;
+  if (path === "/app/settings/privacy") return "#settings/privacy";
   if (path === "/app/jobs") return role === "client" ? "#jobs/manage" : "#jobs";
   if (path === "/app/jobs/new") return "#jobs/new";
   if ((match = path.match(/^\/app\/jobs\/([^/]+)\/(edit|preview|proposals|applications)$/))) return `#jobs/${match[1]}/${match[2] === "applications" ? "proposals" : match[2]}`;
@@ -236,6 +269,7 @@ export function pathFromLegacyHash(value, role = "client") {
   if (hash.startsWith("proposals")) return hash.includes("/") ? `/app/proposals/${hash.split("/")[1]}` : "/app/proposals";
   if (hash.startsWith("dashboard/")) return dashboardPath(hash.split("/")[1]);
   if (hash.startsWith("onboarding/")) return "/app/onboarding";
+  if (hash === "settings/privacy") return "/app/settings/privacy";
   if (hash.startsWith("invitations")) return "/app/invitations";
   if (hash.startsWith("contracts/")) return `/app/contracts/${hash.split("/")[1]}`;
   if (hash === "contracts") return "/app/contracts";
@@ -255,6 +289,7 @@ export function pathFromLegacyHash(value, role = "client") {
   if (hash === "talent/pipeline") return `/app/invitations${suffix || "?scope=sent"}`;
   if (hash === "admin") return "/app/admin";
   if (hash.startsWith("admin/security")) return `/app/admin/security${suffix}`;
-  if (hash.startsWith("admin/")) return `/app/admin?section=${encodeURIComponent(hash.split("/")[1] || "overview")}`;
+  if ((match = hashPath.match(/^admin\/([a-z-]+)\/([0-9a-f-]{36})$/i))) return `/app/admin/${match[1]}/${match[2]}${suffix}`;
+  if ((match = hashPath.match(/^admin\/([a-z-]+)$/))) return `/app/admin/${match[1]}${suffix}`;
   return "/";
 }
