@@ -65,6 +65,9 @@ export function validateClientStep(step, values) {
   if (step === 1) {
     if (!String(values.displayName ?? "").trim()) return "Enter your display name.";
     if (!String(values.jobTitle ?? "").trim()) return "Enter your job title.";
+    if (!String(values.department ?? "").trim()) return "Enter your department.";
+    if (!String(values.hiringRole ?? "").trim()) return "Enter your hiring responsibility.";
+    if (!String(values.languageCode ?? "").trim()) return "Choose your language preference.";
     if (!values.countryCode) return "Choose your country.";
     if (!values.timezone) return "Choose your timezone.";
   }
@@ -73,9 +76,12 @@ export function validateClientStep(step, values) {
     if (!values.companySize) return "Choose your company size.";
     if (!String(values.industry ?? "").trim()) return "Enter your industry.";
     if (!values.companyCountryCode) return "Choose the company country.";
+    if (String(values.companyDescription ?? "").trim().length < 20) return "Enter a company description of at least 20 characters.";
   }
-  if (step === 3 && (!Array.isArray(values.hiringCategories) || values.hiringCategories.length < 1)) {
-    return "Choose at least one typical hiring category.";
+  if (step === 3) {
+    if (!Array.isArray(values.hiringCategories) || values.hiringCategories.length < 1) return "Choose at least one typical hiring category.";
+    if (!values.typicalProjectSize) return "Choose your typical project size.";
+    if (!values.preferredEngagementType) return "Choose your preferred engagement type.";
   }
   if (step === 4) {
     if (!values.billingCountry) return "Choose your billing country.";
@@ -96,8 +102,25 @@ export function validateFreelancerStep(step, values) {
     if (!values.timezone) return "Choose your timezone.";
     return validateProfileSlug(values.profileSlug);
   }
-  if (step === 2 && (!Array.isArray(values.skillIds) || values.skillIds.length < 3)) {
-    return "Choose at least three skills.";
+  if (step === 2) {
+    const primaryCategory = String(values.primaryCategory ?? "").trim();
+    if (!primaryCategory || primaryCategory.length > 100) {
+      return "Choose your primary professional category.";
+    }
+    if (Array.isArray(values.availableCategories) && !values.availableCategories.includes(primaryCategory)) {
+      return "Choose a professional category from the available marketplace categories.";
+    }
+    if (
+      String(values.yearsExperience ?? "").trim() === ""
+      || !Number.isFinite(Number(values.yearsExperience))
+      || Number(values.yearsExperience) < 0
+      || Number(values.yearsExperience) > 80
+    ) {
+      return "Enter professional experience between 0 and 80 years.";
+    }
+    if (!Array.isArray(values.skillIds) || values.skillIds.length < 3) {
+      return "Choose at least three skills.";
+    }
   }
   if (step === 3) {
     if (!Number.isFinite(Number(values.hourlyRate)) || Number(values.hourlyRate) <= 0) return "Enter a valid hourly rate.";

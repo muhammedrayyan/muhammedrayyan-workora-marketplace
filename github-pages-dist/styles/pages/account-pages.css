@@ -11,6 +11,16 @@
   margin-bottom: 18px;
 }
 
+.pages-account-privacy-note {
+  background: #f7f8f5;
+  border: 1px solid #dfe2da;
+  border-radius: 12px;
+  color: #4b5650;
+  font-size: 13px;
+  margin-top: 18px;
+  padding: 15px;
+}
+
 .freelancer-diary-summary article {
   background: #fff;
   border: 1px solid #dfe2da;
@@ -731,6 +741,38 @@
   background: #ffb000;
   display: block;
   height: 100%;
+}
+
+.freelancer-profile-next {
+  background: #f7f8fa;
+  border: 1px solid #eceef2;
+  border-radius: 12px;
+  margin-top: 14px;
+  padding: 12px 14px;
+}
+
+.freelancer-profile-next strong {
+  font-size: 13px;
+}
+
+.freelancer-profile-next ul {
+  color: #5f6672;
+  display: grid;
+  font-size: 12px;
+  gap: 4px;
+  margin: 8px 0 0;
+  padding-left: 17px;
+}
+
+.freelancer-profile-next.complete {
+  background: #eef8f0;
+  border-color: #b9dfc1;
+}
+
+.freelancer-profile-next p {
+  color: #5f6672;
+  font-size: 12px;
+  margin: 6px 0 0;
 }
 
 .freelancer-reach-card dl,

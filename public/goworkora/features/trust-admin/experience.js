@@ -1,8 +1,6 @@
 import {
   allowedDisputeTransitions,
   disputeStatusLabel,
-  formatMinorUnits,
-  groupRevenueByCurrency,
   parseTrustAdminRoute,
   reviewStatusLabel,
   safeTrustError,
@@ -19,6 +17,18 @@ import {
 } from '../admin-security/workflow.js';
 import { safePublicHttpsUrl } from '../../shared/security.js';
 import { featureBrandButton, featureBrandLink } from '../../shared/site-chrome.js?v=surface-logo-20260730';
+import {
+  adminCanonicalPath,
+  adminSectionNeedsRecentMfa,
+  parseAdminControlRoute,
+  safeAdminControlError,
+} from '../admin-control/workflow.js';
+import {
+  adminControlMarkup,
+  bindAdminControl,
+  loadAdminControlView,
+  renderAdminControlFailure,
+} from '../admin-control/experience.js';
 
 let root = null;
 let state = null;
@@ -56,7 +66,7 @@ function pageState(title, message) {
 }
 
 function header() {
-  return `<header class="trust-header">${featureBrandButton('wt-home')}<nav aria-label="${state.profile.role === 'admin' ? 'Administrator' : 'Trust'} workspace navigation">${state.profile.role === 'admin' ? '<a href="#admin">Dashboard</a><a href="#admin/users">Users</a><a href="#admin/reports">Reports</a><a href="#admin/disputes">Disputes</a><a href="#admin/security">Security</a>' : `<a href="#dashboard/${state.profile.role}">Dashboard</a><a href="#reviews">Reviews</a><a href="#disputes">Disputes</a><a href="#contracts">Contracts</a><a href="#messages">Messages</a>`}</nav><button id="wt-signout">Sign out</button></header>`;
+  return `<header class="trust-header">${featureBrandButton('wt-home')}<nav aria-label="${state.profile.role === 'admin' ? 'Administrator' : 'Trust'} workspace navigation">${state.profile.role === 'admin' ? '<a href="#admin">Control Center</a><a href="#admin/security">Security status</a>' : `<a href="#dashboard/${state.profile.role}">Dashboard</a><a href="#reviews">Reviews</a><a href="#disputes">Disputes</a><a href="#contracts">Contracts</a><a href="#messages">Messages</a>`}</nav><button id="wt-signout">Sign out</button></header>`;
 }
 
 function alerts() {
@@ -413,97 +423,6 @@ function bindDisputeDetail(dispute) {
   document.querySelectorAll('[data-evidence]').forEach((button) => button.onclick = async () => { const result = await state.supabase.storage.from('dispute-evidence').createSignedUrl(button.dataset.evidence, 60); const url = safePublicHttpsUrl(result.data?.signedUrl); if (url) window.open(url, '_blank', 'noopener,noreferrer'); });
 }
 
-async function adminMarkup(section) {
-  const requireResult = (result) => {
-    if (result.error) throw result.error;
-    return result.data;
-  };
-  state.admin ||= {};
-  if (section === 'overview') {
-    state.admin.metrics = requireResult(await state.supabase.rpc('admin_overview_metrics')) || {};
-  } else if (section === 'users') {
-    state.admin.users = requireResult(await state.supabase.rpc('admin_search_users', {
-      p_query: '',
-      p_limit: 50,
-      p_offset: 0,
-    })) || [];
-  } else if (section === 'jobs') {
-    state.admin.jobs = requireResult(await state.supabase
-      .from('jobs')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(50)) || [];
-  } else if (section === 'reports') {
-    state.admin.reports = requireResult(await state.supabase
-      .from('user_reports')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(50)) || [];
-  } else if (section === 'financial') {
-    const from = new Date();
-    from.setDate(from.getDate() - 30);
-    const [revenue, transactions, webhooks] = await Promise.all([
-      state.supabase.rpc('admin_revenue_report', {
-        p_from: from.toISOString(),
-        p_to: new Date().toISOString(),
-      }),
-      state.supabase
-        .from('payment_transactions')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(50),
-      state.supabase
-        .from('webhook_events')
-        .select('*')
-        .order('received_at', { ascending: false })
-        .limit(50),
-    ]);
-    state.admin.revenue = requireResult(revenue) || [];
-    state.admin.transactions = requireResult(transactions) || [];
-    state.admin.webhooks = requireResult(webhooks) || [];
-  } else if (section === 'settings') {
-    state.admin.settings = requireResult(await state.supabase
-      .from('platform_settings')
-      .select('*')
-      .order('key')) || [];
-  } else if (section === 'audit') {
-    state.admin.audit = requireResult(await state.supabase
-      .from('audit_logs')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(50)) || [];
-  }
-
-  const tabs = ['overview','users','jobs','reports','disputes','financial','settings','audit','security'];
-  const table = (headers, rows) => `<section class="trust-table"><header>${headers.map((item) => `<span>${esc(item)}</span>`).join('')}</header>${rows.join('')}</section>`;
-  let content = '';
-  if (section === 'overview') content = `<section class="trust-metrics">${Object.entries(state.admin.metrics || {}).filter(([,value]) => typeof value === 'number').map(([key,value]) => `<article><span>${esc(key.replaceAll('_',' '))}</span><strong>${value}</strong></article>`).join('')}</section>`;
-  if (section === 'users') content = table(['User','Role','Status','Action'], (state.admin.users || []).map((item) => `<article><div><strong>${esc(item.display_name)}</strong><small>${esc(item.user_id.slice(0,8))}…</small></div><span>${esc(item.role)}</span><span>${esc(item.account_status)}</span><button data-user="${esc(item.user_id)}" data-status="${item.account_status === 'suspended' ? 'active' : 'suspended'}">${item.account_status === 'suspended' ? 'Reinstate' : 'Suspend'}</button></article>`));
-  if (section === 'jobs') content = table(['Job','Owner','Status','Moderation'], (state.admin.jobs || []).map((item) => `<article><div><strong>${esc(item.title)}</strong><small>${esc(item.category)}</small></div><code>${esc(item.client_user_id.slice(0,8))}…</code><span>${esc(item.status)}</span><button data-job="${esc(item.id)}" data-action="${item.moderation_status === 'hidden' ? 'restore' : 'hide'}">${item.moderation_status === 'hidden' ? 'Restore' : 'Hide'}</button></article>`));
-  if (section === 'reports') content = table(['Report','Target','Status','Actions'], (state.admin.reports || []).map((item) => { const target = item.reported_user_id || item.job_id || item.message_id || 'unknown'; const next = item.status === 'submitted' ? 'triaged' : item.status === 'triaged' ? 'investigating' : item.status === 'investigating' ? 'resolved' : ''; return `<article><div><strong>${esc(item.category)}</strong><small>${esc(item.description)}</small></div><code>${esc(target.slice(0,8))}…</code><span>${esc(item.status)}</span><div>${next ? `<button data-report="${esc(item.id)}" data-report-status="${next}">${esc(next)}</button>` : ''}${!['resolved','dismissed'].includes(item.status) ? `<button data-report="${esc(item.id)}" data-report-status="dismissed">Dismiss</button>` : ''}</div></article>`; }));
-  if (section === 'disputes') content = table(['Case','Status','Assigned','Open'], state.disputes.map((item) => `<article><strong>${esc(item.category)}</strong><span>${esc(disputeStatusLabel(item.status))}</span><code>${esc(item.assigned_admin_user_id?.slice(0,8) || 'Unassigned')}</code><button data-open-dispute="${esc(item.id)}">Review</button></article>`));
-  if (section === 'financial') { const grouped = groupRevenueByCurrency(state.admin.revenue || []); content = `<section class="trust-currencies">${Object.entries(grouped).map(([currency,total]) => `<article><span>${esc(currency)}</span><strong>${esc(formatMinorUnits(total.fees,currency))} revenue</strong><small>${esc(formatMinorUnits(total.gross,currency))} GMV · ${esc(formatMinorUnits(total.refunds,currency))} refunds</small></article>`).join('')}</section>${table(['Transaction','Currency','Status','Amount'], (state.admin.transactions || []).map((item) => `<article><code>${esc(item.provider_reference || item.id.slice(0,12))}</code><span>${esc(item.currency)}</span><span>${esc(item.status)}</span><strong>${esc(formatMinorUnits(item.amount_minor,item.currency))}</strong></article>`))}<article class="trust-card"><h2>Failed webhooks</h2>${(state.admin.webhooks || []).filter((item) => item.processing_status === 'failed').map((item) => `<p>${esc(item.event_type)} · ${esc(item.provider_event_id)}</p>`).join('') || '<p>No failed webhooks in this view.</p>'}<small>Financial records cannot be manually edited here.</small></article>`; }
-  if (section === 'settings') content = `<section class="trust-grid"><article class="trust-card"><h2>Non-secret platform settings</h2><select id="wt-setting">${(state.admin.settings || []).map((item) => option(item.key)).join('')}</select></article><form class="trust-card trust-form" id="wt-setting-form"><h2>Edit JSON value</h2><textarea class="trust-json" name="value">${esc(JSON.stringify(state.admin.settings?.[0]?.value ?? null, null, 2))}</textarea><button>Save audited setting</button></form></section>`;
-  if (section === 'audit') content = table(['Action','Target','Actor','Time'], (state.admin.audit || []).map((item) => `<article><strong>${esc(item.action)}</strong><span>${esc(item.entity_table)}</span><code>${esc(item.actor_user_id?.slice(0,8) || 'system')}</code><time>${new Date(item.created_at).toLocaleString()}</time></article>`));
-  const needsReason = ['users','jobs','reports','disputes','settings'].includes(section);
-  return `<section class="trust-hero admin"><div><span>Protected operations</span><h1>GoWorkora administration</h1><p>Trusted database functions recheck role and TOTP assurance. High-risk actions require a verification performed within the last ten minutes.</p></div><strong>AAL2</strong></section><nav class="trust-tabs">${tabs.map((item) => `<a class="${section === item ? 'active' : ''}" href="#admin/${item}">${item}</a>`).join('')}</nav>${needsReason ? '<label class="trust-reason">Required reason<input id="wt-reason" minlength="10" placeholder="At least 10 characters"></label>' : ''}${content}`;
-}
-
-function bindAdmin() {
-  const reason = () => document.querySelector('#wt-reason')?.value || '';
-  const route = parseTrustAdminRoute(state.routeHash);
-  const returnTo = route.section === 'overview'
-    ? '/app/admin'
-    : `/app/admin?section=${encodeURIComponent(route.section)}`;
-  document.querySelectorAll('[data-user]').forEach((button) => button.onclick = () => void runHighRiskAdminAction(() => run(() => state.supabase.rpc('admin_set_user_status', { p_user_id: button.dataset.user, p_status: button.dataset.status, p_reason: reason() })), returnTo));
-  document.querySelectorAll('[data-job]').forEach((button) => button.onclick = () => void runHighRiskAdminAction(() => run(() => state.supabase.rpc('admin_moderate_job', { p_job_id: button.dataset.job, p_action: button.dataset.action, p_reason: reason() })), returnTo));
-  document.querySelectorAll('[data-report]').forEach((button) => button.onclick = () => void runHighRiskAdminAction(() => run(() => state.supabase.rpc('admin_update_user_report', { p_report_id: button.dataset.report, p_status: button.dataset.reportStatus, p_reason: reason() })), returnTo));
-  document.querySelectorAll('[data-open-dispute]').forEach((button) => button.onclick = () => { location.hash = `disputes/${button.dataset.openDispute}`; });
-  const select = document.querySelector('#wt-setting');
-  select?.addEventListener('change', () => { const item = state.admin.settings.find((setting) => setting.key === select.value); document.querySelector('[name="value"]').value = JSON.stringify(item?.value ?? null, null, 2); });
-  document.querySelector('#wt-setting-form')?.addEventListener('submit', async (event) => { event.preventDefault(); const item = state.admin.settings.find((setting) => setting.key === select.value); if (!item) return; let value; try { value = JSON.parse(new FormData(event.currentTarget).get('value')); } catch { state.error = 'Enter a valid JSON value.'; return renderCurrent(); } await runHighRiskAdminAction(() => run(() => state.supabase.rpc('admin_update_platform_setting', { p_key: item.key, p_value: value, p_description: item.description, p_is_public: item.is_public, p_reason: reason() })), returnTo); });
-}
-
 async function renderCurrent() {
   if (!state) return;
   const route = parseTrustAdminRoute(state.routeHash);
@@ -531,16 +450,54 @@ async function renderCurrent() {
     bindAdminSecurity();
     return;
   }
-  const recentVerificationSections = new Set(['users', 'financial', 'settings', 'audit']);
-  if (recentVerificationSections.has(route.section) && !state.adminSecurity.snapshot.isRecent) {
-    state.securityReturnTo = `/app/admin?section=${encodeURIComponent(route.section)}`;
+  const adminRoute = parseAdminControlRoute(state.routeHash);
+  if (adminSectionNeedsRecentMfa(adminRoute.section) && !state.adminSecurity.snapshot.isRecent) {
+    state.securityReturnTo = adminCanonicalPath(adminRoute.section, adminRoute.id, {
+      q: adminRoute.query,
+      status: adminRoute.status,
+      page: adminRoute.page > 1 ? adminRoute.page : null,
+    });
     state.error = 'Verify a new authenticator code before opening this sensitive administrator area.';
     shell(adminSecurityMarkup());
     bindAdminSecurity();
     return;
   }
-  shell(await adminMarkup(route.section));
-  bindAdmin();
+  try {
+    state.adminControlView = await loadAdminControlView({
+      supabase: state.supabase,
+      route: adminRoute,
+      previousContext: state.adminControlView?.context || null,
+    });
+    shell(adminControlMarkup({ route: adminRoute, view: state.adminControlView, esc }));
+    bindAdminControl({
+      route: adminRoute,
+      view: state.adminControlView,
+      supabase: state.supabase,
+      onNavigate: state.onNavigate,
+      onReload: async (refreshContext = false) => {
+        if (refreshContext) state.adminControlView = null;
+        await renderCurrent();
+      },
+      onHighRisk: (action) => runHighRiskAdminAction(action, adminCanonicalPath(adminRoute.section, adminRoute.id)),
+      onError: (message) => { state.error = message; void renderCurrent(); },
+      onNotice: (message) => { state.notice = message; state.error = ''; },
+      esc,
+    });
+  } catch (error) {
+    state.error = safeAdminControlError(error);
+    shell(renderAdminControlFailure({
+      context: state.adminControlView?.context || null,
+      route: adminRoute,
+      error,
+      esc,
+    }));
+    document.querySelectorAll('[data-admin-route]').forEach((element) => {
+      element.addEventListener('click', (event) => {
+        event.preventDefault();
+        state.onNavigate(element.dataset.adminRoute || element.getAttribute('href'));
+      });
+    });
+  }
 }
 
 export async function mountTrustAdminExperience({
@@ -570,6 +527,7 @@ export async function mountTrustAdminExperience({
     notice: '',
     error: '',
     admin: null,
+    adminControlView: null,
     adminSecurity: null,
     mfaEnrollment: null,
     securityBusy: false,
@@ -583,7 +541,6 @@ export async function mountTrustAdminExperience({
           ? 'security_status'
           : 'admin_route',
       );
-      if (state.adminSecurity.snapshot.hasAal2) await reload();
     } else {
       await reload();
     }

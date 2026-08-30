@@ -8,7 +8,8 @@ boundaries. It does not introduce a second authentication or permission model.
 
 1. `/signup/freelancer` creates the authenticated account with the freelancer role.
 2. After OTP verification, `/app/onboarding` collects the professional identity,
-   public profile slug, skills, rate, availability, work history, education,
+   public profile slug, primary category, overall years of experience, skills,
+   rate, availability, repeatable work history, education and language entries,
    portfolio, public preview, and agreements.
 3. `/app/freelancer` is the freelancer workspace and links to public jobs,
    proposals, invitations, contracts, eligible messages, reports, work diary,
@@ -21,9 +22,15 @@ boundaries. It does not introduce a second authentication or permission model.
 6. `/app/reports`, `/app/reports/transactions`,
    `/app/reports/invoices`, and `/app/work-diary` provide freelancer-owned
    financial and work-activity views.
-7. `/app/settings` and its account, security, notification, and billing routes
+7. `/app/settings` and its account, profile, security, notification, privacy, and billing routes
    preserve the trusted profile and Stripe-owned security boundaries while
    allowing the freelancer to manage supported preferences.
+
+The public freelancer route reads only the privacy-filtered
+`public.freelancer_public_profiles` view plus public-RLS-scoped professional
+history, education, languages, skills, and published portfolio items. Private
+contact, authentication, payment, proposal, message, and moderation fields are
+not selected for the public page.
 
 ## Demonstration depth
 

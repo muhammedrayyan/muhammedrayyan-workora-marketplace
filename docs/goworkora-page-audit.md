@@ -1,6 +1,6 @@
 # GoWorkora page, route and workflow audit
 
-Last reviewed: 28 July 2026
+Last reviewed: 23 August 2026
 Application type: static JavaScript SPA with Supabase and a Vinext compatibility wrapper
 Local static artifact: `github-pages-dist/`
 Primary static source: `public/goworkora/`
@@ -91,10 +91,11 @@ existence. `/not-a-real-route` was runtime checked.
 | `/app/profile/edit` | client, freelancer | Validated profile/company/portfolio edits and uploads | Implementation inspected; upload E2E blocked |
 | `/app/company` | client | Create/edit owned company profile | Added and automated in this audit; remote write blocked |
 | `/app/company/members` | client | Read company membership and delegated roles | Added and automated; mutation intentionally not fabricated |
-| `/app/settings` | all trusted roles | Account, security, notifications, billing and support links | Implementation inspected |
+| `/app/settings` | all trusted roles | Account, profile, security, notifications, privacy, billing and support links | Implementation inspected |
 | `/app/settings/account` | all trusted roles | Display name, timezone, country and deactivation guidance | Implementation inspected |
 | `/app/settings/security` | all trusted roles | Verification/session/reset/security guidance | Implementation inspected |
 | `/app/settings/notifications` | all trusted roles | Persisted non-essential preferences | Implementation inspected; remote write blocked |
+| `/app/settings/privacy` | all trusted roles | Owner-scoped marketplace and location visibility controls | Implementation inspected and automated |
 | `/app/settings/billing` | all trusted roles | Stripe-owned billing/payout readiness | Implementation inspected; Stripe test E2E blocked |
 | `/app/jobs` | client, freelancer, admin | Owned job management or role-appropriate discovery | Route/legacy mapping automated; remote data blocked |
 | `/app/jobs/new` | client | Draft, validate, preview and publish | Implementation inspected; remote write blocked |
@@ -124,6 +125,27 @@ existence. `/not-a-real-route` was runtime checked.
 The administrator UI uses sections for overview, users, jobs, reports, disputes,
 financial events, settings and audit history. Those sections are treated as
 major screens even though they share the `/app/admin` route.
+
+## Client workspace hardening update
+
+The client workspace now collects the full supported personal, professional,
+company and hiring-preference onboarding data; safely replaces company logos;
+uses role-aware dashboard actions; scopes company job and invitation queries;
+and derives contract-delivery reporting from participant-visible contracts,
+milestones and public professional aggregates.
+
+Company access is split into read, recruiting and job-management capabilities.
+Owners, company administrators and hiring managers may manage jobs and proposal
+decisions; recruiters may discover and invite talent but may not create or edit
+jobs or hire; viewers receive read-only company-job access. The additive
+`20260823150000_client_company_role_boundaries.sql` migration enforces these
+distinctions with RLS helpers and a trigger guard beneath the browser.
+
+Source-level tests cover the role matrix, database helper separation, trigger
+guard, company-scoped queries, client onboarding depth, eight dashboard metrics,
+currency-separated reports, downloadable CSV safety and delivery progress.
+Applying the migration and running role/cross-account journeys against the
+approved development Supabase project remain required for remote acceptance.
 
 ## Interaction inventory
 
@@ -254,3 +276,21 @@ Browser checks were therefore manual/read-only, not a repeatable CI E2E suite.
 
 No commit, push, migration, remote Supabase write or deployment was performed
 by this audit.
+
+## Administrator control-center extension — 23 August 2026
+
+The protected route inventory now includes explicit permission-scoped
+administrator destinations for overview, search, users and user detail,
+clients, freelancers, companies, jobs, proposals, invitations, contracts,
+milestones, deliverables, work diaries, message reports, payments,
+transactions, invoices, credits, disputes and dispute detail, safety reports,
+support, content/taxonomy, settings, feature flags, audit, security, system
+health, and the administrator team.
+
+Source-level checks confirm that these routes resolve through the existing
+protected router, navigation is generated from trusted RBAC permissions, and
+the UI uses bounded database RPCs. Hosted page status remains unverified until
+the additive administrator migration is applied, the administrator identity
+is provisioned and enrolled in TOTP, and separate role-based browser sessions
+complete the acceptance matrix. See `docs/admin-control-center.md` for the
+route, security, deployment, and blocker details.

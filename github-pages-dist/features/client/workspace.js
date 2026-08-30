@@ -1,4 +1,8 @@
 import { safePublicDisplayName, safePublicProfessionalTitle } from "../../shared/public-privacy.js?v=20260811";
+import {
+  clientCanManageJobs,
+  clientCanRecruit,
+} from "../../shared/client-access.js?v=20260823";
 
 const CLIENT_TRANSACTION_PAGE_SIZE = 40;
 
@@ -80,6 +84,46 @@ export function summarizeClientSpend(transactions = []) {
   return [...totals.entries()].map(([currency, amountMinor]) => ({ currency, amountMinor }));
 }
 
+export function clientDeliveryRows(contracts = [], milestones = [], freelancerProfiles = []) {
+  const milestoneMap = new Map();
+  for (const milestone of milestones) {
+    const current = milestoneMap.get(milestone.contract_id) || [];
+    current.push(milestone);
+    milestoneMap.set(milestone.contract_id, current);
+  }
+  const profileMap = new Map(freelancerProfiles.map((profile) => [profile.user_id, profile]));
+  const completedStatuses = new Set(["approved", "released", "refunded"]);
+
+  return contracts.map((contract) => {
+    const contractMilestones = milestoneMap.get(contract.id) || [];
+    const completedMilestones = contractMilestones.filter((milestone) => completedStatuses.has(milestone.status)).length;
+    const submittedMilestones = contractMilestones.filter((milestone) => milestone.status === "submitted").length;
+    const revisionMilestones = contractMilestones.filter((milestone) => milestone.status === "revision_requested").length;
+    const progressPercent = contractMilestones.length
+      ? Math.round((completedMilestones / contractMilestones.length) * 100)
+      : contract.status === "completed" ? 100 : 0;
+    const profile = profileMap.get(contract.freelancer_user_id) || null;
+
+    return {
+      contractId: contract.id,
+      title: contract.title,
+      status: contract.status,
+      currency: contract.currency,
+      totalValueMinor: contract.total_value_minor,
+      hourlyRateMinor: contract.hourly_rate_minor,
+      professionalName: safePublicDisplayName(profile?.display_name),
+      professionalTitle: safePublicProfessionalTitle(profile?.professional_title, "Public profile unavailable"),
+      averageRating: Number(profile?.average_rating || 0),
+      completedContractsCount: Number(profile?.completed_contracts_count || 0),
+      milestoneCount: contractMilestones.length,
+      completedMilestones,
+      submittedMilestones,
+      revisionMilestones,
+      progressPercent,
+    };
+  });
+}
+
 function managedResourceFilter(userId, companyId, userColumn = "client_user_id") {
   return companyId ? `${userColumn}.eq.${userId},company_id.eq.${companyId}` : `${userColumn}.eq.${userId}`;
 }
@@ -93,12 +137,28 @@ async function loadClientBase(supabase, userId) {
   if (clientResult.error) throw clientResult.error;
   const companyId = clientResult.data?.company_id || null;
   const [companyResult, membershipResult] = companyId ? await Promise.all([
-    supabase.from("companies").select("id,name,industry,company_size,country_code,website,description,verification_status,logo_path").eq("id", companyId).maybeSingle(),
+    supabase.from("companies").select("id,owner_user_id,name,industry,company_size,country_code,website,description,verification_status,logo_path").eq("id", companyId).maybeSingle(),
     supabase.from("company_members").select("role,status").eq("company_id", companyId).eq("user_id", userId).maybeSingle(),
   ]) : [{ data: null, error: null }, { data: null, error: null }];
   if (companyResult.error) throw companyResult.error;
   if (membershipResult.error) throw membershipResult.error;
-  return { clientProfile: clientResult.data || null, companyId, company: companyResult.data || null, membership: membershipResult.data || null };
+  const membershipStatus = companyResult.data?.owner_user_id === userId ? "active" : membershipResult.data?.status || null;
+  const companyRole = companyResult.data?.owner_user_id === userId
+    ? "owner"
+    : membershipStatus === "active"
+      ? membershipResult.data?.role || null
+      : null;
+  const access = { companyId, companyRole, membershipStatus };
+  return {
+    clientProfile: clientResult.data || null,
+    companyId,
+    company: companyResult.data || null,
+    membership: membershipResult.data || null,
+    companyRole,
+    membershipStatus,
+    canManageJobs: clientCanManageJobs(access),
+    canRecruit: clientCanRecruit(access),
+  };
 }
 
 async function loadClientDashboardData(supabase, userId) {
@@ -112,7 +172,7 @@ async function loadClientDashboardData(supabase, userId) {
   if (jobsResult.error) throw jobsResult.error;
   const jobs = jobsResult.data || [];
   const jobIds = jobs.map((job) => job.id);
-  const proposalsResult = jobIds.length
+  const proposalsResult = base.canManageJobs && jobIds.length
     ? await supabase.from("proposals").select("id,job_id,freelancer_user_id,status,proposed_rate_minor,proposed_budget_minor,currency,submitted_at,updated_at").in("job_id", jobIds).neq("status", "draft").order("updated_at", { ascending: false }).limit(100)
     : { data: [], error: null };
   if (proposalsResult.error) throw proposalsResult.error;
@@ -156,11 +216,12 @@ async function loadClientDashboardData(supabase, userId) {
 }
 
 export function clientDashboardMetrics(data) {
+  const proposalDestination = data.canManageJobs === false ? "/app/jobs" : "/app/proposals";
   return [
     ["Active jobs", data.jobs.filter((job) => ["published", "paused"].includes(job.status)).length, "/app/jobs?status=published", "Published and paused hiring work"],
     ["Draft jobs", data.jobs.filter((job) => job.status === "draft").length, "/app/jobs?status=draft", "Job posts ready to continue"],
-    ["New applications", data.proposals.filter((proposal) => proposal.status === "submitted").length, "/app/proposals?status=submitted", "Proposals awaiting review"],
-    ["Shortlisted candidates", data.proposals.filter((proposal) => ["shortlisted", "interview"].includes(proposal.status)).length, "/app/proposals?status=shortlisted", "Candidates in active consideration"],
+    ["New applications", data.proposals.filter((proposal) => proposal.status === "submitted").length, `${proposalDestination}${data.canManageJobs === false ? "" : "?status=submitted"}`, data.canManageJobs === false ? "Job-manager access is required" : "Proposals awaiting review"],
+    ["Shortlisted candidates", data.proposals.filter((proposal) => ["shortlisted", "interview"].includes(proposal.status)).length, `${proposalDestination}${data.canManageJobs === false ? "" : "?status=shortlisted"}`, data.canManageJobs === false ? "Job-manager access is required" : "Candidates in active consideration"],
     ["Active contracts", data.contracts.filter((contract) => ["pending_funding", "active", "paused", "disputed"].includes(contract.status)).length, "/app/contracts?status=active", "Protected client engagements"],
     ["Pending approvals", data.milestones.filter((milestone) => milestone.status === "submitted").length, "/app/contracts?attention=submitted", "Submitted milestones to review"],
     ["Upcoming payments", data.transactions.filter((transaction) => ["pending", "processing"].includes(transaction.status)).length, "/app/payments?status=pending", "Payment records not yet complete"],
@@ -186,30 +247,50 @@ export async function renderClientDashboard(context, shell, bindRoutes) {
     const recentJobs = data.jobs.slice(0, 5);
     const recentProposals = data.proposals.slice(0, 6);
     const attentionMilestones = data.milestones.filter((milestone) => ["submitted", "awaiting_funding", "revision_requested"].includes(milestone.status)).slice(0, 5);
+    const primaryAction = data.canManageJobs
+      ? '<a href="/app/jobs/new" data-account-route="/app/jobs/new">Post a job <b aria-hidden="true">→</b></a>'
+      : data.canRecruit
+        ? '<a href="/find-talent" data-account-route="/find-talent">Source talent <b aria-hidden="true">→</b></a>'
+        : '<a href="/app/jobs" data-account-route="/app/jobs">View company jobs <b aria-hidden="true">→</b></a>';
+    const emptyApplicationAction = data.canManageJobs
+      ? '<a href="/app/jobs/new" data-account-route="/app/jobs/new">Create a clear job brief</a>'
+      : data.canRecruit
+        ? '<a href="/find-talent" data-account-route="/find-talent">Find professionals to invite</a>'
+        : '<a href="/app/jobs" data-account-route="/app/jobs">View company jobs</a>';
+    const applicationPanelAction = data.canManageJobs
+      ? '<a href="/app/proposals" data-account-route="/app/proposals">Review all</a>'
+      : data.canRecruit
+        ? '<a href="/app/invitations" data-account-route="/app/invitations">Sent invitations</a>'
+        : '<a href="/app/jobs" data-account-route="/app/jobs">Company jobs</a>';
+    const emptyJobAction = data.canManageJobs
+      ? '<a href="/app/jobs/new" data-account-route="/app/jobs/new">Post your first job</a>'
+      : data.canRecruit
+        ? '<a href="/find-talent" data-account-route="/find-talent">Find talent</a>'
+        : '<a href="/app/company" data-account-route="/app/company">Review company access</a>';
     root.innerHTML = shell("Run hiring from one accountable workspace.", "Client command center", `
       <section class="client-command-hero">
         <div><span>Hiring workspace</span><h2>${escapeHtml(data.company?.name || "Your GoWorkora company")}</h2><p>Publish roles, evaluate applicants, invite professionals and move approved work through contracts, milestones and payments.</p></div>
-        <div><a href="/app/jobs/new" data-account-route="/app/jobs/new">Post a job <b aria-hidden="true">→</b></a><a href="/find-talent" data-account-route="/find-talent">Find talent</a></div>
+        <div>${primaryAction}<a href="/find-talent" data-account-route="/find-talent">Find talent</a></div>
       </section>
       ${renderMetricCards(metrics)}
       <section class="client-dashboard-layout">
         <div class="client-dashboard-main">
           <section class="client-dashboard-panel">
-            <header><div><span>Hiring pipeline</span><h2>Recent applications</h2></div><a href="/app/proposals" data-account-route="/app/proposals">Review all</a></header>
+            <header><div><span>Hiring pipeline</span><h2>Recent applications</h2></div>${applicationPanelAction}</header>
             ${recentProposals.length ? `<div class="client-candidate-list">${recentProposals.map((proposal) => {
               const profile = profileMap.get(proposal.freelancer_user_id);
               const job = jobMap.get(proposal.job_id);
               const publicName = safePublicDisplayName(profile?.display_name);
               return `<article><span class="client-avatar" aria-hidden="true">${escapeHtml(publicName.slice(0, 2).toUpperCase())}</span><div><strong>${escapeHtml(publicName)}</strong><small>${escapeHtml(safePublicProfessionalTitle(profile?.professional_title, "Public profile unavailable"))}</small><p>${escapeHtml(job?.title || "Job no longer available")}</p></div><div><span class="client-status">${escapeHtml(humanStatus(proposal.status))}</span>${job ? `<a href="/app/jobs/${escapeHtml(job.slug)}/proposals" data-account-route="/app/jobs/${escapeHtml(job.slug)}/proposals">Review</a>` : ""}</div></article>`;
-            }).join("")}</div>` : '<div class="client-empty"><h3>No applications yet</h3><p>New proposals for jobs your account manages will appear here.</p><a href="/app/jobs/new" data-account-route="/app/jobs/new">Create a clear job brief</a></div>'}
+            }).join("")}</div>` : `<div class="client-empty"><h3>No applications yet</h3><p>${data.canManageJobs ? "New proposals for jobs your account manages will appear here." : "Proposal decisions are available to company owners, administrators and hiring managers."}</p>${emptyApplicationAction}</div>`}
           </section>
           <section class="client-dashboard-panel">
             <header><div><span>Job portfolio</span><h2>Managed jobs</h2></div><a href="/app/jobs" data-account-route="/app/jobs">Open all jobs</a></header>
-            ${recentJobs.length ? `<div class="client-job-list">${recentJobs.map((job) => `<a href="/app/jobs/${escapeHtml(job.slug)}" data-account-route="/app/jobs/${escapeHtml(job.slug)}"><div><strong>${escapeHtml(job.title)}</strong><small>${escapeHtml(job.category)} · updated ${escapeHtml(formatDate(job.updated_at))}</small></div><span class="client-status">${escapeHtml(humanStatus(job.status))}</span><b aria-hidden="true">→</b></a>`).join("")}</div>` : '<div class="client-empty"><h3>No jobs created</h3><p>Start with a draft and publish only when the role is ready.</p><a href="/app/jobs/new" data-account-route="/app/jobs/new">Post your first job</a></div>'}
+            ${recentJobs.length ? `<div class="client-job-list">${recentJobs.map((job) => `<a href="/app/jobs/${escapeHtml(job.slug)}" data-account-route="/app/jobs/${escapeHtml(job.slug)}"><div><strong>${escapeHtml(job.title)}</strong><small>${escapeHtml(job.category)} · updated ${escapeHtml(formatDate(job.updated_at))}</small></div><span class="client-status">${escapeHtml(humanStatus(job.status))}</span><b aria-hidden="true">→</b></a>`).join("")}</div>` : `<div class="client-empty"><h3>No jobs available</h3><p>${data.canManageJobs ? "Start with a draft and publish only when the role is ready." : "Company jobs will appear here when a hiring manager creates them."}</p>${emptyJobAction}</div>`}
           </section>
         </div>
         <aside class="client-dashboard-rail">
-          <section><span>Company readiness</span><h2>${data.company ? "Profile connected" : "Setup required"}</h2><dl><div><dt>Company</dt><dd>${escapeHtml(data.company?.name || "Not configured")}</dd></div><div><dt>Your access</dt><dd>${escapeHtml(humanStatus(data.membership?.role || "owner"))}</dd></div><div><dt>Saved talent</dt><dd>${data.savedTalentCount.toLocaleString()}</dd></div></dl><a href="/app/company" data-account-route="/app/company">Manage company</a></section>
+          <section><span>Company readiness</span><h2>${data.company ? "Profile connected" : "Setup required"}</h2><dl><div><dt>Company</dt><dd>${escapeHtml(data.company?.name || "Not configured")}</dd></div><div><dt>Your access</dt><dd>${escapeHtml(humanStatus(data.companyRole || "independent client"))}</dd></div><div><dt>Saved talent</dt><dd>${data.savedTalentCount.toLocaleString()}</dd></div></dl><a href="/app/company" data-account-route="/app/company">Manage company</a></section>
           <section><span>Financial activity</span><h2>${spend.length ? spend.map((item) => formatMoney(item.amountMinor, item.currency)).join(" · ") : "No processed spend"}</h2><p>Totals remain separated by currency and come from transaction records visible to this account.</p><a href="/app/reports" data-account-route="/app/reports">Open reports</a></section>
           <section><span>Actions waiting</span><h2>${attentionMilestones.length.toLocaleString()} milestone${attentionMilestones.length === 1 ? "" : "s"}</h2>${attentionMilestones.length ? `<ul>${attentionMilestones.map((milestone) => `<li><strong>${escapeHtml(milestone.title)}</strong><small>${escapeHtml(humanStatus(milestone.status))} · ${escapeHtml(formatMoney(milestone.amount_minor, milestone.currency))}</small></li>`).join("")}</ul>` : "<p>No milestone actions need attention.</p>"}<a href="/app/contracts" data-account-route="/app/contracts">Review contracts</a></section>
         </aside>
@@ -231,12 +312,32 @@ function reportNavigation(path) {
 
 async function loadClientReportData(supabase, userId, page = 0) {
   const base = await loadClientBase(supabase, userId);
-  const contractsResult = await supabase.from("contracts").select("id,title,status,currency,total_value_minor,hourly_rate_minor,updated_at").or(managedResourceFilter(userId, base.companyId)).order("updated_at", { ascending: false }).limit(100);
+  const contractsResult = await supabase.from("contracts").select("id,title,status,freelancer_user_id,currency,total_value_minor,hourly_rate_minor,updated_at").or(managedResourceFilter(userId, base.companyId)).order("updated_at", { ascending: false }).limit(100);
   if (contractsResult.error) throw contractsResult.error;
+  const contracts = contractsResult.data || [];
+  const contractIds = contracts.map((contract) => contract.id);
+  const freelancerIds = [...new Set(contracts.map((contract) => contract.freelancer_user_id).filter(Boolean))];
   const from = page * CLIENT_TRANSACTION_PAGE_SIZE;
-  const transactionsResult = await supabase.from("payment_transactions").select("id,contract_id,milestone_id,transaction_type,status,amount_minor,platform_fee_minor,net_amount_minor,currency,provider_reference,processed_at,created_at", { count: "exact" }).eq("payer_user_id", userId).order("created_at", { ascending: false }).range(from, from + CLIENT_TRANSACTION_PAGE_SIZE - 1);
-  if (transactionsResult.error) throw transactionsResult.error;
-  return { ...base, contracts: contractsResult.data || [], transactions: transactionsResult.data || [], transactionCount: Number(transactionsResult.count || 0) };
+  const [transactionsResult, milestonesResult, profilesResult] = await Promise.all([
+    supabase.from("payment_transactions").select("id,contract_id,milestone_id,transaction_type,status,amount_minor,platform_fee_minor,net_amount_minor,currency,provider_reference,processed_at,created_at", { count: "exact" }).eq("payer_user_id", userId).order("created_at", { ascending: false }).range(from, from + CLIENT_TRANSACTION_PAGE_SIZE - 1),
+    contractIds.length
+      ? supabase.from("milestones").select("id,contract_id,title,status,amount_minor,currency,due_at,updated_at").in("contract_id", contractIds).order("updated_at", { ascending: false }).limit(500)
+      : Promise.resolve({ data: [], error: null }),
+    freelancerIds.length
+      ? supabase.from("freelancer_public_profiles").select("user_id,display_name,professional_title,average_rating,completed_contracts_count").in("user_id", freelancerIds)
+      : Promise.resolve({ data: [], error: null }),
+  ]);
+  for (const result of [transactionsResult, milestonesResult, profilesResult]) {
+    if (result.error) throw result.error;
+  }
+  return {
+    ...base,
+    contracts,
+    milestones: milestonesResult.data || [],
+    freelancerProfiles: profilesResult.data || [],
+    transactions: transactionsResult.data || [],
+    transactionCount: Number(transactionsResult.count || 0),
+  };
 }
 
 function statementDocument(transaction, contract, company) {
@@ -252,10 +353,12 @@ async function reportsOverview(context, shell, bindRoutes) {
     const spend = summarizeClientSpend(data.transactions);
     const active = data.contracts.filter((contract) => ["pending_funding", "active", "paused", "disputed"].includes(contract.status)).length;
     const completed = data.contracts.filter((contract) => contract.status === "completed").length;
+    const deliveryRows = clientDeliveryRows(data.contracts, data.milestones, data.freelancerProfiles);
     root.innerHTML = shell("Know where hiring spend and delivery stand.", "Client reports", `
       ${reportNavigation(path)}
       <section class="client-report-summary"><article><span>Processed spend</span><strong>${spend.length ? spend.map((item) => formatMoney(item.amountMinor, item.currency)).join(" · ") : "No activity"}</strong><small>Successful funding, release and refund records</small></article><article><span>Active contracts</span><strong>${active}</strong><small>Pending funding, active, paused or disputed</small></article><article><span>Completed contracts</span><strong>${completed}</strong><small>Finished hiring engagements</small></article><article><span>Payment records</span><strong>${data.transactionCount.toLocaleString()}</strong><small>Visible through participant RLS</small></article></section>
-      <section class="pages-account-grid client-report-links"><a href="/app/reports/transactions" data-account-route="/app/reports/transactions"><strong>Transaction history</strong><span>Review status, contract and currency without combining currencies.</span><small>Open transactions →</small></a><a href="/app/reports/invoices" data-account-route="/app/reports/invoices"><strong>Payment statements</strong><span>Download records created only from successful transactions.</span><small>Open statements →</small></a><a href="/app/payments" data-account-route="/app/payments"><strong>Payment actions</strong><span>Fund eligible milestones through the configured Stripe workflow.</span><small>Open payments →</small></a></section>`, { role, path });
+      <section class="pages-account-grid client-report-links"><a href="/app/reports/transactions" data-account-route="/app/reports/transactions"><strong>Transaction history</strong><span>Review status, contract and currency without combining currencies.</span><small>Open transactions →</small></a><a href="/app/reports/invoices" data-account-route="/app/reports/invoices"><strong>Payment statements</strong><span>Download records created only from successful transactions.</span><small>Open statements →</small></a><a href="/app/payments" data-account-route="/app/payments"><strong>Payment actions</strong><span>Fund eligible milestones through the configured Stripe workflow.</span><small>Open payments →</small></a></section>
+      <section class="pages-account-panel client-delivery-report"><div class="client-section-heading"><div><span>Delivery performance</span><h2>Contracts and professional progress</h2></div><a href="/app/contracts" data-account-route="/app/contracts">Open contracts</a></div>${deliveryRows.length ? `<div class="client-delivery-list">${deliveryRows.map((row) => `<a href="/app/contracts/${escapeHtml(row.contractId)}" data-account-route="/app/contracts/${escapeHtml(row.contractId)}"><div class="client-delivery-person"><strong>${escapeHtml(row.professionalName)}</strong><span>${escapeHtml(row.professionalTitle)}</span><small>${row.averageRating > 0 ? `${row.averageRating.toFixed(2)} published rating · ` : ""}${row.completedContractsCount.toLocaleString()} completed marketplace contract${row.completedContractsCount === 1 ? "" : "s"}</small></div><div class="client-delivery-progress"><div><span>${escapeHtml(row.title)}</span><strong>${row.totalValueMinor != null ? escapeHtml(formatMoney(row.totalValueMinor, row.currency)) : row.hourlyRateMinor != null ? `${escapeHtml(formatMoney(row.hourlyRateMinor, row.currency))}/hr` : "Terms unavailable"}</strong></div><div class="client-progress-track" role="progressbar" aria-label="${escapeHtml(row.title)} milestone progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${row.progressPercent}"><span style="width:${row.progressPercent}%"></span></div><small>${row.completedMilestones}/${row.milestoneCount} milestones approved or released${row.submittedMilestones ? ` · ${row.submittedMilestones} awaiting review` : ""}${row.revisionMilestones ? ` · ${row.revisionMilestones} in revision` : ""}</small></div><span class="client-status">${escapeHtml(humanStatus(row.status))}</span><b aria-hidden="true">→</b></a>`).join("")}</div>` : '<div class="client-empty"><h3>No contract delivery data</h3><p>Milestone progress appears after a proposal is hired into a contract.</p><a href="/app/proposals" data-account-route="/app/proposals">Review applications</a></div>'}</section>`, { role, path });
     bindRoutes(root, onNavigate);
   } catch (error) {
     root.innerHTML = shell("Know where hiring spend and delivery stand.", "Client reports", `${reportNavigation(path)}<section class="pages-account-panel client-empty"><h2>Reports unavailable</h2><p>${escapeHtml(safeMessage(error, "Client reports could not be loaded."))}</p></section>`, { role, path });

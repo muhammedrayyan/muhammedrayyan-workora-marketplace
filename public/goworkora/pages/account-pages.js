@@ -161,8 +161,8 @@ async function dashboardPage(context) {
             ),
           };
         })(),
-        supabase.from("profiles").select("full_name,onboarding_completed,profile_visibility,country_code,timezone").eq("id", user.id).maybeSingle(),
-        supabase.from("freelancer_profiles").select("professional_title,availability_status,profile_slug,weekly_capacity_hours").eq("user_id", user.id).maybeSingle(),
+        supabase.from("profiles").select("full_name,onboarding_completed,profile_visibility,country_code,timezone,avatar_path").eq("id", user.id).maybeSingle(),
+        supabase.from("freelancer_profiles").select("*").eq("user_id", user.id).maybeSingle(),
         loadPublicJobs(),
         supabase.from("saved_jobs").select("job_id,created_at").eq("user_id", user.id).order("created_at", { ascending: false }).limit(8),
         supabase.from("proposals").select("id,job_id,status,proposed_rate_minor,proposed_budget_minor,currency,submitted_at,updated_at").eq("freelancer_user_id", user.id).order("updated_at", { ascending: false }).limit(8),
@@ -172,6 +172,9 @@ async function dashboardPage(context) {
         supabase.from("portfolio_items").select("id", { count: "exact", head: true }).eq("freelancer_user_id", user.id).eq("is_published", true),
         supabase.from("proposals").select("id", { count: "exact", head: true }).eq("freelancer_user_id", user.id).in("status", ["submitted", "viewed", "shortlisted", "interview"]),
         supabase.rpc("freelancer_financial_summary"),
+        supabase.from("work_experience").select("id", { count: "exact", head: true }).eq("freelancer_user_id", user.id),
+        supabase.from("education").select("id", { count: "exact", head: true }).eq("freelancer_user_id", user.id),
+        supabase.from("freelancer_languages").select("language_code", { count: "exact", head: true }).eq("freelancer_user_id", user.id),
       ];
   root.innerHTML = shell(
     client ? "Manage hiring from one clear view." : "Keep your profile, work and earnings moving.",
@@ -230,16 +233,29 @@ async function dashboardPage(context) {
   const publishedPortfolioCount = client ? 0 : Number(responses[14]?.count || 0);
   const activeProposalResponse = client ? null : responses[15];
   const financialSummaryResponse = client ? null : responses[16];
+  const workHistoryCount = client ? 0 : Number(responses[17]?.count || 0);
+  const educationCount = client ? 0 : Number(responses[18]?.count || 0);
+  const languageCount = client ? 0 : Number(responses[19]?.count || 0);
   const professionalTitle = freelancerProfile?.professional_title && !freelancerProfile.professional_title.includes("@")
     ? freelancerProfile.professional_title
     : "Professional profile";
-  const profileSignals = client ? [] : [
-    Boolean(freelancerAccount?.onboarding_completed),
-    Boolean(freelancerProfile?.professional_title),
-    Boolean(freelancerProfile?.availability_status),
-    Boolean(freelancerProfile?.weekly_capacity_hours),
-    freelancerSkillNames.length > 0,
+  const profileSignalDefinitions = client ? [] : [
+    [Boolean(freelancerAccount?.onboarding_completed), "Finish onboarding"],
+    [Boolean(freelancerProfile?.professional_title), "Add a professional title"],
+    [String(freelancerProfile?.bio || "").trim().length >= 80, "Write a complete professional summary"],
+    [Boolean(freelancerProfile?.primary_category), "Choose a primary category"],
+    [freelancerProfile?.years_experience != null, "Add years of experience"],
+    [Boolean(freelancerProfile?.availability_status), "Set availability"],
+    [Boolean(freelancerProfile?.weekly_capacity_hours), "Set weekly capacity"],
+    [freelancerSkillNames.length >= 3, "Choose at least three skills"],
+    [Boolean(freelancerAccount?.avatar_path), "Add a profile image"],
+    [workHistoryCount > 0, "Add work history"],
+    [educationCount > 0, "Add education"],
+    [languageCount > 0, "Add a language"],
+    [publishedPortfolioCount > 0, "Publish a portfolio item"],
   ];
+  const profileSignals = profileSignalDefinitions.map(([complete]) => complete);
+  const profileMissing = profileSignalDefinitions.filter(([complete]) => !complete).map(([, label]) => label);
   const profileCompletion = profileSignals.length
     ? Math.round((profileSignals.filter(Boolean).length / profileSignals.length) * 100)
     : 0;
@@ -467,6 +483,7 @@ async function dashboardPage(context) {
             <span><b>Profile strength</b><strong>${profileCompletion}%</strong></span>
             <div role="progressbar" aria-label="Profile strength" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${profileCompletion}"><i style="width:${profileCompletion}%"></i></div>
           </div>
+          ${profileMissing.length ? `<div class="freelancer-profile-next"><strong>Recommended next steps</strong><ul>${profileMissing.slice(0, 3).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div>` : '<div class="freelancer-profile-next complete"><strong>Profile ready</strong><p>Your professional profile includes every recommended section.</p></div>'}
           <dl>
             <div><dt>Profile</dt><dd>${freelancerAccount?.onboarding_completed ? "Complete" : "Needs attention"}</dd></div>
             <div><dt>Visibility</dt><dd>${escapeHtml((freelancerAccount?.profile_visibility || "private").replaceAll("_", " "))}</dd></div>
@@ -876,10 +893,11 @@ function settingsOverview(context) {
   const { root, role, path, onNavigate } = context;
   const cards = [
     ["Account", "Name, timezone, country and account lifecycle requests.", "/app/settings/account"],
+    ["Profile", "Maintain professional details, skills, availability and portfolio.", role === "admin" ? "/app/profile" : "/app/profile/edit"],
     ["Security", "Email verification, sign-in codes and session controls.", "/app/settings/security"],
     ["Notifications", "Persist your non-essential email preferences.", "/app/settings/notifications"],
     [role === "freelancer" ? "Payouts" : "Billing", "Review Stripe readiness and financial destinations.", "/app/settings/billing"],
-    ["Privacy", "Review how account and marketplace data is handled.", "/privacy"],
+    ["Privacy", "Control marketplace profile and location visibility.", "/app/settings/privacy"],
     ["Support", "Open and track an authenticated support request.", "/app/support"],
   ];
   root.innerHTML = shell("Settings", "Account controls", `<section class="pages-account-grid">${cards.map(([title, description, href]) => `<a href="${href}" data-account-route="${href}"><strong>${title}</strong><span>${description}</span><small>Open settings →</small></a>`).join("")}</section>`, { role, path });
@@ -998,6 +1016,63 @@ async function notificationPage(context) {
   });
 }
 
+async function privacySettingsPage(context) {
+  const { root, supabase, user, role, path, onNavigate } = context;
+  root.innerHTML = shell("Privacy settings", "Marketplace visibility", '<div class="pages-account-status">Loading privacy controls…</div>', { role, path });
+  bindRoutes(root, onNavigate);
+  const { data: profile, error } = await supabase.from("profiles")
+    .select("profile_visibility,location_visibility,country_code,region,privacy_accepted_at")
+    .eq("id", user.id)
+    .maybeSingle();
+  if (error || !profile) {
+    status(root, "Your privacy controls could not be loaded.", "error");
+    return;
+  }
+  const marketplaceCopy = role === "freelancer"
+    ? "Marketplace visibility allows eligible clients to discover your completed professional profile."
+    : role === "client"
+      ? "Marketplace visibility controls the public-facing account summary; private jobs, proposals and company notes remain protected."
+      : "Administrator account details are not published as marketplace profiles.";
+  root.innerHTML = shell("Privacy settings", "Marketplace visibility", `
+    <form id="privacy-settings-form" class="pages-account-panel pages-account-form">
+      <h2>Profile discovery</h2>
+      <p>${escapeHtml(marketplaceCopy)}</p>
+      <div class="pages-account-form-grid">
+        <label>Profile visibility<select name="profile_visibility">
+          <option value="public" ${profile.profile_visibility === "public" ? "selected" : ""}>Public and marketplace</option>
+          <option value="marketplace" ${profile.profile_visibility === "marketplace" ? "selected" : ""}>GoWorkora marketplace</option>
+          <option value="private" ${profile.profile_visibility === "private" ? "selected" : ""}>Private</option>
+        </select></label>
+        <label>Location detail<select name="location_visibility">
+          <option value="country" ${profile.location_visibility === "country" ? "selected" : ""}>Show country</option>
+          <option value="region" ${profile.location_visibility === "region" ? "selected" : ""}>Show region only</option>
+          <option value="hidden" ${profile.location_visibility === "hidden" ? "selected" : ""}>Hide location</option>
+        </select></label>
+      </div>
+      <p class="pages-account-privacy-note">Email, phone, exact address, authentication details, payment information, private proposals, messages and client notes are never added to the public profile.</p>
+      <button class="pages-account-button" type="submit">Save privacy settings</button>
+    </form>
+    <section class="pages-account-panel">
+      <h2>Privacy acknowledgement</h2>
+      <dl class="pages-account-details"><div><dt>Privacy policy</dt><dd>${profile.privacy_accepted_at ? "Acknowledged" : "Required during onboarding"}</dd></div><div><dt>Published location</dt><dd>${profile.location_visibility === "hidden" ? "Hidden" : escapeHtml(profile.location_visibility === "region" ? profile.region || "Region not set" : profile.country_code || "Country not set")}</dd></div></dl>
+      <a href="/privacy" data-account-route="/privacy">Read the GoWorkora Privacy Policy →</a>
+    </section>`, { role, path });
+  bindRoutes(root, onNavigate);
+  root.querySelector("#privacy-settings-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const button = event.currentTarget.querySelector("button[type=submit]");
+    button.disabled = true;
+    status(root, "Saving privacy settings…");
+    const { error: saveError } = await supabase.from("profiles").update({
+      profile_visibility: String(form.get("profile_visibility") || "private"),
+      location_visibility: String(form.get("location_visibility") || "hidden"),
+    }).eq("id", user.id);
+    button.disabled = false;
+    status(root, saveError ? friendlyError(saveError, "Privacy settings could not be saved.") : "Privacy settings saved.", saveError ? "error" : "success");
+  });
+}
+
 async function billingPage(context) {
   const { root, supabase, user, role, path, onNavigate } = context;
   const client = role === "client";
@@ -1098,6 +1173,7 @@ export async function renderAccountPage(context) {
   if (path === "/app/settings/account" || (path === "/app/profile" && context.role === "admin")) return accountSettingsPage(context);
   if (path === "/app/settings/security") return securityPage(context);
   if (path === "/app/settings/notifications") return notificationPage(context);
+  if (path === "/app/settings/privacy") return privacySettingsPage(context);
   if (path === "/app/settings/billing") return billingPage(context);
   if (["/app/reports", "/app/reports/transactions", "/app/reports/invoices", "/app/work-diary"].includes(path)) {
     if (context.role === "client" && path !== "/app/work-diary") {
