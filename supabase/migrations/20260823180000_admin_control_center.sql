@@ -817,7 +817,7 @@ create table if not exists public.credit_accounts (
   )),
   currency text check (currency is null or currency ~ '^[A-Z]{3}$'),
   created_at timestamptz not null default now(),
-  constraint credit_accounts_currency_check check (
+  constraint credit_accounts_type_currency_check check (
     (credit_type = 'application' and currency is null)
     or (credit_type <> 'application' and currency is not null)
   )

@@ -167,6 +167,8 @@ test("the database migration enforces trusted RBAC, MFA, RLS, and immutable fina
   }
 
   assert.match(migration, /create trigger prevent_credit_ledger_mutation/);
+  assert.match(migration, /constraint credit_accounts_type_currency_check check/);
+  assert.doesNotMatch(migration, /constraint credit_accounts_currency_check check/);
   assert.match(migration, /for each row execute function public\.prevent_append_only_mutation\(\)/);
   assert.match(migration, /reversal_of_entry_id uuid references public\.credit_ledger_entries/);
   assert.match(migration, /High-value credit requests require a different approver/i);
