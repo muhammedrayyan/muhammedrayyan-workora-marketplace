@@ -5,6 +5,7 @@ import {
 } from "../features/talent/workflow.js";
 import { formatMoney } from "../features/jobs/workflow.js";
 import { safePublicDisplayName, safePublicProfessionalTitle } from "../shared/public-privacy.js?v=20260811";
+import { PUBLIC_NAVIGATION } from "../shared/site-chrome.js?v=public-nav-20260830";
 
 let activeRoot = null;
 let menuCleanup = null;
@@ -75,6 +76,10 @@ function routeLink(path, label, className = "") {
   return `<a class="${escapeHtml(className)}" href="${escapeHtml(path)}" data-route="${escapeHtml(path)}">${escapeHtml(label)}</a>`;
 }
 
+function publicNavigationLinks() {
+  return PUBLIC_NAVIGATION.map(([label, path]) => routeLink(path, label)).join("");
+}
+
 function brandMarkup() {
   return `<img class="ke-brand-logo" src="${escapeHtml(brandLogoUrl)}" alt="GoWorkora">`;
 }
@@ -104,22 +109,14 @@ function previewHeader({ user, role, authReady }) {
     <div class="ke-shell ke-header-inner">
       ${brandLink("ke-brand-dark")}
       <nav class="ke-desktop-nav" aria-label="Primary navigation">
-        ${routeLink("/find-talent", "Find Talent")}
-        ${routeLink("/find-work", "Find Work")}
-        ${routeLink("/how-it-works", "How It Works")}
-        ${routeLink("/pricing", "Pricing")}
-        ${routeLink("/managed-services", "Managed Services")}
+        ${publicNavigationLinks()}
       </nav>
       <div class="ke-header-actions">${accountActions}<button class="ke-menu-trigger" type="button" aria-expanded="false" aria-controls="ke-mobile-menu" aria-label="Open menu"><span></span><span></span></button></div>
     </div>
     <div class="ke-mobile-backdrop" data-ke-menu-backdrop hidden></div>
     <nav class="ke-mobile-menu" id="ke-mobile-menu" aria-label="Mobile primary navigation" hidden>
       <div class="ke-mobile-menu-head">${brandLink("ke-brand-light")}<button type="button" data-ke-menu-close aria-label="Close menu">×</button></div>
-      ${routeLink("/find-talent", "Find Talent")}
-      ${routeLink("/find-work", "Find Work")}
-      ${routeLink("/how-it-works", "How It Works")}
-      ${routeLink("/pricing", "Pricing")}
-      ${routeLink("/managed-services", "Managed Services")}
+      ${publicNavigationLinks()}
       <div class="ke-mobile-account">${accountActions}</div>
     </nav>
   </header>`;

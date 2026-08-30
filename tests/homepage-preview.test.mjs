@@ -25,7 +25,7 @@ test("the actual homepage preloads the approved presentation and retires the old
   const shell = await read("../public/goworkora/index.html");
 
   assert.match(shell, /id="kinetic-ember-preview-styles"[^>]+homepage-canonical-20260819/);
-  assert.match(shell, /rel="modulepreload"[^>]+homepage-preview\.js\?v=homepage-canonical-20260819/);
+  assert.match(shell, /rel="modulepreload"[^>]+homepage-preview\.js\?v=public-nav-20260830/);
   assert.match(shell, /id="gw-app-loading"/);
   assert.match(shell, /homeRoute\.hidden=true/);
   assert.match(shell, /setChrome\('preview'\)/);

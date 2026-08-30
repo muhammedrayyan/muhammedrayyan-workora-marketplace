@@ -55,7 +55,7 @@
   <link rel="stylesheet" href="./styles/features/messaging.css?v=message-composer-20260731">
   <link rel="stylesheet" href="./styles/features/trust-admin.css?v=0a7987e9733e">
   <link rel="stylesheet" href="./styles/features/admin-control.css?v=admin-control-20260823">
-  <link rel="stylesheet" href="./styles/pages/public-pages.css?v=0a7987e9733e">
+  <link rel="stylesheet" href="./styles/pages/public-pages.css?v=how-work-system-20260830">
   <link rel="stylesheet" href="./styles/pages/account-pages.css?v=gosparks-20260804">
   <link rel="stylesheet" href="./styles/demo-data.css?v=0a7987e9733e">
   <script src="./config.js?v=0a7987e9733e"></script>
@@ -151,13 +151,13 @@
     @media(max-width:1050px){.header>.nav{background:#fff;box-shadow:-20px 0 55px rgba(0,0,0,.2);display:none;flex-direction:column;gap:4px;height:100vh;inset:0 0 0 auto;padding:86px 25px 25px;position:fixed;width:min(88vw,380px);z-index:80}.header.mobile-open>.nav{display:flex}.header>.nav a,.header>.nav button{border-bottom:1px solid var(--line);min-height:48px;text-align:left;width:100%}.header.mobile-open:after{background:rgba(12,20,16,.55);content:"";inset:0;position:fixed;z-index:70}.header .menu{display:block;position:relative;z-index:90}.header-actions>[data-modal],.header-actions>[data-dashboard],.header-actions>[data-signout]{display:none}.mobile-auth-actions{display:flex;flex-direction:column;gap:4px}.route-link-grid{grid-template-columns:1fr}}
     @media(max-width:650px){.otp-inputs{gap:5px}.modal .otp-input{font-size:18px;border-radius:8px}.verification-links{align-items:flex-start;flex-direction:column}}
   </style>
-  <link rel="stylesheet" href="./styles/platform-theme.css?v=logo-inverse-20260811">
+  <link rel="stylesheet" href="./styles/platform-theme.css?v=public-nav-v3-20260830">
   <link rel="stylesheet" href="./styles/freelancer-workspace-shell.css?v=logo-inverse-20260811">
   <link rel="stylesheet" href="./styles/freelancer-page-polish.css?v=workspace-pages-20260805">
   <link rel="stylesheet" href="./styles/client-workspace-shell.css?v=client-workspace-20260811">
   <link rel="stylesheet" href="./styles/client-page-polish.css?v=client-workspace-20260811">
   <link id="kinetic-ember-preview-styles" rel="stylesheet" href="./styles/pages/homepage-preview.css?v=homepage-canonical-20260819" data-loaded="true">
-  <link rel="modulepreload" href="./pages/homepage-preview.js?v=homepage-canonical-20260819">
+  <link rel="modulepreload" href="./pages/homepage-preview.js?v=public-nav-20260830">
   <style>
     .gw-app-loading{position:fixed;inset:0;z-index:1000;display:grid;place-content:center;justify-items:center;gap:18px;background:#111318;color:#fff;transition:opacity .18s ease,visibility .18s ease}
     .gw-app-loading img{display:block;width:min(320px,70vw);height:auto;filter:invert(1) hue-rotate(180deg)}
@@ -206,7 +206,7 @@
   <script type="module">
     import { APP_DESCRIPTION, APP_NAME, APP_TAGLINE } from './shared/brand.js?v=goworkora-rebrand-20260728';
     import { BRAND_WORDMARK_DARK_URL, navigationItemsFor } from './shared/site-chrome.js?v=surface-logo-20260730';
-    import { freelancerWorkspaceNavigation, isFreelancerWorkspaceRoute } from './shared/freelancer-chrome.js?v=gosparks-20260804';
+    import { freelancerWorkspaceNavigation, isFreelancerWorkspaceRoute, updateFreelancerWorkspaceNavigation } from './shared/freelancer-chrome.js?v=persistent-shell-20260830';
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.6/+esm';
     import {
       OTP_LENGTH,
@@ -250,10 +250,10 @@
     import { mountTrustAdminExperience, unmountTrustAdminExperience } from './features/trust-admin/experience.js?v=admin-control-20260823';
     import { adminMfaSnapshot, adminSecurityDestination, normalizedMfaFactors } from './features/admin-security/workflow.js?v=admin-mfa-20260729';
     import { dashboardPath, legacyHashFromPath, matchRoute, normalizePath, pathFromLegacyHash, postAuthenticationPath, safeReturnTo } from './routing/site-routes.js?v=client-workspace-20260811';
-    import { bindPublicPageActions, publicPageContent, updatePublicMetadata } from './pages/public-pages.js?v=0a7987e9733e';
+    import { bindPublicPageActions, publicPageContent, updatePublicMetadata } from './pages/public-pages.js?v=how-work-system-20260830';
     import { renderAccountPage } from './pages/account-pages.js?v=client-workspace-privacy-20260811';
     import { clientWorkspaceNavigation, isClientWorkspaceRoute } from './shared/client-chrome.js?v=client-workspace-20260811';
-    import { renderHomepagePreview, unmountHomepagePreview } from './pages/homepage-preview.js?v=homepage-canonical-20260819';
+    import { renderHomepagePreview, unmountHomepagePreview } from './pages/homepage-preview.js?v=public-nav-20260830';
 
     document.documentElement.dataset.applicationName=APP_NAME;
     document.querySelector('meta[name="description"]')?.setAttribute('content',APP_DESCRIPTION);
@@ -502,25 +502,30 @@
       document.body.classList.toggle('goworkora-freelancer-workspace',visible);
       document.body.classList.toggle('goworkora-freelancer-workspace-collapsed',visible&&freelancerWorkspaceCollapsed);
       freelancerWorkspaceSidebar.hidden=!visible;
-      if(!visible){freelancerWorkspaceSidebar.innerHTML='';return}
-      freelancerWorkspaceSidebar.classList.toggle('is-collapsed',freelancerWorkspaceCollapsed);
-      freelancerWorkspaceSidebar.innerHTML=freelancerWorkspaceNavigation({
-        pathname,
-        fullName:currentProfile?.full_name||'Freelancer',
-        headline:currentProfile?.headline&&!currentProfile.headline.includes('@')?currentProfile.headline:'Freelancer account',
-        logoUrl:BRAND_WORDMARK_DARK_URL,
-        collapsed:freelancerWorkspaceCollapsed,
-      });
-      bindCanonicalLinks(freelancerWorkspaceSidebar);
-      freelancerWorkspaceSidebar.querySelector('[data-freelancer-signout]')?.addEventListener('click',()=>void signOut());
-      freelancerWorkspaceSidebar.querySelector('[data-freelancer-sidebar-toggle]')?.addEventListener('click',event=>{
-        freelancerWorkspaceCollapsed=!freelancerWorkspaceCollapsed;
-        document.body.classList.toggle('goworkora-freelancer-workspace-collapsed',freelancerWorkspaceCollapsed);
-        freelancerWorkspaceSidebar.classList.toggle('is-collapsed',freelancerWorkspaceCollapsed);
-        const button=event.currentTarget,expanded=!freelancerWorkspaceCollapsed,label=expanded?'Close freelancer menu':'Open freelancer menu';
-        button.setAttribute('aria-expanded',String(expanded));button.setAttribute('aria-label',label);button.title=expanded?'Close menu':'Open menu';
-        try{localStorage.setItem(FREELANCER_SIDEBAR_PREFERENCE_KEY,String(freelancerWorkspaceCollapsed))}catch{}
-      });
+      if(!visible){
+        if(!currentUser||currentRole()!=='freelancer'){
+          freelancerWorkspaceSidebar.replaceChildren();
+          delete freelancerWorkspaceSidebar.dataset.workspaceMounted;
+        }
+        return
+      }
+      const fullName=currentProfile?.full_name||'Freelancer';
+      const headline=currentProfile?.headline&&!currentProfile.headline.includes('@')?currentProfile.headline:'Freelancer account';
+      if(freelancerWorkspaceSidebar.dataset.workspaceMounted!=='true'||!freelancerWorkspaceSidebar.querySelector('#freelancer-workspace-navigation')){
+        freelancerWorkspaceSidebar.innerHTML=freelancerWorkspaceNavigation({pathname,fullName,headline,logoUrl:BRAND_WORDMARK_DARK_URL,collapsed:freelancerWorkspaceCollapsed});
+        freelancerWorkspaceSidebar.dataset.workspaceMounted='true';
+        bindCanonicalLinks(freelancerWorkspaceSidebar);
+        freelancerWorkspaceSidebar.querySelector('[data-freelancer-signout]')?.addEventListener('click',()=>void signOut());
+        freelancerWorkspaceSidebar.querySelector('[data-freelancer-sidebar-toggle]')?.addEventListener('click',()=>{
+          freelancerWorkspaceCollapsed=!freelancerWorkspaceCollapsed;
+          document.body.classList.toggle('goworkora-freelancer-workspace-collapsed',freelancerWorkspaceCollapsed);
+          const activeFullName=currentProfile?.full_name||'Freelancer';
+          const activeHeadline=currentProfile?.headline&&!currentProfile.headline.includes('@')?currentProfile.headline:'Freelancer account';
+          updateFreelancerWorkspaceNavigation(freelancerWorkspaceSidebar,{pathname:locationRoute(),fullName:activeFullName,headline:activeHeadline,collapsed:freelancerWorkspaceCollapsed});
+          try{localStorage.setItem(FREELANCER_SIDEBAR_PREFERENCE_KEY,String(freelancerWorkspaceCollapsed))}catch{}
+        });
+      }
+      updateFreelancerWorkspaceNavigation(freelancerWorkspaceSidebar,{pathname,fullName,headline,collapsed:freelancerWorkspaceCollapsed});
     }
     function refreshClientWorkspace(pathname,match){
       const eligibleRoute=Boolean(match&&(match.access==='public'||match.roles?.includes('client'))&&isClientWorkspaceRoute(pathname));
@@ -550,7 +555,8 @@
     }
     function clearExperiences(){unmountProfileExperience();unmountJobsExperience();unmountContractsExperience();unmountTalentExperience();unmountPaymentsExperience();unmountMessagingExperience();unmountTrustAdminExperience();unmountHomepagePreview()}
     function setChrome(mode){
-      const feature=mode==='feature',preview=mode==='preview',workspace=document.body.classList.contains('goworkora-freelancer-workspace')||document.body.classList.contains('goworkora-client-workspace'),hideGlobalChrome=feature||preview||workspace;document.body.classList.remove('goworkora-home');globalHeader.hidden=hideGlobalChrome;globalHeader.style.display=hideGlobalChrome?'none':'';homeRoute.hidden=true;homepagePreviewRoute.hidden=!preview;publicRoute.hidden=mode!=='static';globalFooter.hidden=hideGlobalChrome;
+      publicRoute.classList.remove('route-client-journey','route-pricing-engagements','route-how-work','route-managed-services');
+      const feature=mode==='feature',preview=mode==='preview',workspace=document.body.classList.contains('goworkora-freelancer-workspace')||document.body.classList.contains('goworkora-client-workspace'),loggedOutFeature=feature&&!currentUser&&!workspace,hideGlobalHeader=preview||workspace||(feature&&!loggedOutFeature),hideGlobalFooter=feature||preview||workspace;document.body.classList.remove('goworkora-home');document.body.classList.toggle('goworkora-public-feature',loggedOutFeature);globalHeader.hidden=hideGlobalHeader;globalHeader.style.display=hideGlobalHeader?'none':'';homeRoute.hidden=true;homepagePreviewRoute.hidden=!preview;publicRoute.hidden=mode!=='static';globalFooter.hidden=hideGlobalFooter;
     }
     function routeAction(label,path,primary=false){return `<a class="btn ${primary?'btn-lime':'btn-outline'}" href="${escapeHtml(browserDestination(path))}" data-route="${escapeHtml(path)}">${escapeHtml(label)}</a>`}
     function staticPage({eyebrow,title,intro,body,actions=[]}){

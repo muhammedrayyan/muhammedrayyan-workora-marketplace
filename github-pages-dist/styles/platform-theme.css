@@ -132,6 +132,33 @@ body:not(.goworkora-home) #global-header .gw-brand-wordmark {
 }
 
 /* Global public chrome */
+body.goworkora-public-feature :is(
+  .pe-header,
+  .jobs-header,
+  .contract-header,
+  .talent-header,
+  .payment-header,
+  .message-header,
+  .trust-header
+) {
+  display: none !important;
+}
+
+body.goworkora-public-feature.workora-marketplace-active > #global-header {
+  display: flex !important;
+}
+
+/* Feature experiences are mounted as full-viewport layers. On logged-out
+   public routes they must begin below the shared site header and remain in a
+   lower stacking layer, otherwise the feature canvas covers the navigation. */
+body.goworkora-public-feature > :is(
+  .workora-jobs-root,
+  .workora-profile-root
+) {
+  top: 82px;
+  z-index: 20;
+}
+
 body:not(.goworkora-home) .header {
   background: rgba(17, 19, 24, 0.97);
   border-bottom-color: rgba(255, 255, 255, 0.12);

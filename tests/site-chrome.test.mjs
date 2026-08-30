@@ -6,6 +6,7 @@ import {
   BRAND_WORDMARK_DARK_URL,
   BRAND_WORDMARK_LIGHT_URL,
   BRAND_WORDMARK_URL,
+  PUBLIC_NAVIGATION,
   brandWordmarkImage,
   navigationItemsFor,
 } from "../public/goworkora/shared/site-chrome.js";
@@ -45,6 +46,7 @@ test("shared chrome uses the approved index-page wordmark everywhere", async () 
 });
 
 test("public and protected headers expose context-appropriate navigation", () => {
+  assert.equal(navigationItemsFor(null, false), PUBLIC_NAVIGATION);
   assert.deepEqual(
     navigationItemsFor(null, false).map(([label]) => label),
     ["Find Talent", "Find Work", "How It Works", "Pricing", "Managed Services"],
@@ -67,6 +69,25 @@ test("public and protected headers expose context-appropriate navigation", () =>
       assert.ok(matchRoute(destination), `${role || "public"} header route is missing: ${destination}`);
     }
   }
+});
+
+test("every logged-out public surface uses the shared public menu", async () => {
+  const shell = await read("../public/goworkora/index.html");
+  const homepage = await read("../public/goworkora/pages/homepage-preview.js");
+  const theme = await read("../public/goworkora/styles/platform-theme.css");
+
+  assert.match(homepage, /import \{ PUBLIC_NAVIGATION \}/);
+  assert.match(homepage, /PUBLIC_NAVIGATION\.map/);
+  assert.match(shell, /loggedOutFeature=feature&&!currentUser&&!workspace/);
+  assert.doesNotMatch(shell, /loggedOutFeature=feature&&authReady/);
+  assert.match(shell, /classList\.toggle\('goworkora-public-feature',loggedOutFeature\)/);
+  assert.match(theme, /body\.goworkora-public-feature :is\([\s\S]*?\.talent-header[\s\S]*?display: none !important;/);
+  assert.match(theme, /body\.goworkora-public-feature\.workora-marketplace-active > #global-header[\s\S]*?display: flex !important;/);
+  assert.match(
+    theme,
+    /body\.goworkora-public-feature > :is\([\s\S]*?\.workora-jobs-root,[\s\S]*?\.workora-profile-root[\s\S]*?top: 82px;[\s\S]*?z-index: 20;/,
+  );
+  assert.match(shell, /platform-theme\.css\?v=public-nav-v3-20260830/);
 });
 
 test("every feature workspace renders the shared linked wordmark", async () => {

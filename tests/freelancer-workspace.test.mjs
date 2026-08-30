@@ -13,6 +13,7 @@ import {
   freelancerWorkspaceNavigation,
   isFreelancerWorkspaceItemActive,
   isFreelancerWorkspaceRoute,
+  updateFreelancerWorkspaceNavigation,
 } from "../public/goworkora/shared/freelancer-chrome.js";
 import { parseJobsRoute } from "../public/goworkora/features/jobs/workflow.js";
 import { legacyHashFromPath, matchRoute } from "../public/goworkora/routing/site-routes.js";
@@ -75,6 +76,8 @@ test("the logged-in freelancer menu keeps every supported workspace destination 
   assert.match(markup, /Alex &amp; Taylor/);
   assert.match(markup, /href="\/app\/proposals" data-route="\/app\/proposals"[^>]*aria-current="page"/);
   assert.match(markup, /data-freelancer-sidebar-toggle/);
+  assert.match(markup, /data-freelancer-profile-link/);
+  assert.match(markup, /data-freelancer-name/);
   assert.match(markup, /aria-controls="freelancer-workspace-navigation" aria-expanded="true"/);
   assert.match(markup, /freelancer-workspace-mark/);
   assert.match(markup, /data-freelancer-signout/);
@@ -87,6 +90,7 @@ test("the logged-in freelancer menu keeps every supported workspace destination 
     collapsed: true,
   });
   assert.match(collapsedMarkup, /aria-expanded="false" aria-label="Open freelancer menu"/);
+  assert.equal(typeof updateFreelancerWorkspaceNavigation, "function");
 });
 
 test("every freelancer menu item resolves to an independent working route", () => {
@@ -160,6 +164,9 @@ test("freelancer pages use the persistent workspace shell instead of a page shor
   assert.match(index, /id="freelancer-workspace-sidebar"/);
   assert.match(index, /FREELANCER_SIDEBAR_PREFERENCE_KEY/);
   assert.match(index, /data-freelancer-sidebar-toggle/);
+  assert.match(index, /dataset\.workspaceMounted/);
+  assert.match(index, /updateFreelancerWorkspaceNavigation\(freelancerWorkspaceSidebar/);
+  assert.doesNotMatch(index, /function refreshFreelancerWorkspace[\s\S]*?freelancerWorkspaceSidebar\.innerHTML=''[\s\S]*?function refreshClientWorkspace/);
   assert.match(index, /refreshFreelancerWorkspace\(match\.pathname,match\)/);
   assert.match(index, /freelancer-page-polish\.css/);
   assert.match(polishCss, /\.workspace-summary-grid/);

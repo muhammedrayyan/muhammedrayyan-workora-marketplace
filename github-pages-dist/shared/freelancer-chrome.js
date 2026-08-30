@@ -66,6 +66,16 @@ function normalizedPathname(value) {
   return pathname || "/";
 }
 
+function freelancerInitials(fullName) {
+  return String(fullName || "Freelancer")
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase() || "FL";
+}
+
 function icon(name) {
   const paths = {
     home: '<path d="M3 10.5 12 3l9 7.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 19.5v-9Z"/><path d="M9 21v-7h6v7"/>',
@@ -100,6 +110,43 @@ export function isFreelancerWorkspaceItemActive(pathname, destination) {
   return current === target || current.startsWith(`${target}/`);
 }
 
+export function updateFreelancerWorkspaceNavigation(root, {
+  pathname,
+  fullName = "Freelancer",
+  headline = "Professional workspace",
+  collapsed = false,
+} = {}) {
+  if (!root) return;
+
+  const displayName = String(fullName || "Freelancer");
+  const displayHeadline = String(headline || "Professional workspace");
+  root.classList.toggle("is-collapsed", Boolean(collapsed));
+
+  const profileLink = root.querySelector("[data-freelancer-profile-link]");
+  profileLink?.setAttribute("aria-label", `View ${displayName} profile`);
+  const initials = root.querySelector("[data-freelancer-initials]");
+  const name = root.querySelector("[data-freelancer-name]");
+  const profileHeadline = root.querySelector("[data-freelancer-headline]");
+  if (initials) initials.textContent = freelancerInitials(displayName);
+  if (name) name.textContent = displayName;
+  if (profileHeadline) profileHeadline.textContent = displayHeadline;
+
+  root.querySelectorAll(".freelancer-workspace-nav a[data-route]").forEach((link) => {
+    const active = isFreelancerWorkspaceItemActive(pathname, link.dataset.route);
+    if (active) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
+  });
+
+  const toggle = root.querySelector("[data-freelancer-sidebar-toggle]");
+  if (toggle) {
+    const expanded = !collapsed;
+    const label = expanded ? "Close freelancer menu" : "Open freelancer menu";
+    toggle.setAttribute("aria-expanded", String(expanded));
+    toggle.setAttribute("aria-label", label);
+    toggle.title = expanded ? "Close menu" : "Open menu";
+  }
+}
+
 export function freelancerWorkspaceNavigation({
   pathname,
   fullName = "Freelancer",
@@ -108,13 +155,7 @@ export function freelancerWorkspaceNavigation({
   markUrl = FREELANCER_WORKSPACE_MARK_URL,
   collapsed = false,
 }) {
-  const initials = String(fullName || "Freelancer")
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join("")
-    .toUpperCase() || "FL";
+  const initials = freelancerInitials(fullName);
 
   return `
     <div class="freelancer-workspace-brand">
@@ -124,11 +165,11 @@ export function freelancerWorkspaceNavigation({
       </a>
     </div>
     <div class="freelancer-workspace-person-panel">
-      <a class="freelancer-workspace-person" href="/app/profile" data-route="/app/profile" aria-label="View ${escapeHtml(fullName)} profile" title="View profile">
-        <span aria-hidden="true">${escapeHtml(initials)}</span>
+      <a class="freelancer-workspace-person" href="/app/profile" data-route="/app/profile" data-freelancer-profile-link aria-label="View ${escapeHtml(fullName)} profile" title="View profile">
+        <span data-freelancer-initials aria-hidden="true">${escapeHtml(initials)}</span>
         <span>
-          <strong>${escapeHtml(fullName)}</strong>
-          <small>${escapeHtml(headline || "Professional workspace")}</small>
+          <strong data-freelancer-name>${escapeHtml(fullName)}</strong>
+          <small data-freelancer-headline>${escapeHtml(headline || "Professional workspace")}</small>
         </span>
       </a>
       <button class="freelancer-workspace-toggle" type="button" data-freelancer-sidebar-toggle aria-controls="freelancer-workspace-navigation" aria-expanded="${String(!collapsed)}" aria-label="${collapsed ? "Open" : "Close"} freelancer menu" title="${collapsed ? "Open" : "Close"} menu">
