@@ -15,7 +15,15 @@ async function fixture() {
   const directory = await mkdtemp(join(fixtureParent, "deployment-config-"));
   await writeFile(
     resolve(directory, "index.html"),
-    '<!doctype html><script src="./config.js?v=development"></script>',
+    [
+      '<!doctype html>',
+      '<link rel="stylesheet" href="./styles/app.css?v=old-style">',
+      '<script src="./config.js?v=development"></script>',
+      '<script type="module">',
+      "import './features/app.js?v=old-script';",
+      "import 'https://cdn.example.com/library.js?v=external';",
+      '</script>',
+    ].join("\n"),
   );
   return directory;
 }
@@ -57,6 +65,10 @@ test("generates a production-only browser configuration without logging its key"
 
   const indexHtml = await readFile(resolve(directory, "index.html"), "utf8");
   assert.match(indexHtml, /config\.js\?v=test-sha-123/);
+  assert.match(indexHtml, /styles\/app\.css\?v=test-sha-123/);
+  assert.match(indexHtml, /features\/app\.js\?v=test-sha-123/);
+  assert.match(indexHtml, /cdn\.example\.com\/library\.js\?v=external/);
+  assert.doesNotMatch(indexHtml, /old-style|old-script|development/);
 
   const buildMetadata = JSON.parse(
     await readFile(resolve(directory, "build-meta.json"), "utf8"),

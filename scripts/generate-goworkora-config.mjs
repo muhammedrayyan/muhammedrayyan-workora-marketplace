@@ -173,6 +173,13 @@ if (!configReference.test(indexHtml)) {
   fail("index.html does not contain the expected versioned config.js reference.");
 }
 
+const localAssetVersionReference =
+  /(\.\/[^"'`\s?#]+\.(?:css|js)\?v=)[a-z0-9._-]+/gi;
+const versionedIndexHtml = indexHtml.replace(
+  localAssetVersionReference,
+  `$1${buildId}`,
+);
+
 const config = {
   environment,
   buildId,
@@ -199,7 +206,7 @@ await Promise.all([
   ),
   atomicWrite(
     indexPath,
-    indexHtml.replace(configReference, `config.js?v=${buildId}`),
+    versionedIndexHtml,
   ),
 ]);
 
