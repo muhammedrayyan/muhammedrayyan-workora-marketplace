@@ -205,7 +205,7 @@
   <div class="modal-wrap" id="modal"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><a class="brand gw-brand-home" href="./" data-route="/" data-logo-surface="light" aria-label="GoWorkora home"><img class="gw-brand-wordmark" src="./assets/brand/goworkora-wordmark-on-white.png" width="2172" height="724" alt="GoWorkora" decoding="async"></a><button class="close" aria-label="Close">×</button><div class="auth-brand-copy" aria-hidden="true"><strong>Move work forward.</strong>Connect with opportunities, professionals, and structured collaboration in one trusted workspace.</div><div id="auth-content"></div></section></div><div class="toast" id="toast" role="status"></div>
   <script type="module">
     import { APP_DESCRIPTION, APP_NAME, APP_TAGLINE } from './shared/brand.js?v=goworkora-rebrand-20260728';
-    import { BRAND_WORDMARK_DARK_URL, navigationItemsFor } from './shared/site-chrome.js?v=surface-logo-20260730';
+    import { BRAND_WORDMARK_DARK_URL, isFreelancerHiddenPublicDestination, navigationItemsFor } from './shared/site-chrome.js?v=freelancer-client-services-20260831';
     import { freelancerWorkspaceNavigation, isFreelancerWorkspaceRoute, updateFreelancerWorkspaceNavigation } from './shared/freelancer-chrome.js?v=persistent-shell-20260830';
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.6/+esm';
     import {
@@ -296,6 +296,7 @@
 
     function updateAccountHeader(){
       const login=document.querySelector('#login-button'),join=document.querySelector('#join-button'),signout=document.querySelector('#header-signout'),mobileAuth=document.querySelector('.mobile-auth-actions');
+      document.body.classList.toggle('goworkora-freelancer-session',Boolean(authReady&&currentUser&&currentRole()==='freelancer'));
       if(!authReady){login.style.display='none';join.textContent='Checking session…';join.disabled=true;signout.hidden=true;mobileAuth.innerHTML='<button type="button" disabled>Checking session…</button>';return}
       join.disabled=false;
       if(currentUser){login.style.display='none';join.innerHTML=`<span class="account-dot">✓</span>Dashboard`;join.dataset.dashboard='true';delete join.dataset.modal;signout.hidden=false;signout.disabled=authBusy;signout.textContent=authBusy?'Signing out…':'Sign out';mobileAuth.innerHTML='<button type="button" data-dashboard="true">Dashboard</button><button type="button" data-signout="true">Sign out</button>'}
@@ -492,7 +493,8 @@
       const nav=globalHeader.querySelector('#mobile-navigation'),protectedArea=Boolean(currentUser&&pathname.startsWith('/app'));
       if(!nav)return;
       const mobileAuth=nav.querySelector('.mobile-auth-actions')?.innerHTML||'';
-      nav.innerHTML=`${navigationItemsFor(currentRole(),protectedArea).map(([label,path])=>`<a href="${escapeHtml(browserDestination(path))}" data-route="${escapeHtml(path)}"${pathname===path||pathname.startsWith(`${path}/`)?' aria-current="page"':''}>${escapeHtml(label)}</a>`).join('')}<div class="mobile-auth-actions">${mobileAuth}</div>`;
+      const navigationRole=!protectedArea&&!authReady?'freelancer':currentRole();
+      nav.innerHTML=`${navigationItemsFor(navigationRole,protectedArea).map(([label,path])=>`<a href="${escapeHtml(browserDestination(path))}" data-route="${escapeHtml(path)}"${pathname===path||pathname.startsWith(`${path}/`)?' aria-current="page"':''}>${escapeHtml(label)}</a>`).join('')}<div class="mobile-auth-actions">${mobileAuth}</div>`;
       bindCanonicalLinks(nav);
       bindDynamic();
     }
@@ -593,6 +595,14 @@
       refreshGlobalNavigation(match.pathname);
       refreshFreelancerWorkspace(match.pathname,match);
       refreshClientWorkspace(match.pathname,match);
+      if(!authReady&&isFreelancerHiddenPublicDestination(current)){
+        staticPage({eyebrow:'GoWorkora',title:'Checking your session…',intro:'Confirming the navigation available to your account.',body:'',actions:[]});
+        return
+      }
+      if(authReady&&currentUser&&currentRole()==='freelancer'&&isFreelancerHiddenPublicDestination(current)){
+        navigateCanonical('/app/freelancer',true);
+        return
+      }
       if(match.access==='protected'){
         if(!authReady){staticPage({eyebrow:'Secure account',title:'Checking your session…',intro:'GoWorkora is restoring your authenticated state before displaying protected content.',body:'',actions:[]});return}
         if(!currentUser){routeReturnTo=safeReturnTo(current);navigateCanonical(`/login?returnTo=${encodeURIComponent(routeReturnTo)}`,true);return}

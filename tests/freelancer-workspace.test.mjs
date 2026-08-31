@@ -81,7 +81,7 @@ test("the logged-in freelancer menu keeps every supported workspace destination 
   assert.match(markup, /aria-controls="freelancer-workspace-navigation" aria-expanded="true"/);
   assert.match(markup, /freelancer-workspace-mark/);
   assert.match(markup, /data-freelancer-signout/);
-  assert.doesNotMatch(markup, /Boost|Connects|payment verified/i);
+  assert.doesNotMatch(markup, /Boost|Connects|payment verified|Pricing|Managed Services/i);
 
   const collapsedMarkup = freelancerWorkspaceNavigation({
     pathname: "/app/freelancer",
@@ -91,6 +91,22 @@ test("the logged-in freelancer menu keeps every supported workspace destination 
   });
   assert.match(collapsedMarkup, /aria-expanded="false" aria-label="Open freelancer menu"/);
   assert.equal(typeof updateFreelancerWorkspaceNavigation, "function");
+});
+
+test("freelancer sessions never expose client pricing or managed-service controls", async () => {
+  const [index, homepage, accountPages, theme] = await Promise.all([
+    text("../public/goworkora/index.html"),
+    text("../public/goworkora/pages/homepage-preview.js"),
+    text("../public/goworkora/pages/account-pages.js"),
+    text("../public/goworkora/styles/platform-theme.css"),
+  ]);
+  assert.match(index, /goworkora-freelancer-session/);
+  assert.match(index, /isFreelancerHiddenPublicDestination\(current\)/);
+  assert.match(index, /navigateCanonical\('\/app\/freelancer',true\)/);
+  assert.match(homepage, /context\.authReady && context\.role !== "freelancer" \? managedSection\(\) : ""/);
+  assert.match(homepage, /authReady && role !== "freelancer" \? routeLink\("\/managed-services"/);
+  assert.match(accountPages, /if \(role === "client"\)[\s\S]*?email_managed_services/);
+  assert.match(theme, /body\.goworkora-freelancer-session[\s\S]*?data-route="\/pricing"[\s\S]*?data-route="\/managed-services"/);
 });
 
 test("every freelancer menu item resolves to an independent working route", () => {

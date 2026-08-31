@@ -115,6 +115,21 @@ body:not(.goworkora-home) #global-header .gw-brand-home,
   padding: 0;
 }
 
+body.goworkora-freelancer-session :is(
+  [data-route="/pricing"],
+  [data-route^="/pricing?"],
+  [data-route="/managed-services"],
+  [data-route^="/managed-services?"],
+  [data-route*="subject=managed-services"],
+  [data-account-route="/pricing"],
+  [data-account-route^="/pricing?"],
+  [data-account-route="/managed-services"],
+  [data-account-route^="/managed-services?"],
+  [data-account-route*="subject=managed-services"]
+) {
+  display: none !important;
+}
+
 body:not(.goworkora-home) #global-header .gw-brand-wordmark {
   width: 184px;
 }

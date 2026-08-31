@@ -6,8 +6,10 @@ import {
   BRAND_WORDMARK_DARK_URL,
   BRAND_WORDMARK_LIGHT_URL,
   BRAND_WORDMARK_URL,
+  FREELANCER_HIDDEN_PUBLIC_DESTINATIONS,
   PUBLIC_NAVIGATION,
   brandWordmarkImage,
+  isFreelancerHiddenPublicDestination,
   navigationItemsFor,
 } from "../public/goworkora/shared/site-chrome.js";
 import { matchRoute } from "../public/goworkora/routing/site-routes.js";
@@ -60,6 +62,10 @@ test("public and protected headers expose context-appropriate navigation", () =>
     ["Dashboard", "Find Work", "Proposals", "Contracts", "Messages", "Reports"],
   );
   assert.deepEqual(
+    navigationItemsFor("freelancer", false).map(([label]) => label),
+    ["Find Talent", "Find Work", "How It Works"],
+  );
+  assert.deepEqual(
     navigationItemsFor("admin", true).map(([label]) => label),
     ["Dashboard", "Users", "Reports", "Disputes", "Security"],
   );
@@ -71,13 +77,23 @@ test("public and protected headers expose context-appropriate navigation", () =>
   }
 });
 
+test("authenticated freelancer chrome excludes client pricing and managed-service destinations", () => {
+  assert.deepEqual(FREELANCER_HIDDEN_PUBLIC_DESTINATIONS, ["/pricing", "/managed-services"]);
+  assert.equal(isFreelancerHiddenPublicDestination("/pricing"), true);
+  assert.equal(isFreelancerHiddenPublicDestination("/managed-services?service=customer-support"), true);
+  assert.equal(isFreelancerHiddenPublicDestination("/contact?subject=managed-services"), true);
+  assert.equal(isFreelancerHiddenPublicDestination("/find-work"), false);
+  assert.equal(isFreelancerHiddenPublicDestination("/contact?subject=support"), false);
+});
+
 test("every logged-out public surface uses the shared public menu", async () => {
   const shell = await read("../public/goworkora/index.html");
   const homepage = await read("../public/goworkora/pages/homepage-preview.js");
   const theme = await read("../public/goworkora/styles/platform-theme.css");
 
-  assert.match(homepage, /import \{ PUBLIC_NAVIGATION \}/);
-  assert.match(homepage, /PUBLIC_NAVIGATION\.map/);
+  assert.match(homepage, /import \{ navigationItemsFor \}/);
+  assert.match(homepage, /navigationItemsFor\(navigationRole, false\)/);
+  assert.match(homepage, /authReady \? role : "freelancer"/);
   assert.match(shell, /loggedOutFeature=feature&&!currentUser&&!workspace/);
   assert.doesNotMatch(shell, /loggedOutFeature=feature&&authReady/);
   assert.match(shell, /classList\.toggle\('goworkora-public-feature',loggedOutFeature\)/);

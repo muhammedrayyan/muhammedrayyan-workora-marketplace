@@ -996,8 +996,10 @@ async function notificationPage(context) {
     ["email_milestones", "Milestones", "Submission, revision, and approval actions"],
     ["email_reviews", "Reviews", "Eligible review reminders"],
     ["email_product_announcements", "Product announcements", "Non-essential GoWorkora updates"],
-    ["email_managed_services", "Managed services", "Non-essential workforce service updates"],
   ];
+  if (role === "client") {
+    fields.push(["email_managed_services", "Managed services", "Non-essential workforce service updates"]);
+  }
   root.innerHTML = shell("Notification settings", "Communication preferences", `
     <form id="notification-form" class="pages-account-panel pages-notification-form">
       ${fields.map(([name, title, description]) => `<label><span><strong>${title}</strong><small>${description}</small></span><input type="checkbox" name="${name}" ${preferences[name] ? "checked" : ""}></label>`).join("")}

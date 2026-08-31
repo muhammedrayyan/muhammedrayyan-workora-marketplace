@@ -21,6 +21,17 @@ export const PUBLIC_NAVIGATION = Object.freeze([
   ["Managed Services", "/managed-services"],
 ]);
 
+export const FREELANCER_HIDDEN_PUBLIC_DESTINATIONS = Object.freeze([
+  "/pricing",
+  "/managed-services",
+]);
+
+const FREELANCER_PUBLIC_NAVIGATION = Object.freeze(
+  PUBLIC_NAVIGATION.filter(([, destination]) =>
+    !FREELANCER_HIDDEN_PUBLIC_DESTINATIONS.includes(destination)
+  ),
+);
+
 const CLIENT_NAVIGATION = Object.freeze([
   ["Dashboard", "/app/client"],
   ["My Jobs", "/app/jobs"],
@@ -48,11 +59,21 @@ const ADMIN_NAVIGATION = Object.freeze([
 ]);
 
 export function navigationItemsFor(role, protectedArea = false) {
-  if (!protectedArea) return PUBLIC_NAVIGATION;
+  if (!protectedArea) {
+    return role === "freelancer" ? FREELANCER_PUBLIC_NAVIGATION : PUBLIC_NAVIGATION;
+  }
   if (role === "client") return CLIENT_NAVIGATION;
   if (role === "freelancer") return FREELANCER_NAVIGATION;
   if (role === "admin") return ADMIN_NAVIGATION;
   return PUBLIC_NAVIGATION;
+}
+
+export function isFreelancerHiddenPublicDestination(value) {
+  const destination = new URL(String(value || "/"), "https://goworkora.local");
+  const pathname = destination.pathname.replace(/\/+$/, "") || "/";
+  if (FREELANCER_HIDDEN_PUBLIC_DESTINATIONS.includes(pathname)) return true;
+  return pathname === "/contact"
+    && destination.searchParams.get("subject") === "managed-services";
 }
 
 export function brandWordmarkImage(className = "gw-brand-wordmark", surface = "dark") {

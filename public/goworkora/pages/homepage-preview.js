@@ -5,7 +5,7 @@ import {
 } from "../features/talent/workflow.js";
 import { formatMoney } from "../features/jobs/workflow.js";
 import { safePublicDisplayName, safePublicProfessionalTitle } from "../shared/public-privacy.js?v=20260811";
-import { PUBLIC_NAVIGATION } from "../shared/site-chrome.js?v=public-nav-20260830";
+import { navigationItemsFor } from "../shared/site-chrome.js?v=freelancer-client-services-20260831";
 
 let activeRoot = null;
 let menuCleanup = null;
@@ -76,8 +76,9 @@ function routeLink(path, label, className = "") {
   return `<a class="${escapeHtml(className)}" href="${escapeHtml(path)}" data-route="${escapeHtml(path)}">${escapeHtml(label)}</a>`;
 }
 
-function publicNavigationLinks() {
-  return PUBLIC_NAVIGATION.map(([label, path]) => routeLink(path, label)).join("");
+function publicNavigationLinks(role, authReady) {
+  const navigationRole = authReady ? role : "freelancer";
+  return navigationItemsFor(navigationRole, false).map(([label, path]) => routeLink(path, label)).join("");
 }
 
 function brandMarkup() {
@@ -109,20 +110,20 @@ function previewHeader({ user, role, authReady }) {
     <div class="ke-shell ke-header-inner">
       ${brandLink("ke-brand-dark")}
       <nav class="ke-desktop-nav" aria-label="Primary navigation">
-        ${publicNavigationLinks()}
+        ${publicNavigationLinks(role, authReady)}
       </nav>
       <div class="ke-header-actions">${accountActions}<button class="ke-menu-trigger" type="button" aria-expanded="false" aria-controls="ke-mobile-menu" aria-label="Open menu"><span></span><span></span></button></div>
     </div>
     <div class="ke-mobile-backdrop" data-ke-menu-backdrop hidden></div>
     <nav class="ke-mobile-menu" id="ke-mobile-menu" aria-label="Mobile primary navigation" hidden>
       <div class="ke-mobile-menu-head">${brandLink("ke-brand-light")}<button type="button" data-ke-menu-close aria-label="Close menu">×</button></div>
-      ${publicNavigationLinks()}
+      ${publicNavigationLinks(role, authReady)}
       <div class="ke-mobile-account">${accountActions}</div>
     </nav>
   </header>`;
 }
 
-function previewHero() {
+function previewHero(role, authReady) {
   const heroVideo = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
     ? ""
     : `<video class="ke-hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1" data-footage-source="Pexels video 7148578">
@@ -156,7 +157,7 @@ function previewHero() {
           <div class="ke-hero-actions">
             ${routeLink("/find-talent", "Browse Talent", "ke-button ke-button-coral")}
             ${routeLink("/find-work", "Browse Jobs", "ke-button ke-button-violet")}
-            ${routeLink("/managed-services", "Explore Managed Services", "ke-text-link")}
+            ${authReady && role !== "freelancer" ? routeLink("/managed-services", "Explore Managed Services", "ke-text-link") : ""}
           </div>
         </div>
         <div class="ke-hero-media" aria-label="Illustrative GoWorkora marketplace workflow from a business requirement to approved work" data-preview-content="fictional">
@@ -415,10 +416,15 @@ function finalCta() {
   return `<section class="ke-final-cta" aria-labelledby="ke-final-title"><div class="ke-final-glow" aria-hidden="true"></div><div class="ke-shell ke-final-inner"><div class="ke-final-brand">${brandMarkMarkup()}<div><span class="ke-go-spark" aria-hidden="true"></span><h2 id="ke-final-title">Your next great working relationship starts here.</h2><p>Hire skilled professionals or take the next step in your freelance career with GoWorkora.</p></div></div><div class="ke-final-actions"><button class="ke-button ke-button-coral" type="button" data-ke-start-hiring>Start Hiring</button>${routeLink("/signup/freelancer", "Start Freelancing", "ke-button ke-button-violet")}</div></div></section>`;
 }
 
-function previewFooter() {
+function previewFooter(role, authReady) {
   const group = (title, links) => `<div><h3>${escapeHtml(title)}</h3>${links.map(([label, path]) => routeLink(path, label)).join("")}</div>`;
+  const clientLinks = [["Find Talent", "/find-talent"], ["Post a Job", "/signup/client?returnTo=/app/jobs/new"]];
+  if (authReady && role !== "freelancer") {
+    clientLinks.push(["Managed Services", "/managed-services"], ["Pricing", "/pricing"]);
+  }
+  clientLinks.push(["How It Works", "/how-it-works/clients"]);
   return `<footer class="ke-footer"><div class="ke-shell"><div class="ke-footer-main"><div class="ke-footer-brand">${brandLink("ke-brand-light")}<p>Hire Better.<br>Work Smarter.</p></div><div class="ke-footer-links">
-    ${group("For Clients", [["Find Talent", "/find-talent"], ["Post a Job", "/signup/client?returnTo=/app/jobs/new"], ["Managed Services", "/managed-services"], ["Pricing", "/pricing"], ["How It Works", "/how-it-works/clients"]])}
+    ${group("For Clients", clientLinks)}
     ${group("For Freelancers", [["Find Work", "/find-work"], ["Create Profile", "/signup/freelancer"], ["How It Works", "/how-it-works/freelancers"], ["Freelancer Help", "/help/freelancer-getting-started"], ["Earnings & Payments", "/help/earnings-and-payments"]])}
     ${group("GoWorkora", [["About", "/about"], ["Careers", "/careers"], ["Blog", "/blog"], ["Contact", "/contact"], ["Trust & Safety", "/trust-and-safety"]])}
     ${group("Support", [["Help Centre", "/help"], ["Accessibility", "/accessibility"], ["Report an Issue", "/contact?subject=safety-report"], ["Contact Support", "/contact?subject=support"]])}
@@ -429,8 +435,8 @@ function previewFooter() {
 function initialMarkup(context) {
   return `<div class="ke-preview">
     ${previewHeader(context)}
-    <main>${previewHero()}${valueSection()}${humanSection()}${categoriesSection({ loading: true })}${talentSection({ loading: true })}${processSection()}${jobsSection({ loading: true })}${managedSection()}${finalCta()}</main>
-    ${previewFooter()}
+    <main>${previewHero(context.role, context.authReady)}${valueSection()}${humanSection()}${categoriesSection({ loading: true })}${talentSection({ loading: true })}${processSection()}${jobsSection({ loading: true })}${context.authReady && context.role !== "freelancer" ? managedSection() : ""}${finalCta()}</main>
+    ${previewFooter(context.role, context.authReady)}
   </div>`;
 }
 
